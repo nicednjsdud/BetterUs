@@ -1,4 +1,4 @@
-package com.betterus.entity.common;
+package com.betterus.model;
 
 import lombok.Getter;
 import org.springframework.data.annotation.CreatedDate;

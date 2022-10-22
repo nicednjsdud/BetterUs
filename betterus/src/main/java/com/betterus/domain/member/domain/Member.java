@@ -5,10 +5,11 @@
  * 기능 : Member 테이블 엔티티
  */
 
-package com.betterus.entity;
+package com.betterus.domain.member.domain;
 
-import com.betterus.entity.common.BaseTimeEntity;
-import com.betterus.entity.common.Grade;
+import com.betterus.domain.jjim.domain.Jjim;
+import com.betterus.model.BaseTimeEntity;
+import com.betterus.model.Grade;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;

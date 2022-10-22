@@ -5,9 +5,10 @@
  * 기능 : MainUserImage 테이블 엔티티
  */
 
-package com.betterus.entity;
+package com.betterus.domain.member.domain;
 
-import com.betterus.entity.common.BaseTimeEntity;
+import com.betterus.domain.member.domain.Member;
+import com.betterus.model.BaseTimeEntity;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;

@@ -4,9 +4,11 @@
  * 수정 일자 :
  * 기능 : ArticleSeries 테이블 엔티티
  */
-package com.betterus.entity;
+package com.betterus.domain.articleseries.domain;
 
-import com.betterus.entity.common.BaseTimeEntity;
+import com.betterus.domain.article.domain.Article;
+import com.betterus.domain.member.domain.Member;
+import com.betterus.model.BaseTimeEntity;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;

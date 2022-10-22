@@ -1,4 +1,4 @@
-package com.betterus.entity.common;
+package com.betterus.model;
 
 public enum Grade {
     USER, AUTHOR, ADMIN
