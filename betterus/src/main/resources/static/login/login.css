@@ -1,0 +1,119 @@
+ /* 
+* 작성자 곽수경
+* 작성 일자: 10.22
+* 수정 일자
+* 기능: 로그인 화면 css  
+*/
+
+* {
+  font-family: 'Pretendard';
+  /* font-family: 'Noto Sans KR', sans-serif; */
+}
+
+body {
+  background-image: url('../img/login_bg.jpg');
+  width: 100vh;
+  height: 100vh;
+}
+
+span {
+  font-family: 'Pretendard';
+}
+
+a {
+  font-family: 'Pretendard';
+}
+
+/* .intro_bg {
+  background-image: url('../imgies/login_bg.jpg');
+  width: 1920px;
+  height: 1282px;
+} */
+
+.header {
+  display: flex;
+  height: 80px;
+  border-bottom: 3px solid rgb(103, 103, 103);
+}
+
+.logo {
+  width: 1820px;
+  height: 80px;
+  /* background-color: red; */
+}
+
+img.home {
+  margin: 20px 25px;
+  width: 40px;
+  height: 40px;
+}
+
+img.logo {
+  margin-top: 5px;
+  margin-left: 775px;
+  width: 275px;
+  height: 60px;
+}
+
+.content {
+  display: flex;
+  justify-content: center;
+}
+
+.title {
+  display: flex;
+  justify-content: center;
+  font-size: 60px;
+  margin-top: 200px;
+  margin-bottom: 120px;
+}
+
+div.input {
+  display: flex;
+  justify-content: center;
+  font-size: 30px;
+  margin-top: 10px;
+}
+
+.caption {
+  display: flex;
+  justify-content: left;
+  margin-left: 710px;
+  font-size: 25px;
+  margin-top: 40px;
+}
+
+.login-button {
+  display: flex;
+  justify-content: center;
+  margin-top: 50px;
+}
+
+.login-button>button {
+  display: flex;
+  justify-content: center;
+  width: 500px;
+  height: 50px;
+  font-size: 30px;
+  border-radius: 10px;
+}
+
+.else {
+  display: flex;
+  justify-content: center;
+  font-size: 30px;
+  margin-top: 30px;
+}
+
+a {
+  text-decoration: none;
+  color: black;
+}
+
+input.input {
+  width: 500px;
+  height: 45px;
+  font-size: 30px;
+  border-radius: 10px;
+
+}
