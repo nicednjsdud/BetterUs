@@ -38,6 +38,9 @@ public class Member extends BaseTimeEntity {
     @Column(name = "email", length = 30)
     private String email;
 
+    @Column(name = "phone",length = 50)
+    private String phone;
+
     @Enumerated(EnumType.STRING)
     private Grade grade;
 
@@ -46,4 +49,12 @@ public class Member extends BaseTimeEntity {
 
     @OneToMany(mappedBy = "member")
     private List<Jjim> jjims = new ArrayList<>();
+
+
+    public Member(String nickName, String password, String email,Grade grade) {
+        this.nickName = nickName;
+        this.password = password;
+        this.email = email;
+        this.grade = grade;
+    }
 }
