@@ -1,7 +1,7 @@
  /* 
 * 작성자 곽수경
 * 작성 일자: 10.22
-* 수정 일자
+* 수정 일자: 10.29
 * 기능: 로그인 화면 css  
 */
 
@@ -11,9 +11,11 @@
 }
 
 body {
-  background-image: url('../img/login_bg.jpg');
-  width: 100vh;
-  height: 100vh;
+  /* background-image: url('../img/login_bg_new.jpg'); */
+  /* width: 100vw;
+  height: 100vh; */
+  background-color: white;
+
 }
 
 span {
@@ -22,98 +24,110 @@ span {
 
 a {
   font-family: 'Pretendard';
+  text-decoration: none;
+  color: black;
 }
 
-/* .intro_bg {
-  background-image: url('../imgies/login_bg.jpg');
-  width: 1920px;
-  height: 1282px;
-} */
-
+/*-------------------------- header---------------------------- */
 .header {
   display: flex;
-  height: 80px;
-  border-bottom: 3px solid rgb(103, 103, 103);
+  height: 60px;
+  background-color: white;
+  border-bottom: 2px solid rgb(0, 0, 0);
 }
 
-.logo {
-  width: 1820px;
-  height: 80px;
+.home{
+  width: 33.3vw;
   /* background-color: red; */
 }
 
 img.home {
-  margin: 20px 25px;
+  margin-top: 10px;
+  margin-left: 10px;
   width: 40px;
   height: 40px;
 }
 
-img.logo {
-  margin-top: 5px;
-  margin-left: 775px;
-  width: 275px;
-  height: 60px;
+.logo {
+  text-align: center;
+  width: 33.4vw;
+  /* background-color: orange; */
 }
 
-.content {
+img.logo {
+  width: 150px;
+  height: 50px;
+}
+
+.nothing {
+  width: 33.3vw;
+  /* background-color: yellow; */
+}
+/*-------------------------- header---------------------------- */
+
+/*-------------------------- section---------------------------- */
+.section {
+  /* width: 100vw; */
+  height: 90vh;
   display: flex;
-  justify-content: center;
+  flex-direction: column;
+  text-align: center;
+
 }
 
 .title {
-  display: flex;
-  justify-content: center;
-  font-size: 60px;
-  margin-top: 200px;
-  margin-bottom: 120px;
+  font-size: 50px;
+  margin-top: 120px;
+  margin-bottom: 80px;
 }
 
 div.input {
-  display: flex;
-  justify-content: center;
   font-size: 30px;
   margin-top: 10px;
 }
 
-.caption {
-  display: flex;
-  justify-content: left;
-  margin-left: 710px;
+.email-caption {
+  text-align: center;
+  margin-right: 435px;
   font-size: 25px;
   margin-top: 40px;
+  margin-bottom: 10px;
+}
+
+.pw-caption {
+  text-align: center;
+  margin-right: 410px;
+  font-size: 25px;
+  margin-top: 40px;
+  margin-bottom: 10px;
+}
+
+
+input.inputbox {
+  width: 500px;
+  height: 45px;
+  font-size: 30px;
+  border-radius: 10px;
 }
 
 .login-button {
-  display: flex;
-  justify-content: center;
-  margin-top: 50px;
+  margin-top: 80px;
 }
 
 .login-button>button {
-  display: flex;
-  justify-content: center;
   width: 500px;
   height: 50px;
   font-size: 30px;
   border-radius: 10px;
+  color: white;
+  border-color: transparent;
+  background-color: rgb(170, 170, 170);
 }
 
 .else {
   display: flex;
   justify-content: center;
-  font-size: 30px;
+  font-size: 20px;
   margin-top: 30px;
 }
-
-a {
-  text-decoration: none;
-  color: black;
-}
-
-input.input {
-  width: 500px;
-  height: 45px;
-  font-size: 30px;
-  border-radius: 10px;
-
-}
+/*-------------------------- section---------------------------- */
