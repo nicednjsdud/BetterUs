@@ -1,7 +1,7 @@
  /* 
 * 작성자 곽수경
 * 작성 일자: 10.22
-* 수정 일자
+* 수정 일자: 10.29
 * 기능: 전체 글 화면 css  
 */
 
@@ -19,44 +19,110 @@ a {
   font-family: 'Pretendard';
 }
 
-.intro_bg{
-  /* background-image: url('../imgies/login_bg.jpg'); */
-  width: 1920px;
-  height: 1282px;
+div {
+  font-family: 'Pretendard';
 }
 
-.header { 
+/*-------------------------- header---------------------------- */
+.header {
   display: flex;
-  height: 80px;
-  border-bottom: 3px solid rgb(103, 103, 103);
+  height: 60px;
+  border-bottom: 1px solid rgb(103, 103, 103);
 }
 
-.logo{
-  width: 1820px;
-  height: 80px;
+.home{
+  width: 33.3vw;
   /* background-color: red; */
 }
 
 img.home {
-  margin: 20px 25px; 
+  margin-top: 10px;
+  margin-left: 10px;
   width: 40px;
   height: 40px;
 }
 
+.logo {
+  text-align: center;
+  width: 33.4vw;
+  /* background-color: orange; */
+}
+
 img.logo {
-  margin-top: 5px;
-  margin-left: 775px; 
-  width: 275px;
-  height: 60px;
+  width: 150px;
+  height: 50px;
+}
+
+.nothing {
+  width: 33.3vw;
+  /* background-color: yellow; */
+}
+/*-------------------------- header---------------------------- */
+
+
+.section{
+  display: flex;
+  /* flex-direction: column; */
+} 
+
+.snothing{
+  width: 20vw;
+}
+
+.article{
+  display: flex;
+  text-align: center;
+  margin-top: 30px;
+  width: 60vw;
+  height: 100px;
+}
+
+.image img {
+  width: 120px;
+  height: 120px;
+}
+
+.notimage{
+  display: block;
+  text-align: left;
+  width: 700px;
+}
+
+.title{
+  font-size: 30px;
+  font-weight: 600;
+  height: 30px;
 }
 
 .content{
-  /* display: flex; */
-  width: 1000px;
-  margin-left: 460px;
+  margin-top: 15px;
+  margin-bottom: 15px;
+  font-size: 17px;
+  font-weight: 600;
+  height: 30px;
 }
 
-.searching {
+.else{
+  display: flex;
+}
+
+.image{
+  width: 100px;
+  height: 100px;
+}
+
+.icon {
+  width: 30px;
+  height: 30px;
+}
+
+.numOf {
+  margin-top: 5px;
+  margin-left: 5px;
+  margin-right: 10px;
+  font-size: 20px;
+}
+/* .searching {
   margin-top: 50px;
 }
 
@@ -82,5 +148,5 @@ img.search {
 button.search {
   border: none;
   background-color: white;
-}
+}  */
 

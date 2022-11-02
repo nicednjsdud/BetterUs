@@ -1,0 +1,71 @@
+<!-- 
+  * 작성자 곽수경
+* 작성 일자: 11.01
+* 수정 일자
+* 기능: 마이페이지(회원정보) 화면 
+-->
+
+<!DOCTYPE html>
+<html lang="kor">
+  <head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reset-css@5.0.1/reset.min.css">
+    <link rel="stylesheet" href="./mypage(info).css">
+    <title>Better Us Mypage(회원정보)</title>
+  </head>
+  <body>
+    <div class="header">
+      <div class="home">
+        <a href="#"><img class="home" src="../img/home.png" alt=" "></a>
+      </div>
+      <div class="logo">
+        <img class="logo" src="../img/logo_B_new.png" alt=" ">
+      </div>
+      <div class="nothing"></div>
+    </div>
+    <div class="section">
+      <div class="left"></div>
+      <div class="center">
+          <div class="title">
+            <a href="#"><div id="first" class="choice">회원정보</div></a>
+            <a href="#"><div id="second" class="choice">내&nbsp;노트</div></a>
+          </div>
+          <div class="input-total">
+            <div class="input-title">
+              <div id="state" class="input-subtitle">회원&nbsp;상태</div>
+              <div id="info" class="input-subtitle">회원정보&nbsp;수정</div>
+              <div id="out" class="input-subtitle">회원&nbsp;탈퇴</div>
+            </div>
+            <div class="input-box">
+              <div class="state">독자</div>
+              <div class="input">
+                <div class="changing">닉네임&nbsp;변경</div>
+                <input class="inputbox" type="text" placeholder="변경할 닉네임">
+              </div>
+              <div class="input">
+                <div class="changing">비밀번호&nbsp;변경</div>
+                <input class="inputbox" type="password" placeholder="현재 비밀번호">
+                <input class="inputbox" type="password" placeholder="변경할 비밀번호">
+                <input class="inputbox" type="password" placeholder="변경할 비밀번호 확인">
+              </div>
+              <div class="login-button">
+                <button type="submit">회원&nbsp;탈퇴하기</button>
+              </div> 
+          </div>   
+        </div>
+      </div>
+      <div class="right">
+        <div class="button">
+          <div class="nickname-button">
+            <button type="submit">중복&nbsp;확인</button>
+          </div>
+          <div class="password-button">
+            <button type="submit">수정</button>
+          </div>
+      </div>
+      </div>
+    </div>
+  </body>

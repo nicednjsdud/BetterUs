@@ -1,0 +1,146 @@
+/*
+* 작성자 곽수경
+* 작성 일자: 10.29
+* 수정 일자: 
+* 기능: 글쓰기 화면 
+*/
+
+* {
+  font-family: 'Noto Sans KR', sans-serif;
+}
+
+div {
+  border-style: solid;
+  border-color: white;
+}
+
+a {
+  text-decoration: none;
+  color: white;
+}
+
+body {
+  width: 100vw; 
+  height: 100vh;
+  background-color: rgba(189,175,161);
+}
+
+/*-------------------------- header---------------------------- */
+.header {
+  display: flex;
+  height: 60px;
+  border-bottom: 1px solid rgb(0, 0, 0);
+}
+
+.home{
+  width: 33.3vw;
+  /* background-color: red; */
+}
+
+img.home {
+  margin-top: 10px;
+  margin-left: 10px;
+  width: 40px;
+  height: 40px;
+}
+.logo {
+  text-align: center;
+  width: 33.4vw;
+  /* background-color: orange; */
+}
+
+img.logo {
+  width: 150px;
+  height: 50px;
+}
+
+.nav {
+  width: 33.3vw; 
+  display: flex;
+  justify-content: flex-end;
+  /* calc(1920px - 1500px - 100px); */
+  font-family: 'Pretendard';
+  font-size: 20px;
+  /* background-color: yellow; */
+  line-height: 60px;
+}
+
+.nav>li {
+  color: black;
+  margin-left: 10px;
+  margin-right: 20px;
+}
+/*-------------------------- header---------------------------- */
+
+/*-------------------------- section---------------------------- */
+.section{
+  display: flex;
+  justify-content: center;
+  width: 100vw;
+  height: 90vh;
+  border-radius: 10px;
+}
+
+.background-space{
+  display: flex;
+  justify-content: center;
+  margin-top: 25px;
+  width: 70vw;
+  height: 90vh;
+  background-color: rgba(255,255,255,0.7);
+  border-radius: 10px;
+}
+
+.writing-space{
+  display: flex;
+  flex-direction: column;
+  width: 60vw;
+
+}
+
+hr {
+  width: 59vw;
+  height: 1px;
+  background-color: rgba(255,255,255,0.4);
+  border-color: transparent;
+}
+
+input {
+  background-color: transparent;
+  border-color: transparent;
+  outline: none;
+}
+
+input::placeholder{
+  color: rgba(255,255,255,0.4);
+}
+
+.title{
+  height: 8vh;
+  font-size: 60px;
+  font-weight: 600;
+  margin-top: 30px;
+}
+
+
+
+.subtitle{
+  height: 3vh;
+  font-size: 20px;
+  font-weight: 550;
+}
+
+.content{
+  height: 70vh;
+  font-size: 30px;
+  font-weight: 400;
+  margin-top: 20px;
+  background-color: transparent;
+  border-color: transparent;
+  outline: none;
+}
+
+.content::placeholder{
+  color: rgba(255,255,255,0.4);
+}
+/*-------------------------- section---------------------------- */

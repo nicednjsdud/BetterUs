@@ -1,0 +1,80 @@
+<!-- 
+  * 작성자 곽수경
+* 작성 일자: 11.02
+* 수정 일자
+* 기능: 관리자페이지(회원정보) 화면 
+-->
+
+<!DOCTYPE html>
+<html lang="kor">
+  <head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reset-css@5.0.1/reset.min.css">
+    <link rel="stylesheet" href="./manager(info).css">
+    <title>Better Us Mypage(회원정보)</title>
+  </head>
+  <body>
+    <div class="header">
+      <div class="home">
+        <a href="#"><img class="home" src="../img/home.png" alt=" "></a>
+      </div>
+      <div class="logo">
+        <img class="logo" src="../img/logo_B_new.png" alt=" ">
+      </div>
+      <div class="nothing"></div>
+    </div>
+    <div class="section">
+      <div class="left"></div>
+      <div class="center">
+        <div class="title">
+          <a href="#"><div id="first" class="choice">회원정보</div></a>
+          <a href="#"><div id="second" class="choice">작가&nbsp;신청&nbsp;글&nbsp;확인</div></a>
+        </div>
+        <div class="search">
+          <div class="searching">
+            <img src="https://s3.ap-northeast-2.amazonaws.com/cdn.wecode.co.kr/icon/search.png">
+            <input type="text">
+          </div>
+          <div class="condition">
+            <select name="pets" id="pet-select">
+              <option value="" disabled selected>검색조건</option>
+              <option value="nickname">닉네임</option>
+              <option value="email">이메일</option>
+              <option value="state">회원상태</option>
+              <option value="signupday">회원가입일</option>
+              <option value="writerday">작가신청일</option>
+            </select>
+          </div>
+          <div class="sort">
+            <select name="pets" id="pet-select">
+              <option value="" disabled selected>날짜</option>
+              <option value="asc">오름차순</option>
+              <option value="decs">내림차순</option>
+            </select>
+          </div>
+        </div>
+        <div class="relation">
+          <div class="schema">
+            <div class="nickname">닉네임</div>
+            <div class="email">이메일</div>
+            <div class="state">회원상태</div>
+            <div class="signupday">회원가입일</div>
+            <div class="writerday">작가승인일</div>
+          </div>
+          <div class="instance">
+            <div class="nickname">독자2</div>
+            <div class="email">sky339128@gmail.com</div>
+            <div class="state">독자</div>
+            <div class="signupday">2021.01.07</div>
+            <div class="writerday">-</div>
+          </div>
+        </div>   
+      </div>
+      <div class="right">
+        
+      </div>
+    </div>
+  </body>
