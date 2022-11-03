@@ -1,0 +1,166 @@
+/*
+* 작성자 곽수경
+* 작성 일자: 11.03
+* 수정 일자: 
+* 기능: 글 1개 화면 css 
+*/
+
+* {
+  font-family: 'Pretendard';
+}
+
+div {
+  border-style: solid;
+  border-color: white;
+}
+
+a {
+  text-decoration: none;
+}
+
+body {
+  width: 100vw; 
+  height: 100vh;
+  background-color: white;
+}
+
+/*-------------------------- header---------------------------- */
+.header {
+  display: flex;
+  height: 60px;
+  border-bottom: 1px solid rgb(0, 0, 0);
+}
+
+.home{
+  width: 33.3vw;
+  /* background-color: red; */
+}
+
+img.home {
+  margin-top: 10px;
+  margin-left: 10px;
+  width: 40px;
+  height: 40px;
+}
+
+.logo {
+  text-align: center;
+  width: 33.4vw;
+  /* background-color: orange; */
+}
+
+img.logo {
+  width: 150px;
+  height: 50px;
+}
+
+.nav {
+  width: 33.3vw; 
+  display: flex;
+  justify-content: flex-end;
+  /* calc(1920px - 1500px - 100px); */
+  font-family: 'Pretendard';
+  font-size: 20px;
+  /* background-color: yellow; */
+  line-height: 60px;
+}
+
+.nav>li {
+  margin-left: 10px;
+  margin-right: 20px;
+}
+
+.nav>li>a {
+  color: black;
+}
+/*--------------------------header---------------------------- */
+
+/*--------------------------section---------------------------- */
+/*--------------------------banner---------------------------- */
+.banner {
+  display: flex;
+  height: 200px;
+  background-image: url(../img/main_bg_new.jpg);
+}
+
+.banner>.nothing {
+  width: 27vw;
+}
+
+.something {
+  width: 46vw;
+}
+
+.title {
+  padding-top: 70px;
+  font-size: 30px;
+  font-weight: 700;
+}
+
+.day {
+  text-align: center;
+  padding-top: 10px;
+    text-align: right;
+
+}
+/*--------------------------banner---------------------------- */
+/*--------------------------content---------------------------- */
+.content {
+  display: flex;
+}
+/* .content> */
+.nothing {
+  width: 30vw;
+}
+
+.article {
+  margin-top: 50px;
+  margin-bottom: 80px;
+  width: 40vw;
+  font-family: 'Pretendard';
+  font-size: 17px;
+  letter-spacing: 1px;
+  word-spacing: 3px;
+  line-height:30px;
+}
+/*--------------------------content---------------------------- */
+/*--------------------------section---------------------------- */
+
+/*--------------------------footer---------------------------- */
+
+.footer {
+  display: flex;
+  height: 300px;
+}
+
+/* .footer>.nothing {
+  width: 25vw;
+} */
+
+
+.writer {
+  display: flex;
+  width: 40vw;
+}
+
+.img>img {
+  width: 60px;
+  height: 60px;
+  border-radius: 10px;
+}
+
+.intro {
+  margin-left: 20px;
+}
+
+.id {
+  margin-top: 5px;
+  font-size: 17px;
+}
+
+.who {
+  margin-top: 10px;
+  font-size: 15px;
+}
+/*--------------------------footer---------------------------- */
+

@@ -16,7 +16,7 @@ div {
 
 a {
   text-decoration: none;
-  color: white;
+  /* color: white; */
 }
 
 body {
@@ -66,9 +66,12 @@ img.logo {
 }
 
 .nav>li {
-  color: black;
   margin-left: 10px;
   margin-right: 20px;
+}
+
+.nav>li>a {
+  color: black;
 }
 /*-------------------------- header---------------------------- */
 
