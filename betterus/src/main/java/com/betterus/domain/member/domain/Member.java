@@ -13,8 +13,10 @@ import com.betterus.model.Grade;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.hibernate.validator.constraints.UniqueElements;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -30,12 +32,15 @@ public class Member extends BaseTimeEntity {
     private Long id;
 
     @Column(name = "nickName", length = 10)
+    @NotNull
     private String nickName;
 
     @Column(name = "password", length = 10)
+    @NotNull
     private String password;
 
-    @Column(name = "email", length = 30)
+    @Column(name = "email", length = 30, unique = true)
+    @NotNull
     private String email;
 
     @Column(name = "phone",length = 50)
