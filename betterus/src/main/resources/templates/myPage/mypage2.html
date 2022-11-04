@@ -2,7 +2,7 @@
   * 작성자 곽수경
 * 작성 일자: 11.01
 * 수정 일자
-* 기능: 회원가입 화면 
+* 기능: 마이페이지(회원정보) 화면 
 -->
 
 <!DOCTYPE html>
@@ -13,23 +13,26 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reset-css@5.0.1/reset.min.css">
-    <link rel="stylesheet" href="./signup.css">
+    <link rel="stylesheet" href="../../static/css/myPage/mypage2.css">
     <title>Better Us Signup</title>
   </head>
   <body>
     <div class="header">
       <div class="home">
-        <a href="#"><img class="home" src="../img/home.png" alt=" "></a>
+        <a href="#"><img class="home" src="../../static/img/home.png" alt=" "></a>
       </div>
       <div class="logo">
-        <img class="logo" src="../img/logo_B_new.png" alt=" ">
+        <img class="logo" src="../../static/img/logo_B_new.png" alt=" ">
       </div>
       <div class="nothing"></div>
     </div>
     <div class="section">
       <div class="left"></div>
       <div class="center">
-          <div class="title">회원가입</div>
+          <div class="title">
+            <a href="#"><div id="first" class="choice">회원가입</div></a>
+            <a href="#"><div id="second" class="choice">내&nbsp;노트</div></a>
+          </div>
           <div class="input">
             <div class="email-caption">이메일</div>
             <input class="inputbox" type="email">
@@ -56,7 +59,7 @@
             <button type="submit">이메일&nbsp;인증</button>
           </div>
           <div class="nickname-button">
-            <button type="submit">중복&nbsp;확인</button>
+            <button type="submit">중복&nbsp;인증</button>
           </div>
       </div>
       </div>

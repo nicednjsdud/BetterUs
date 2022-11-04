@@ -80,7 +80,7 @@ img.logo {
 .banner {
   display: flex;
   height: 200px;
-  background-image: url(../img/main_bg_new.jpg);
+  background-image: url(../../img/main_bg_new.jpg);
 }
 
 .banner>.nothing {
