@@ -32,4 +32,11 @@ public class MemberDto {
         user_info = member.getUser_info();
     }
 
+    /**
+     * 회원 정보 세션 저장용
+     */
+    public MemberDto(Long id, String nickName) {
+        this.id = id;
+        this.nickName = nickName;
+    }
 }
