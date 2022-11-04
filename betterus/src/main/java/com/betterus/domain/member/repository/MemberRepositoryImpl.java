@@ -15,12 +15,9 @@ import javax.persistence.EntityManager;
 
 @Repository
 @RequiredArgsConstructor
-public class MemberRepositoryImpl implements MemberRepository {
+public class MemberRepositoryImpl {
 
     private final EntityManager em;
 
-    public void save(Member member){
-        em.persist(member);
-    }
 
 }
