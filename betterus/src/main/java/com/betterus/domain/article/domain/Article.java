@@ -11,6 +11,7 @@ import com.betterus.domain.articleseries.domain.ArticleSeries;
 import com.betterus.model.ArticleStatus;
 import com.betterus.model.BaseTimeEntity;
 import lombok.AccessLevel;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -48,4 +49,11 @@ public class Article extends BaseTimeEntity {
     @JoinColumn(name = "articleSeriesId")
     private ArticleSeries articleSeries;
 
+    public Article(String title, String subTitle, String contents, ArticleStatus status, Member member) {
+        this.title = title;
+        this.subTitle = subTitle;
+        this.contents = contents;
+        this.status = status;
+        this.member = member;
+    }
 }
