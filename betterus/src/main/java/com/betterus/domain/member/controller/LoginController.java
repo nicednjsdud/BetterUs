@@ -34,7 +34,7 @@ public class LoginController {
     @GetMapping("/login")
     public String login(Model model) {
         model.addAttribute("loginForm", new MemberLoginForm());
-        return "login";
+        return "login/login";
     }
 
     @PostMapping("/login/confirm")
@@ -109,4 +109,6 @@ public class LoginController {
         model.addAttribute("result",result);
         return "signup";
     }
+
+
 }
