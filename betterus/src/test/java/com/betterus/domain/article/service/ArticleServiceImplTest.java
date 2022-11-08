@@ -55,22 +55,90 @@ class ArticleServiceImplTest {
     @Test
     @DisplayName("게시글 저장 테스트")
     public void articleSave(){
-        Optional<Member> findMember1 = memberRepository.findById(1L);
-        Member findMemberUser = findMember1.get();
-        Optional<Member> findMember2 = memberRepository.findById(2L);
-        Member findMemberAuthor = findMember2.get();
         ArticleForm articleForm = new ArticleForm("Test1","test1","테스트");
+        Optional<Member> findMember1 = memberRepository.findById(1L);
+        Optional<Member> findMember2 = memberRepository.findById(2L);
+        if(findMember1.isPresent()) {
+            Member findMemberUser = findMember1.get();
+            articleService.saveArticle(articleForm, findMemberUser);
+            List<Article> findMembers1 = articleRepository.findByMemberId(1L);
+            Article articleUser = findMembers1.get(0);
 
-        articleService.saveArticle(articleForm, findMemberUser);
-        articleService.saveArticle(articleForm,findMemberAuthor);
+            // then
+            assertThat(articleUser.getStatus()).isEqualTo(ArticleStatus.WAIT);
+        }
 
-        List<Article> findMembers1 = articleRepository.findByMemberId(1L);
-        Article articleUser = findMembers1.get(0);
+        else if(findMember2.isPresent()) {
+            Member findMemberAuthor = findMember2.get();
+            articleService.saveArticle(articleForm,findMemberAuthor);
+            List<Article> findMembers2 = articleRepository.findByMemberId(2L);
+            Article articleAuthor = findMembers2.get(0);
 
-        List<Article> findMembers2 = articleRepository.findByMemberId(2L);
-        Article articleAuthor = findMembers2.get(0);
+            // then
+            assertThat(articleAuthor.getStatus()).isEqualTo(ArticleStatus.APPROVAL);
+        }
+    }
 
-        assertThat(articleUser.getStatus()).isEqualTo(ArticleStatus.WAIT);
-        assertThat(articleAuthor.getStatus()).isEqualTo(ArticleStatus.APPROVAL);
+    @Test
+    @DisplayName("articleId로 Article 찾기")
+    public void findByArticleId(){
+        Optional<Member> findMembers = memberRepository.findById(1L);
+        if(findMembers.isPresent()) {
+            Member findMember = findMembers.get();
+            Article article1 = new Article("Test1", "test1", "테스트", ArticleStatus.WAIT,findMember);
+            articleRepository.save(article1);
+
+            em.flush();
+            em.clear();
+
+            Article findArticle = articleService.findArticle(3L);
+            assertThat(findArticle.getTitle()).isEqualTo("Test1");
+        }
+    }
+
+    @Test
+    @DisplayName("article 수정 확인")
+    public void updateArticle(){
+        Optional<Member> findMembers = memberRepository.findById(1L);
+        if(findMembers.isPresent()) {
+            //given
+            Member findMember = findMembers.get();
+            Article article1 = new Article("Test1", "test1", "테스트", ArticleStatus.WAIT, findMember);
+            articleRepository.save(article1);
+
+            em.flush();
+            em.clear();
+
+            // when
+            ArticleForm form = new ArticleForm("Test2","test2","테스트2");
+            articleService.updateArticle(3L,form);
+            Article findArticle = articleService.findArticle(3L);
+            // then
+            assertThat(findArticle.getTitle()).isEqualTo("Test2");
+            assertThat(findArticle.getSubTitle()).isEqualTo("test2");
+            assertThat(findArticle.getContents()).isEqualTo("테스트2");
+        }
+
+    }
+    @Test
+    @DisplayName("article 삭제 확인")
+    public void deleteArticle(){
+        Optional<Member> findMembers = memberRepository.findById(1L);
+        if(findMembers.isPresent()) {
+            //given
+            Member findMember = findMembers.get();
+            Article article1 = new Article("Test1", "test1", "테스트", ArticleStatus.WAIT, findMember);
+            articleRepository.save(article1);
+
+            em.flush();
+            em.clear();
+
+            // when
+            int result = articleService.deleteArticle(3L);
+
+            // then
+            assertThat(result).isEqualTo(1);
+        }
+
     }
 }
