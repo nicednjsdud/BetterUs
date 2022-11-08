@@ -70,6 +70,23 @@ class ArticleRepositoryTest {
         assertThat(findArticle.getTitle()).isEqualTo("Test1");
     }
 
+    @Test
+    @DisplayName("게시글 Id로 한개 불러오기")
+    public void findByArticleId(){
+        Optional<Member> findMembers = memberRepository.findById(1L);
+        if(findMembers.isPresent()) {
+            Member findMember = findMembers.get();
+            Article article1 = new Article("Test1", "test1", "테스트", ArticleStatus.WAIT,findMember);
+            articleRepository.save(article1);
+
+            em.flush();
+            em.clear();
+
+            Article findArticle = articleRepository.findArticleById(3L);
+            assertThat(findArticle.getTitle()).isEqualTo("Test1");
+        }
+    }
+
 //    @Test
 //    @DisplayName("기본 리스트 목록 불러오기 (페이징 처리)")
 //    public void pagingFindAll() {
