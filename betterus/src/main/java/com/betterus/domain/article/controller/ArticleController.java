@@ -1,12 +1,13 @@
 /**
  * 작성자 : 정원영
  * 작성 일자 : 2022 - 11 - 06
- * 수정 일자 :
+ * 수정 일자 : 2022 - 11 - 08
  * 기능 : Article Controller
  */
 
 package com.betterus.domain.article.controller;
 
+import com.betterus.domain.article.domain.Article;
 import com.betterus.domain.article.dto.ArticleForm;
 import com.betterus.domain.article.service.ArticleService;
 import com.betterus.domain.member.domain.Member;
@@ -14,9 +15,7 @@ import com.betterus.model.Grade;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -27,6 +26,9 @@ public class ArticleController {
 
     private final ArticleService articleService;
 
+    /**
+     * 글 목록 리스트 (패이징) 진행중
+     */
     @RequestMapping("/list")
     public String articleListBasic(Model model, HttpServletRequest request) {
 
@@ -40,6 +42,9 @@ public class ArticleController {
         return null;
     }
 
+    /**
+     * 글 쓰기 폼 (이미지 업로드 기능 추가예정)
+     */
     @GetMapping("/write")
     public String writeArticleForm(Model model, HttpServletRequest request) {
         HttpSession session = request.getSession();
@@ -49,34 +54,99 @@ public class ArticleController {
             return "writing/writing";
         } else {
             String msg = "회원만 글쓰기가 가능합니다.";
-            model.addAttribute("msg",msg);
+            model.addAttribute("msg", msg);
             return "redirect:/";
         }
 
     }
 
+    /**
+     * 글 쓰기 (이미지 업로드 기능 추가예정)
+     */
     @PostMapping("/write")
     public String writeArticle(ArticleForm articleForm, Model model, HttpServletRequest request) {
         String msg = "";
         HttpSession session = request.getSession();
-        Member member = (Member)session.getAttribute("member");
+        Member member = (Member) session.getAttribute("member");
         if (member != null) {
-            int result = articleService.saveArticle(articleForm,member);
+            int result = articleService.saveArticle(articleForm, member);
             if (result == 1) {
                 msg = "글쓰기가 완료되었습니다.";
-                model.addAttribute("msg",msg);
-                return "myPage/mypage(info)";
-            }
-            else{
-                msg ="오류가 발생했습니다. 다시 시도해주세요.";
-                model.addAttribute("msg",msg);
+                model.addAttribute("msg", msg);
+                return "myPage/myPage(info)";
+            } else {
+                msg = "오류가 발생했습니다. 다시 시도해주세요.";
+                model.addAttribute("msg", msg);
                 return "writing/writing";
             }
         } else {
             msg = "회원만 글쓰기가 가능합니다.";
-            model.addAttribute("msg",msg);
+            model.addAttribute("msg", msg);
             return "redirect:/";
         }
     }
 
+    /**
+     * 글 수정 폼 (이미지 업로드 기능 추가예정)
+     */
+    @GetMapping("myPage/{articleId}/edit")
+    public String updateArticleForm(@PathVariable("articleId") Long articleId, Model model) {
+        Article article = articleService.findArticle(articleId);
+        ArticleForm articleForm = new ArticleForm(article.getTitle(), article.getSubTitle(), article.getContents());
+        model.addAttribute("articleForm", articleForm);
+        return "writing/writing(correction)";
+    }
+
+    /**
+     * 글 수정 (이미지 업로드 기능 추가예정)
+     */
+    @PostMapping("myPage/{articleId}/edit")
+    public String updateArticle(@PathVariable("articleId") Long articleId, @ModelAttribute("form") ArticleForm articleForm,
+                                HttpServletRequest request,Model model) {
+        String msg = "";
+        HttpSession session = request.getSession();
+        Member member = (Member) session.getAttribute("member");
+        if (member != null) {
+            int result = articleService.updateArticle(articleId,articleForm);
+            if (result == 1) {
+                msg = "글 수정이 완료되었습니다.";
+                model.addAttribute("msg", msg);
+                return "myPage/myPage(info)";
+            } else {
+                msg = "오류가 발생했습니다. 다시 시도해주세요.";
+                model.addAttribute("msg", msg);
+                // 확인후 수정
+                return "writing/writing(correction)";
+            }
+        } else {
+            msg = "회원만 수정이 가능합니다.";
+            model.addAttribute("msg", msg);
+            return "redirect:/";
+        }
+    }
+
+    /**
+     * 글 삭제 (이미지 업로드 기능 추가예정)
+     */
+    @PostMapping("myPage/{articleId}/delete")
+    public String updateArticle(@PathVariable("articleId") Long articleId,
+                                HttpServletRequest request,Model model) {
+        String msg = "";
+        HttpSession session = request.getSession();
+        Member member = (Member) session.getAttribute("member");
+        if (member != null) {
+            int result = articleService.deleteArticle(articleId);
+            if (result == 1) {
+                msg = "글 삭제가 완료되었습니다.";
+            } else {
+                msg = "오류가 발생했습니다. 다시 시도해주세요.";
+            }
+            model.addAttribute("msg", msg);
+            return "myPage/myPage(info)";
+        } else {
+            msg = "회원만 삭제가 가능합니다.";
+            model.addAttribute("msg", msg);
+            return "redirect:/";
+        }
+    }
 }
