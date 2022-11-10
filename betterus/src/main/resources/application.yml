@@ -12,6 +12,25 @@ spring:
       hibernate:
         #          show_sql: true
         format_sql: true
+  # Naver smtp server 사용
+  mail:
+    host: smtp.naver.com #smtp 서버 주소
+    port: 465 # 메일 인증서버 포트
+    username: betterus-info #네이버 아이디
+    password: Betterus@ #네이버 비밀번호
+    properties:
+      mail:
+        smtp:
+          starttls:
+            enable: true
+          #            required: true
+          auth: true
+          #          connectiontimeout: 5000
+          #          timeout: 5000
+          #          writetimeout: 5000
+          ssl:
+            #trust: smtp.naver.com
+            enable: true #반드시 필요 -> SSL 필요로 되어있으면
 
 logging:
   level:
