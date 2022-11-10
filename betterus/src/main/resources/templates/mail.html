@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Better Us Signup</title>
+</head>
+<body>
+<div style="margin:100px;">
+  <h1> 안녕하세요.</h1>
+  <h1 style="font-size:110%">글을 쓰며 더 나은 '나'로</h1>
+  <h1>글을 나누며 더 나은 '우리'로 만드는</h1>
+  <h1> BetterUs 입니다.</h1>
+  <br>
+  <p> 아래 코드를 회원가입 창으로 돌아가 입력해주세요.</p>
+  <br>
+
+  <div align="center" style="border:1px solid black;">
+    <h3 style="color:blue"> 회원가입 인증 코드 입니다. </h3>
+    <div style="font-size:130%" th:text="${code}"> </div>
+  </div>
+  <br/>
+</div>
+
+
+</body>
+</html>

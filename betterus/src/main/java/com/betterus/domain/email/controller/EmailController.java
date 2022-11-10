@@ -2,7 +2,7 @@
  * 작성자 : 정원영
  * 작성 일자 : 2022 - 11 - 03
  * 수정 일자 : 2022 - 11 - 10
- * 기능 : EmailController 
+ * 기능 : EmailController
  */
 
 
