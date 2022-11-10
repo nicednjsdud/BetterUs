@@ -1,3 +1,11 @@
+/**
+ * 작성자 : 정원영
+ * 작성 일자 : 2022 - 11 - 03
+ * 수정 일자 : 2022 - 11 - 10
+ * 기능 : EmailController 
+ */
+
+
 package com.betterus.domain.email.controller;
 
 import com.betterus.domain.email.dto.EmailAuthRequestDto;
@@ -24,4 +32,6 @@ public class EmailController {
         String authCode = emailService.sendEmail(emailDto.getEmail());
         return authCode;
     }
+
+
 }
