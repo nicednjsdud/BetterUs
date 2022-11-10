@@ -127,7 +127,7 @@ img.logo {
 
 .searching {
   text-align: left;
-  height: 80px;
+  height: 50px;
   margin-bottom: 10px;
   /* border: 1px solid black; */
 }
@@ -162,16 +162,16 @@ img.logo {
 }
 
 .relation {
-  height: 800px;
+  height: 70vw;
   /* border: 1px solid black; */
 }
 
 /*-------------------------- schema---------------------------- */
 .schema {
   display: flex;
-  height: 50px;
-  margin-bottom: 7px;
-  /* border: 1px solid black; */
+  height: 30px;
+  margin-bottom: 10px;
+  border-bottom: 1px solid gray;
 }
 
 .schema>div {

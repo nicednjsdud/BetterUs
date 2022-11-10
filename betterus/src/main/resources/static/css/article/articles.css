@@ -1,7 +1,7 @@
  /* 
 * 작성자 곽수경
 * 작성 일자: 10.22
-* 수정 일자: 10.29
+* 수정 일자: 11.10
 * 기능: 전체 글 화면 css  
 */
 
@@ -57,97 +57,106 @@ img.logo {
   width: 33.3vw;
   /* background-color: yellow; */
 }
-/*-------------------------- header---------------------------- */
+/*--------------------------header---------------------------- */
 
-
+/*--------------------------section---------------------------- */
 .section{
   display: flex;
   justify-content: center;
-  /* flex-direction: column; */
 } 
 
-.snothing{
-  width: 20vw;
+.articles{
+  display: flex;
+  flex-direction: column;
+  width: 800px;
+}
+
+.searching {
+  margin-top: 20px;
+  margin-bottom: 15px;
+  margin-left: -20px;
+}
+
+.searching>input {
+  width: 200px;
+  font-size: 20px;
+  border-color: transparent;
+  border-bottom: 1px solid black;
+}
+
+.searching>input:focus {
+  outline: none;
+}
+
+.searching>img {
+  width: 20px;
 }
 
 .article{
   display: flex;
   text-align: center;
-  margin-top: 30px;
-  width: 60vw;
+  padding-top: 20px;
+  /* width: 60vw; */
   height: 100px;
+  padding-bottom: 20px;
+  border-bottom: 1px solid gray;
+  /* background-color: green; */
 }
 
 .image img {
   width: 100px;
   height: 100px;
+  /* background-color: yellow; */
 }
 
 .notimage{
   display: block;
   text-align: left;
   width: 700px;
+  /* background-color: red; */
 }
 
 .title{
-  font-size: 30px;
+  font-size: 20px;
   font-weight: 600;
-  height: 30px;
+  height: 20px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .content{
-  margin-top: 15px;
-  margin-bottom: 15px;
-  font-size: 17px;
+  margin-top: 10px;
+  margin-bottom: 10px;
+  font-size: 15px;
   font-weight: 600;
-  height: 30px;
+  height: 43px;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 3;
+  overflow: hidden;
 }
 
 .else{
   display: flex;
+  /* background-color: blue; */
 }
 
 .image{
-  width: 100px;
-  height: 100px;
+  width: 120px;
+  height: 120px;
 }
 
 .icon {
-  width: 30px;
-  height: 30px;
+  width: 20px;
+  height: 20px;
 }
 
 .numOf {
-  margin-top: 5px;
-  margin-left: 5px;
-  margin-right: 10px;
-  font-size: 20px;
+  margin-top: 3px;
+  margin-left: 3px;
+  margin-right: 7px;
+  font-size: 13px;
 }
-/* .searching {
-  margin-top: 50px;
-}
-
-.searching > form > input{
-  border: none;
-  width: 250px;
-  height: 40px;
-  background: (0,0,0,0);
-  padding-left: 10px;
-  border-bottom: 2px solid black;
-}
-
-.searching > form > input:focus{
-   outline: none;
-}
-
-
-img.search {
-  width: 30px;
-  height: 30px;
-}
-
-button.search {
-  border: none;
-  background-color: white;
-}  */
+/*--------------------------section---------------------------- */
 
