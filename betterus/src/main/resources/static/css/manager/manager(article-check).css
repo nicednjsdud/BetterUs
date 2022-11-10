@@ -1,8 +1,8 @@
  /* 
 * 작성자 곽수경
-* 작성 일자: 11.02
+* 작성 일자: 11.10
 * 수정 일자: 
-* 기능: 관리자페이지(회원정보) 화면 css  
+* 기능: 관리자페이지(작가 신청 글 확인) 화면 
 */
 
 * {
@@ -112,13 +112,13 @@ img.logo {
 }
 
 #first {
-  color: rgb(103, 103, 103);
-  border-top: 2px solid rgb(103, 103, 103);
+  color: rgb(208, 208, 208);
+  border-top: 2px solid rgb(208, 208, 208);
 }
 
 #second {
-  color: rgb(208, 208, 208);
-  border-top: 2px solid rgb(208, 208, 208);
+  color: rgb(103, 103, 103);
+  border-top: 2px solid rgb(103, 103, 103);
 }
 
 .search {
@@ -179,28 +179,29 @@ img.logo {
   font-weight: 450;
 }
 
+.schema>.article-title {
+  width: 400px;
+  text-align: center;
+  padding-left: 10px;
+}
+
 .schema>.nickname {
-  width: 230px;
+  width: 130px;
   text-align: center;
 }
 
 .schema>.email {
-  width: 230px;
+  width: 300px;
   text-align: center;
 }
 
 .schema>.state {
-  width: 230px;
+  width: 130px;
   text-align: center;
 }
 
-.schema>.signupday {
-  width: 250px;
-  text-align: center;
-}
-
-.schema>.writerday {
-  width: 250px;
+.schema>.application-day {
+  width: 150px;
   text-align: center;
 }
 /*-------------------------- schema---------------------------- */
@@ -213,35 +214,41 @@ img.logo {
   border-bottom: 1px solid gray;
 }
 
+.instance>.article-title {
+  width: 400px;
+  text-align: center;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  padding-left: 10px;
+}
+
 .instance>div {
   font-size: 17px;
   font-weight: 400;
 }
 
 .instance>.nickname {
-  width: 230px;
+  width: 130px;
   text-align: center;
 }
 
 .instance>.email {
-  width: 230px;
+  width: 300px;
   text-align: center;
 }
 
 .instance>.state {
-  width: 230px;
+  width: 130px;
   text-align: center;
 }
 
-.instance>.signupday {
-  width: 250px;
+.instance>.application-day {
+  width: 150px;
   text-align: center;
 }
 
-.instance>.writerday {
-  width: 250px;
-  text-align: center;
-}
+
 /*-------------------------- instance---------------------------- */
 /*-------------------------- section(center)---------------------------- */
 

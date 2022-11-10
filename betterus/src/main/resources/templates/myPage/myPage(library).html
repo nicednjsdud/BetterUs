@@ -1,8 +1,8 @@
 <!-- 
 * 작성자 곽수경
-* 작성 일자: 10.22
-* 수정 일자: 11.10
-* 기능: 전체 글 화면 
+* 작성 일자: 11.10
+* 수정 일자
+* 기능: 마이페이지(서재 수정)
 -->
 
 <!DOCTYPE html>
@@ -13,25 +13,40 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reset-css@5.0.1/reset.min.css">
-    <link rel="stylesheet" href="../../static/css/article/articles.css">
-    <title>Better Us Articles</title>
+    <link rel="stylesheet" href="../../static/css/myPage/myPage(library).css">
+    <title>Better Us My Library</title>
   </head>
   <body>
     <div class="header">
       <div class="home">
-        <a href="#"><img class="home" src="../..//static/img/home.png" alt=" "></a>
+        <a href="#"><img class="home" src="../../static/img/home.png" alt=" "></a>
       </div>
       <div class="logo">
-        <img class="logo" src="../..//static/img/logo_B_new.png" alt=" ">
+        <img class="logo" src="../../static/img/logo_B_new.png" alt=" ">
       </div>
-      <div class="nothing"></div>
+      <ul class="nav">
+        <li><a href="#">글쓰기</a></li>
+        <li><a href="#">마이페이지</a></li>
+      </ul>
     </div>
       <div class="section">
-        <div class="articles">
-          <div class="searching">
-          <img src="https://s3.ap-northeast-2.amazonaws.com/cdn.wecode.co.kr/icon/search.png">
-          <input type="text">
-        </div>
+        <div class="section-box">
+          <div class="writer-intro">
+            <div class="intro-left">
+              <div class="name">독자1</div>
+              <div class="intro">경제적 자유를 꿈꾸는 대학생입니다.</div>
+              <span class="people">구독자</span><span class="people-num">9</span>
+              <span class="people">관심작가</span><span class="people-num">10</span>
+            </div>
+            <div class="intro-right">
+              <img src="../../static/img/profile.png" />
+            </div>
+          </div>
+          
+          <div class="twoTitle">
+            <a href="#"><div id="first" class="choice">글</div></a>
+            <a href="#"><div id="second" class="choice">시리즈</div></a>
+          </div>
           <div class="article">
             <div class="notimage">
               <div class="letter">
