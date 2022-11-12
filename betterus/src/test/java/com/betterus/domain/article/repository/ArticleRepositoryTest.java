@@ -53,21 +53,22 @@ class ArticleRepositoryTest {
     @DisplayName("게시글 저장")
     public void saveByStatus() {
         Optional<Member> findMembers = memberRepository.findById(1L);
-        Member findMember = findMembers.get();
-        if (findMember.getGrade().equals(Grade.USER)) {
-            Article article1 = new Article("Test1", "test1", "테스트", ArticleStatus.WAIT,findMember);
-            articleRepository.save(article1);
-        }
-        else if(findMember.getGrade().equals(Grade.AUTHOR)){
-            Article article1 = new Article("Test2", "test2", "테스트", ArticleStatus.APPROVAL,findMember);
-            articleRepository.save(article1);
-        }
+        if(findMembers.isPresent()) {
+            Member findMember = findMembers.get();
+            if (findMember.getGrade().equals(Grade.USER)) {
+                Article article1 = new Article("Test1", "test1", "테스트", ArticleStatus.WAIT, findMember);
+                articleRepository.save(article1);
+            } else if (findMember.getGrade().equals(Grade.AUTHOR)) {
+                Article article1 = new Article("Test2", "test2", "테스트", ArticleStatus.APPROVAL, findMember);
+                articleRepository.save(article1);
+            }
 
-        List<Article> findArticles = articleRepository.findByMemberId(1L);
-        Article findArticle = findArticles.get(0);
+            List<Article> findArticles = articleRepository.findByMemberId(1L);
+            Article findArticle = findArticles.get(0);
 
-        assertThat(findArticle.getStatus()).isEqualTo(ArticleStatus.WAIT);
-        assertThat(findArticle.getTitle()).isEqualTo("Test1");
+            assertThat(findArticle.getStatus()).isEqualTo(ArticleStatus.WAIT);
+            assertThat(findArticle.getTitle()).isEqualTo("Test1");
+        }
     }
 
     @Test
