@@ -8,12 +8,17 @@
 package com.betterus.domain.member.service;
 
 import com.betterus.domain.member.domain.Member;
+import com.betterus.domain.member.dto.MemberEditForm;
 
 public interface MemberService {
 
     Member loginConfirm(String memberEmail, String memberPassword);
 
-    int joinMember(Member member);
+    int joinMember(Member member,String authCode);
 
     int duplicateCheck(String nickName);
+
+    Member findMemberById(Long memberId);
+
+    int changeMemberInfo(Long memberId, MemberEditForm form);
 }
