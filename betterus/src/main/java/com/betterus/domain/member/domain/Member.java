@@ -1,11 +1,12 @@
 /**
  * 작성자 : 정원영
  * 작성 일자 : 2022 - 10 - 19
- * 수정 일자 :
+ * 수정 일자 : 2022 - 11 - 11
  * 기능 : Member 테이블 엔티티
  */
 
 package com.betterus.domain.member.domain;
+
 
 import com.betterus.domain.jjim.domain.Jjim;
 import com.betterus.model.BaseTimeEntity;
@@ -55,6 +56,9 @@ public class Member extends BaseTimeEntity {
     @OneToMany(mappedBy = "member")
     private List<Jjim> jjims = new ArrayList<>();
 
+//    @OneToMany(mappedBy = "member")
+//    private List<Gudok> gudoks = new ArrayList<>();
+
 
     public Member(String nickName, String password, String email,Grade grade) {
         this.nickName = nickName;
@@ -62,4 +66,21 @@ public class Member extends BaseTimeEntity {
         this.email = email;
         this.grade = grade;
     }
+    /**
+     * 회원정보 수정
+     */
+    public Member(String nickName, String password, Grade grade, String user_info) {
+        this.nickName = nickName;
+        this.password = password;
+        this.grade = grade;
+        this.user_info = user_info;
+    }
+
+    /**
+     * 비밀번호 변경 (임시 비밀번호 포함)
+     */
+    public void changeMemberPassword(String password){
+        this.password = password;
+    }
+
 }
