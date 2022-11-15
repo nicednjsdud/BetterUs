@@ -36,4 +36,6 @@ public class ArticleSeries extends BaseTimeEntity {
 
     @OneToMany(mappedBy = "articleSeries")
     private List<Article> articleSeriesList = new ArrayList<>();
+
+
 }
