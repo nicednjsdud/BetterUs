@@ -7,6 +7,7 @@
 
 package com.betterus.domain.member.controller;
 
+import com.betterus.domain.emailcertification.dto.EmailAuthRequestDto;
 import com.betterus.domain.member.domain.Member;
 import com.betterus.domain.member.dto.MemberDto;
 import com.betterus.domain.member.dto.MemberFindForm;
@@ -48,7 +49,7 @@ public class LoginController {
         if (loginMember != null) {
             HttpSession session = request.getSession();
             MemberDto memberDto = new MemberDto(loginMember.getId(), loginMember.getNickName());
-            session.setAttribute("member", memberDto);
+            session.setAttribute("member", memberDto.getId());
             session.setAttribute("isLogOn", true);
             String msg = "안녕하세요. " + memberDto.getNickName() + "님";
             model.addAttribute("msg", msg);
@@ -56,7 +57,7 @@ public class LoginController {
         } else {
             String msg = "입력하신 아이디 혹은 패스워드가 틀립니다.";
             model.addAttribute("msg", msg);
-            return "login";
+            return "/login";
         }
     }
 
@@ -69,46 +70,9 @@ public class LoginController {
     }
 
     @GetMapping("/login/findPassword")
-    public String findPassword() {
+    public String findPassword(Model model) {
+        model.addAttribute("emailForm", new EmailAuthRequestDto());
         return "findPassword";
     }
-
-    @PostMapping("/login/sendEmail")
-    public String sendEmail(MemberFindForm form) {
-        // 메일 api
-        // 임시 비밀번호
-        // 이메일 인증   // 중복시 메세지 입력
-        return null;
-    }
-
-    @GetMapping("/signUp")
-    public String joinForm(Model model) {
-        model.addAttribute("joinForm", new MemberJoinForm());
-        return "signUp";
-    }
-
-    @PostMapping("/signUp")
-    public String joinMember(MemberJoinForm form, Model model) {
-        String msg = "";
-        Member member = new Member(form.getNickname(), form.getPassword(), form.getEmail(), Grade.USER);
-        int result = memberService.joinMember(member);
-        if (result == 1) {
-            msg = "회원가입이 완료되었습니다.";
-        }
-        else{
-            msg = "회원가입에 실패하였습니다. 다시 시도해주세요.";
-        }
-        model.addAttribute("msg",msg);
-        return "redirect:/";
-    }
-
-    @PostMapping("/signUp/duplicateNickName")
-    public String duplicateNickName(@RequestParam("nickName") String nickName,Model model){
-
-        int result = memberService.duplicateCheck(nickName);
-        model.addAttribute("result",result);
-        return "signup";
-    }
-
 
 }
