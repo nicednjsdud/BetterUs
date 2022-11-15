@@ -117,5 +117,20 @@ class MemberRepositoryTest {
         assertThrows(NullPointerException.class, () -> findMember.getId());
     }
 
+    @Test
+    @DisplayName("멤버 아이디로 조회하기")
+    public void findMemberById() {
 
+        Member member = new Member("MemberA", "123123", "nicednjsdud@gmail.com", Grade.ADMIN);
+        Member saveMember = memberRepository.save(member);
+
+        Optional<Member> find = memberRepository.findById(saveMember.getId());
+        if(find.isPresent()){
+            Member findMember = find.get();
+
+
+            assertThat(findMember.getId()).isEqualTo(saveMember.getId());
+        }
+
+    }
 }

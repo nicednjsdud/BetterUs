@@ -1,5 +1,7 @@
 package com.betterus.domain.member.controller;
 
+import com.betterus.domain.emailcertification.domain.Email;
+import com.betterus.domain.emailcertification.repository.EmailRepository;
 import com.betterus.domain.member.domain.Member;
 import com.betterus.domain.member.dto.MemberDto;
 import com.betterus.domain.member.repository.MemberRepository;
@@ -30,6 +32,9 @@ class MemberControllerTest {
 
     @Autowired
     MemberRepository memberRepository;
+
+    @Autowired
+    EmailRepository emailRepository;
 
     @BeforeEach
     @DisplayName("회원가입")
@@ -74,8 +79,11 @@ class MemberControllerTest {
     public void signUp() {
         String msg;
         Member member = new Member("MemberB", "123123123", "nicednjsdud12@gmail.com", Grade.ADMIN);
+        String authCode = "test23";
+        Email email = new Email("nicednjsdud12@gmail.com",authCode);
+        emailRepository.save(email);
 
-        int result = memberService.joinMember(member);
+        int result = memberService.joinMember(member,authCode);
         if (result == 1) {
             msg = "회원가입이 완료되었습니다.";
         } else {
@@ -90,7 +98,8 @@ class MemberControllerTest {
     public void signUpFail() {
         String msg = "";
         Member member = new Member("MemberA", "123123", "nicednjsdud@gmail.com", Grade.ADMIN);
-        int result = memberService.joinMember(member);
+        String authCode = "test";
+        int result = memberService.joinMember(member,authCode);
         if (result == 1) {
             msg = "회원가입이 완료되었습니다.";
         } else {
