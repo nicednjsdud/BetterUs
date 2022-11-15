@@ -8,6 +8,7 @@ package com.betterus.domain.article.domain;
 
 import com.betterus.domain.member.domain.Member;
 import com.betterus.domain.articleseries.domain.ArticleSeries;
+import com.betterus.domain.mypage.domain.MyPage;
 import com.betterus.model.ArticleStatus;
 import com.betterus.model.BaseTimeEntity;
 import lombok.*;
@@ -46,6 +47,10 @@ public class Article extends BaseTimeEntity {
     @ManyToOne(fetch = LAZY)
     @JoinColumn(name = "articleSeriesId")
     private ArticleSeries articleSeries;
+
+    @ManyToOne(fetch = LAZY)
+    @JoinColumn(name = "myPageId")
+    private MyPage myPage;
 
     public Article(String title, String subTitle, String contents, ArticleStatus status, Member member) {
         this.title = title;
