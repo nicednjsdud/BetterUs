@@ -13,6 +13,7 @@ import lombok.Getter;
 public class MemberJoinForm {
 
     private String email;
+    private String authCode;
     private String nickname;
     private String password;
 }
