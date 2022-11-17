@@ -44,9 +44,7 @@ public class ArticleServiceImpl implements ArticleService {
         Article findArticle = articleRepository.findArticleById(articleId);
         Article checkArticle = findArticle;
 
-        findArticle.setTitle(articleForm.getTitle());
-        findArticle.setSubTitle(articleForm.getSubTitle());
-        findArticle.setContents(articleForm.getContents());
+        findArticle.changeArticle(articleForm.getTitle(),articleForm.getSubTitle(),articleForm.getContents());
 
         Article updateArticle = articleRepository.findArticleById(articleId);
         if (updateArticle.getTitle().equals(checkArticle.getTitle())) return 1;
