@@ -1,24 +1,18 @@
 package com.betterus.domain.member.controller;
 
-import com.betterus.domain.emailcertification.domain.Email;
-import com.betterus.domain.emailcertification.repository.EmailRepository;
+import com.betterus.domain.email.domain.Email;
+import com.betterus.domain.email.repository.EmailRepository;
 import com.betterus.domain.member.domain.Member;
 import com.betterus.domain.member.dto.MemberDto;
 import com.betterus.domain.member.repository.MemberRepository;
 import com.betterus.domain.member.service.MemberService;
 import com.betterus.model.Grade;
-import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.ui.Model;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletRequestWrapper;
-import javax.servlet.http.HttpSession;
 
 import static org.assertj.core.api.Assertions.*;
 import static org.junit.jupiter.api.Assertions.*;
