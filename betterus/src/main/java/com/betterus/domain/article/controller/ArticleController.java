@@ -1,7 +1,7 @@
 /**
  * 작성자 : 정원영
  * 작성 일자 : 2022 - 11 - 06
- * 수정 일자 : 2022 - 11 - 08
+ * 수정 일자 : 2022 - 11 - 18
  * 기능 : Article Controller
  */
 
@@ -40,6 +40,26 @@ public class ArticleController {
         }
 
         return null;
+    }
+
+    /**
+     * 글 상세보기
+     */
+    @RequestMapping("/list/article/{articleId}")
+    public String articleInfo(@PathVariable("articleId") Long articleId,Model model, HttpServletRequest request) {
+        String msg = "";
+        HttpSession session = request.getSession();
+        Object member = session.getAttribute("member");
+        if (member != null) {
+            Article findArticle = articleService.findArticle(articleId);
+            model.addAttribute("article",findArticle);
+        }
+        else{
+            msg = "회원만 보기가 가능합니다.";
+            model.addAttribute("msg",msg);
+            return "redirect:/";
+        }
+        return "article/a_article";
     }
 
     /**
