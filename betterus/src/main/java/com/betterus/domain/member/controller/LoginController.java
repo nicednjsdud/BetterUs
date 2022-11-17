@@ -7,21 +7,16 @@
 
 package com.betterus.domain.member.controller;
 
-import com.betterus.domain.emailcertification.dto.EmailAuthRequestDto;
+import com.betterus.domain.email.dto.EmailAuthRequestDto;
 import com.betterus.domain.member.domain.Member;
 import com.betterus.domain.member.dto.MemberDto;
-import com.betterus.domain.member.dto.MemberFindForm;
-import com.betterus.domain.member.dto.MemberJoinForm;
 import com.betterus.domain.member.dto.MemberLoginForm;
 import com.betterus.domain.member.service.MemberService;
-import com.betterus.model.Grade;
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;

@@ -9,9 +9,8 @@
 package com.betterus.domain.member.controller;
 
 
-import com.betterus.domain.emailcertification.service.EmailService;
+import com.betterus.domain.email.service.EmailService;
 import com.betterus.domain.member.domain.Member;
-import com.betterus.domain.member.dto.MemberDto;
 import com.betterus.domain.member.dto.MemberEditForm;
 import com.betterus.domain.member.dto.MemberJoinForm;
 import com.betterus.domain.member.service.MemberService;
@@ -23,9 +22,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
 
 @Controller
 @RequiredArgsConstructor
