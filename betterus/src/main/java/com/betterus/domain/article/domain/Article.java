@@ -19,7 +19,6 @@ import static javax.persistence.FetchType.LAZY;
 
 @Entity
 @Getter
-@Setter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Article extends BaseTimeEntity {
 
@@ -60,4 +59,13 @@ public class Article extends BaseTimeEntity {
         this.member = member;
     }
 
+    /**
+     * article 수정
+     */
+
+    public void changeArticle(String title,String subTitle,String contents){
+        this.title = title;
+        this.subTitle = subTitle;
+        this.contents = contents;
+    }
 }
