@@ -8,8 +8,8 @@
 
 package com.betterus.domain.member.service;
 
-import com.betterus.domain.emailcertification.domain.Email;
-import com.betterus.domain.emailcertification.repository.EmailRepository;
+import com.betterus.domain.email.domain.Email;
+import com.betterus.domain.email.repository.EmailRepository;
 import com.betterus.domain.member.domain.Member;
 import com.betterus.domain.member.dto.MemberEditForm;
 import com.betterus.domain.member.repository.MemberRepository;
@@ -87,19 +87,19 @@ public class MemberServiceImpl implements MemberService {
         Member member = em.find(Member.class, memberId);
         String action = form.getAction();
         if (Objects.equals(action, "닉네임변경")) {
-            member = new Member(form.getNickName(), member.getPassword(), member.getGrade(), member.getUser_info());
+            member.changeMemberNickName(form.getNickName());
             return 1;
-        } else if (Objects.equals(action, "비밀변호변경")) {
-            Member findMemberByPrePassword = memberRepository.findByPassword(memberId);
-            if (findMemberByPrePassword.getPassword().equals(form.getPrePassword())) {
-                member = new Member(member.getNickName(), form.getAfterPassword(), member.getGrade(), member.getUser_info());
+        } else if (Objects.equals(action, "비밀번호변경")) {
+            String findPrePassword = member.getPassword();
+            if (findPrePassword.equals(form.getPrePassword())) {
+                member.changeMemberPassword(form.getAfterPassword());
                 return 1;
             } else {
                 // 기존 비밀번호와 현재 적은 비밀번호가 다름
                 return 2;
             }
         } else if (Objects.equals(action, "회원소개변경")) {
-            member = new Member(member.getNickName(), member.getPassword(), member.getGrade(), form.getInfo());
+            member.changeMemberInfo(form.getInfo());
             return 1;
         }
 
