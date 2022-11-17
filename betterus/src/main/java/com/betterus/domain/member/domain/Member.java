@@ -1,7 +1,7 @@
 /**
  * 작성자 : 정원영
  * 작성 일자 : 2022 - 10 - 19
- * 수정 일자 : 2022 - 11 - 11
+ * 수정 일자 : 2022 - 11 - 18
  * 기능 : Member 테이블 엔티티
  */
 
@@ -66,13 +66,18 @@ public class Member extends BaseTimeEntity {
         this.email = email;
         this.grade = grade;
     }
+
     /**
-     * 회원정보 수정
+     * 닉네임 변경
      */
-    public Member(String nickName, String password, Grade grade, String user_info) {
+    public void changeMemberNickName(String nickName){
         this.nickName = nickName;
-        this.password = password;
-        this.grade = grade;
+    }
+
+    /**
+     * 회원 소개변경
+     */
+    public void changeMemberInfo(String user_info){
         this.user_info = user_info;
     }
 
