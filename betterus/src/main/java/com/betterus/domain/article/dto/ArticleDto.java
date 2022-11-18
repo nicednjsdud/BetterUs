@@ -10,6 +10,7 @@ package com.betterus.domain.article.dto;
 import com.betterus.domain.articleseries.domain.ArticleSeries;
 import com.betterus.domain.member.domain.Member;
 import com.betterus.model.ArticleStatus;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -18,6 +19,7 @@ import javax.persistence.*;
 import static javax.persistence.FetchType.LAZY;
 
 @NoArgsConstructor
+@AllArgsConstructor
 @Getter
 public class ArticleDto {
 

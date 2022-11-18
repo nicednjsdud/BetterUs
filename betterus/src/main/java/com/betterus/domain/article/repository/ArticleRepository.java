@@ -20,9 +20,11 @@ import java.util.List;
 
 public interface ArticleRepository extends JpaRepository<Article, Long> {
 
-//    Page<Article> findByArticleStatus(ArticleStatus status, Pageable pageable);
+    @Query("select a from Article a")
+    Page<Article> findByArticleStatus(ArticleStatus status, Pageable pageable);
 
 
     List<Article> findByMemberId(Long id);
     Article findArticleById(Long id);
+
 }
