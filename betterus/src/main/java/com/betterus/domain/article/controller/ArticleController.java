@@ -8,17 +8,23 @@
 package com.betterus.domain.article.controller;
 
 import com.betterus.domain.article.domain.Article;
+import com.betterus.domain.article.dto.ArticleDto;
 import com.betterus.domain.article.dto.ArticleForm;
 import com.betterus.domain.article.service.ArticleService;
+import com.betterus.domain.gudok.service.GudokService;
 import com.betterus.domain.member.domain.Member;
 import com.betterus.model.Grade;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+import java.util.List;
 
 @Controller
 @RequiredArgsConstructor
@@ -26,12 +32,32 @@ public class ArticleController {
 
     private final ArticleService articleService;
 
+
     /**
      * 글 목록 리스트 (패이징) 진행중
      */
-    @RequestMapping("/list")
-    public String articleListBasic(Model model, HttpServletRequest request) {
+    @RequestMapping("/list/article")
+    public String articleListBasic(@PageableDefault(size = 10)Pageable pageable, Model model, HttpServletRequest request) {
+        String msg = "";
+        HttpSession session = request.getSession();
+        Object member = session.getAttribute("member");
+        if (member != null) {
+            Page<ArticleDto> articleList = articleService.findArticleList(pageable);
+            model.addAttribute("articleList",articleList);
+            return "화면 구현 안됨";
+        }
+        else{
+            msg = "회원만 리스트 접근이 가능합니다.";
+            model.addAttribute("msg",msg);
+            return "direct:/";
+        }
+    }
 
+    /**
+     * 서치 목록 리스트 (패이징) 진행중
+     */
+    @GetMapping("/list/search")
+    public String articleListBasic(@RequestParam("searchKeyword")String keyword, Model model, HttpServletRequest request) {
         HttpSession session = request.getSession();
         Object member = session.getAttribute("member");
         if (member != null) {
@@ -42,10 +68,11 @@ public class ArticleController {
         return null;
     }
 
+
     /**
      * 글 상세보기
      */
-    @RequestMapping("/list/article/{articleId}")
+    @GetMapping("/list/article/{articleId}")
     public String articleInfo(@PathVariable("articleId") Long articleId,Model model, HttpServletRequest request) {
         String msg = "";
         HttpSession session = request.getSession();
@@ -61,6 +88,8 @@ public class ArticleController {
         }
         return "article/a_article";
     }
+
+
 
     /**
      * 글 쓰기 폼 (이미지 업로드 기능 추가예정)
