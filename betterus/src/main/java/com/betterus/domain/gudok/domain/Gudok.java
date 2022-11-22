@@ -9,6 +9,7 @@ package com.betterus.domain.gudok.domain;
 import com.betterus.domain.member.domain.Member;
 import com.betterus.model.BaseTimeEntity;
 import lombok.AccessLevel;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -19,6 +20,7 @@ import static javax.persistence.FetchType.LAZY;
 @Entity
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
+@AllArgsConstructor
 public class Gudok extends BaseTimeEntity {
 
     @Id
@@ -32,4 +34,12 @@ public class Gudok extends BaseTimeEntity {
     @ManyToOne(fetch = LAZY)
     @JoinColumn(name = "memberId")
     private Member member;
+
+    /**
+     * 구독 추가 폼
+     */
+    public Gudok(Long authorId, Member member) {
+        this.authorId = authorId;
+        this.member = member;
+    }
 }
