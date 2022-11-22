@@ -1,14 +1,19 @@
 package com.betterus.domain.article.service;
 
 import com.betterus.domain.article.domain.Article;
+import com.betterus.domain.article.dto.ArticleDto;
 import com.betterus.domain.article.dto.ArticleForm;
 import com.betterus.domain.article.repository.ArticleRepository;
 import com.betterus.domain.member.domain.Member;
 import com.betterus.model.ArticleStatus;
 import com.betterus.model.Grade;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
 
 @Service
 @Transactional(readOnly = true)
@@ -58,5 +63,13 @@ public class ArticleServiceImpl implements ArticleService {
         Article deleteArticle = articleRepository.findArticleById(articleId);
         if (deleteArticle == null ) return 1;
         else return 0;
+    }
+
+    @Override
+    public Page<ArticleDto> findArticleList(Pageable pageable) {
+        Page<Article> findArticles = articleRepository.findByArticleStatus(ArticleStatus.APPROVAL, pageable);
+        Page<ArticleDto> articleDtos = findArticles.map(article ->
+                new ArticleDto(article.getId(),article.getTitle(),article.getSubTitle(),article.getSubTitle(),article.getStatus()));
+        return articleDtos;
     }
 }
