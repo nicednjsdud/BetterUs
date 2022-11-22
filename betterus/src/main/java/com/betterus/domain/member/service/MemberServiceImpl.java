@@ -8,16 +8,24 @@
 
 package com.betterus.domain.member.service;
 
+import com.betterus.domain.article.domain.Article;
+import com.betterus.domain.article.dto.ArticleDto;
 import com.betterus.domain.email.domain.Email;
 import com.betterus.domain.email.repository.EmailRepository;
 import com.betterus.domain.member.domain.Member;
+import com.betterus.domain.member.dto.MemberDto;
 import com.betterus.domain.member.dto.MemberEditForm;
 import com.betterus.domain.member.repository.MemberRepository;
+import com.betterus.model.ArticleStatus;
+import com.betterus.model.Grade;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
+import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 
@@ -104,5 +112,16 @@ public class MemberServiceImpl implements MemberService {
         }
 
         return 0;
+    }
+
+    /**
+     * 작가 찾기
+     */
+    @Override
+    public Page<MemberDto> findAuthorByGrade(Pageable pageable) {
+        Page<MemberDto> findMembers = memberRepository.findAuthorByGrade(Grade.AUTHOR, pageable);
+//        Page<ArticleDto> articleDtos = findArticles.map(article ->
+//                new ArticleDto(article.getId(),article.getTitle(),article.getSubTitle(),article.getSubTitle(),article.getStatus()));
+        return null;
     }
 }

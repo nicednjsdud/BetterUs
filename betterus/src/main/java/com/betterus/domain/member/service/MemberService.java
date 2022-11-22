@@ -8,7 +8,12 @@
 package com.betterus.domain.member.service;
 
 import com.betterus.domain.member.domain.Member;
+import com.betterus.domain.member.dto.MemberDto;
 import com.betterus.domain.member.dto.MemberEditForm;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+
+import java.util.List;
 
 public interface MemberService {
 
@@ -21,4 +26,6 @@ public interface MemberService {
     Member findMemberById(Long memberId);
 
     int changeMemberInfo(Long memberId, MemberEditForm form);
+
+    Page<MemberDto> findAuthorByGrade(Pageable pageable);
 }
