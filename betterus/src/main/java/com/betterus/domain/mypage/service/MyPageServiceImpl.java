@@ -19,7 +19,7 @@ public class MyPageServiceImpl implements MyPageService{
     public Map<Object, Object> findMyPageDefault(Member member) {
 
 //        myPageRepository.findMemberAndGudokByMemberId(member.getId());
-
+//  페이징 진행중
         return null;
     }
 }

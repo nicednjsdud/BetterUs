@@ -11,7 +11,9 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -53,7 +55,7 @@ class ArticleRepositoryTest {
     @DisplayName("게시글 저장")
     public void saveByStatus() {
         Optional<Member> findMembers = memberRepository.findById(1L);
-        if(findMembers.isPresent()) {
+        if (findMembers.isPresent()) {
             Member findMember = findMembers.get();
             if (findMember.getGrade().equals(Grade.USER)) {
                 Article article1 = new Article("Test1", "test1", "테스트", ArticleStatus.WAIT, findMember);
@@ -73,11 +75,11 @@ class ArticleRepositoryTest {
 
     @Test
     @DisplayName("게시글 Id로 한개 불러오기")
-    public void findByArticleId(){
+    public void findByArticleId() {
         Optional<Member> findMembers = memberRepository.findById(1L);
-        if(findMembers.isPresent()) {
+        if (findMembers.isPresent()) {
             Member findMember = findMembers.get();
-            Article article1 = new Article("Test1", "test1", "테스트", ArticleStatus.WAIT,findMember);
+            Article article1 = new Article("Test1", "test1", "테스트", ArticleStatus.WAIT, findMember);
             articleRepository.save(article1);
 
             em.flush();
@@ -88,10 +90,25 @@ class ArticleRepositoryTest {
         }
     }
 
-//    @Test
-//    @DisplayName("기본 리스트 목록 불러오기 (페이징 처리)")
-//    public void pagingFindAll() {
-//        PageRequest pageRequest = PageRequest.of(0,3,Sort.by(Sort.Direction.DESC))
-//    }
+    @Test
+    @DisplayName("기본 article 리스트 불러오기 - 10개씩")
+    public void findArticlePaging() {
+        Optional<Member> findMembers = memberRepository.findById(1L);
+        if (findMembers.isPresent()) {
+            Member findMember = findMembers.get();
+            for (int i = 0; i < 13; i++) {
+                articleRepository.save(new Article("Test" + i, "test" + i, "테스트" + i, ArticleStatus.APPROVAL, findMember));
+            }
+            PageRequest pageRequest = PageRequest.of(0,10,Sort.by(Sort.DEFAULT_DIRECTION,"createDate"));
+            Page<Article> findArticles = articleRepository.findByArticleStatus(ArticleStatus.APPROVAL, pageRequest);
 
+            assertThat(findArticles.getSize()).isEqualTo(10);
+            assertThat(findArticles.getTotalPages()).isEqualTo(2);
+            assertThat(findArticles.getTotalElements()).isEqualTo(13);
+            assertThat(findArticles.getNumber()).isEqualTo(0);
+            assertThat(findArticles.isFirst()).isTrue();
+            assertThat(findArticles.hasNext()).isTrue();
+        }
+
+    }
 }
