@@ -23,6 +23,10 @@ public class MemberDto {
     private Grade grade;
     private String user_info;
 
+    private int gudok_count;
+
+    private int articleseries_count;
+
     public MemberDto(Member member){
         id = member.getId();
         nickName = member.getNickName();
