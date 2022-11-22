@@ -10,7 +10,6 @@ package com.betterus.domain.email.controller;
 
 import com.betterus.domain.email.dto.EmailAuthRequestDto;
 import com.betterus.domain.email.service.EmailService;
-import com.betterus.domain.member.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -24,7 +23,6 @@ import java.io.UnsupportedEncodingException;
 public class EmailController {
 
     private final EmailService emailService;
-    private final MemberRepository memberRepository;
 
     @PostMapping("mail/mailConfirm")
     public String mailConfirm(@RequestBody EmailAuthRequestDto emailDto) throws MessagingException, UnsupportedEncodingException {
