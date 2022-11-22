@@ -7,9 +7,7 @@
 
 package com.betterus.domain.mypage.controller;
 
-import com.betterus.domain.article.service.ArticleService;
 import com.betterus.domain.member.domain.Member;
-import com.betterus.domain.member.service.MemberService;
 import com.betterus.domain.mypage.service.MyPageService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
@@ -18,7 +16,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
-import java.util.HashMap;
 import java.util.Map;
 
 @RequiredArgsConstructor
@@ -37,7 +34,7 @@ public class MyPageController {
         if (member != null) {
             Map<Object, Object> myPage = myPageService.findMyPageDefault(member);
             model.addAttribute("myPage",myPage);
-            return "/myPage/mypage(info)";
+            return "/myPage/myPage(info)";
         } else {
             String msg = "회원만 접근이 가능합니다.";
             model.addAttribute("msg", msg);
