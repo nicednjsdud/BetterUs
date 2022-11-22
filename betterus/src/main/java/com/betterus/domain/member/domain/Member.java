@@ -8,6 +8,7 @@
 package com.betterus.domain.member.domain;
 
 
+import com.betterus.domain.gudok.domain.Gudok;
 import com.betterus.domain.jjim.domain.Jjim;
 import com.betterus.model.BaseTimeEntity;
 import com.betterus.model.Grade;
@@ -53,11 +54,15 @@ public class Member extends BaseTimeEntity {
     @Column(name = "info", length = 1000)
     private String user_info;
 
+    @Column(name = "gudokCount")
+    private int gudok_count;
+
+
     @OneToMany(mappedBy = "member")
     private List<Jjim> jjims = new ArrayList<>();
 
-//    @OneToMany(mappedBy = "member")
-//    private List<Gudok> gudoks = new ArrayList<>();
+    @OneToMany(mappedBy = "member")
+    private List<Gudok> gudoks = new ArrayList<>();
 
 
     public Member(String nickName, String password, String email,Grade grade) {
@@ -88,4 +93,11 @@ public class Member extends BaseTimeEntity {
         this.password = password;
     }
 
+    /**
+     * 구독 카운트 변경
+     */
+    public void changeGudokCount(int gudok_count,String msg){
+        if(msg == "구독추가") this.gudok_count += gudok_count;
+        else if(msg == "구독삭제") this.gudok_count -= gudok_count;
+    }
 }
