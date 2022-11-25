@@ -41,7 +41,7 @@ public class Member extends BaseTimeEntity {
     @NotNull
     private String password;
 
-    @Column(name = "email", length = 30, unique = true)
+    @Column(name = "email", length = 30)
     @NotNull
     private String email;
 
@@ -55,7 +55,10 @@ public class Member extends BaseTimeEntity {
     private String user_info;
 
     @Column(name = "gudokCount")
-    private int gudok_count;
+    private Long gudok_count;
+
+    @Column(name = "gudokForCount")
+    private Long gudokForCount;
 
 
     @OneToMany(mappedBy = "member")
@@ -63,6 +66,18 @@ public class Member extends BaseTimeEntity {
 
     @OneToMany(mappedBy = "member")
     private List<Gudok> gudoks = new ArrayList<>();
+
+
+    /**
+     *  구독 count 와 관심작가 count 초기 0 설정
+     */
+    @PrePersist
+    public void prePersist(){
+        if(this.gudok_count == null && this.gudokForCount == null){
+            this.gudok_count = 0L;
+            this.gudokForCount = 0L;
+        }
+    }
 
 
     public Member(String nickName, String password, String email,Grade grade) {
@@ -96,8 +111,22 @@ public class Member extends BaseTimeEntity {
     /**
      * 구독 카운트 변경
      */
-    public void changeGudokCount(int gudok_count,String msg){
+    public void changeGudokCount(Long gudok_count,String msg){
         if(msg == "구독추가") this.gudok_count += gudok_count;
-        else if(msg == "구독삭제") this.gudok_count -= gudok_count;
+        else if(msg == "구독삭제"){
+            if(this.gudok_count !=0L)this.gudok_count -= gudok_count;
+            else this.gudok_count = 0L;
+        }
+    }
+
+    /**
+     * 구독 카운트 변경
+     */
+    public void changeGudokForCount(Long gudokForCount,String msg){
+        if(msg == "구독추가") this.gudokForCount += gudokForCount;
+        else if(msg == "구독삭제"){
+            if(this.gudokForCount !=0L)this.gudokForCount -= gudokForCount;
+            else this.gudokForCount = 0L;
+        }
     }
 }
