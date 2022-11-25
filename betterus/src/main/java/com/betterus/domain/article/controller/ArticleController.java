@@ -1,7 +1,7 @@
 /**
  * 작성자 : 정원영
  * 작성 일자 : 2022 - 11 - 06
- * 수정 일자 : 2022 - 11 - 18
+ * 수정 일자 : 2022 - 11 - 25
  * 기능 : Article Controller
  */
 
@@ -61,7 +61,6 @@ public class ArticleController {
         HttpSession session = request.getSession();
         Object member = session.getAttribute("member");
         if (member != null) {
-
 
         }
 

@@ -12,6 +12,8 @@ import com.betterus.domain.mypage.domain.MyPage;
 import com.betterus.model.ArticleStatus;
 import com.betterus.model.BaseTimeEntity;
 import lombok.*;
+import org.hibernate.annotations.ColumnDefault;
+import org.hibernate.annotations.DynamicInsert;
 
 import javax.persistence.*;
 
@@ -36,6 +38,12 @@ public class Article extends BaseTimeEntity {
     @Column(name = "contents", length = 2000)
     private String contents;
 
+    @Column(name = "reviewCount")
+    private Long reviewCount;
+
+    @Column(name = "jjimCount")
+    private Long jjimCount;
+
     @Enumerated(EnumType.STRING)
     private ArticleStatus status;
 
@@ -51,12 +59,35 @@ public class Article extends BaseTimeEntity {
     @JoinColumn(name = "myPageId")
     private MyPage myPage;
 
+    /**
+     *  리뷰count 와 찜count 초기 0 설정
+     */
+    @PrePersist
+    public void prePersist(){
+        if(this.reviewCount == null && this.jjimCount == null){
+            this.reviewCount = 0L;
+            this.jjimCount = 0L;
+        }
+    }
+
     public Article(String title, String subTitle, String contents, ArticleStatus status, Member member) {
         this.title = title;
         this.subTitle = subTitle;
         this.contents = contents;
         this.status = status;
         this.member = member;
+    }
+
+    /**
+     * 마이페이지 저장 및 article 저장
+     */
+    public Article(String title, String subTitle, String contents, ArticleStatus status, Member member,MyPage myPage) {
+        this.title = title;
+        this.subTitle = subTitle;
+        this.contents = contents;
+        this.status = status;
+        this.member = member;
+        this.myPage = myPage;
     }
 
     /**
@@ -68,4 +99,22 @@ public class Article extends BaseTimeEntity {
         this.subTitle = subTitle;
         this.contents = contents;
     }
+
+    public void changeReviewCount(Long reviewCount,String msg){
+        if(msg == "리뷰추가") this.reviewCount += reviewCount;
+        else if(msg == "리뷰삭제"){
+            if(this.reviewCount !=0L)this.reviewCount -= reviewCount;
+            else this.reviewCount = 0L;
+        }
+    }
+
+    public void changeJjimCount(Long jjimCount,String msg){
+        if(msg == "찜추가") this.jjimCount += jjimCount;
+        else if(msg == "찜삭제"){
+            if(this.jjimCount !=0L)this.jjimCount -= jjimCount;
+            else this.jjimCount = 0L;
+        }
+    }
+
+
 }
