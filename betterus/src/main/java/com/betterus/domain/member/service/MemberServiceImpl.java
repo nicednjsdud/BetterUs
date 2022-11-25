@@ -131,7 +131,7 @@ public class MemberServiceImpl implements MemberService {
         Page<MemberDto> findMembers = memberRepository.findAuthorByGrade(Grade.AUTHOR, pageable);
 //        Page<ArticleDto> articleDtos = findArticles.map(article ->
 //                new ArticleDto(article.getId(),article.getTitle(),article.getSubTitle(),article.getSubTitle(),article.getStatus()));
-        return null;
+        return findMembers;
     }
 
 }

@@ -6,6 +6,7 @@ import com.betterus.domain.member.domain.Member;
 import com.betterus.domain.member.dto.MemberDto;
 import com.betterus.domain.mypage.domain.MyPage;
 import com.betterus.domain.mypage.repository.MyPageRepository;
+import com.betterus.model.ArticleStatus;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -30,7 +31,7 @@ public class MyPageServiceImpl implements MyPageService {
     @Override
     public Map<Object, Object> findAuthorById(Long authorId) {
         Optional<MyPage> findAuthorPage = myPageRepository.findByMemberId(authorId);
-        Map<Object,Object> map = new HashMap<>();
+        Map<Object, Object> map = new HashMap<>();
         if (findAuthorPage.isPresent()) {
             MyPage myPage = findAuthorPage.get();
             List<Article> articleList = myPage.getArticleList();
@@ -46,9 +47,33 @@ public class MyPageServiceImpl implements MyPageService {
             Member member = myPage.getMember();
             MemberDto memberDto = new MemberDto(member.getNickName(), member.getGudok_count(), member.getGudokForCount());
 
-            map.put("articleDtoList",articleDtoList);
-            map.put("memberDto",memberDto);
+            map.put("articleDtoList", articleDtoList);
+            map.put("memberDto", memberDto);
         }
         return map;
+    }
+
+    @Override
+    @Transactional
+    public int applicationInfo(Long sessionMemberId) {
+        Optional<MyPage> findMyPage = myPageRepository.findByMemberId(sessionMemberId);
+        if (findMyPage.isPresent()) {
+            MyPage myPage = findMyPage.get();
+            /** 출간된 article이 3개 이상일 때*/
+            if (myPage.getArticleList().size() >= 3) {
+                /** 게시글 들만 승인 대기중으로 변경*/
+                List<Article> articleList = myPage.getArticleList();
+                for (Article article : articleList) {
+                    article.changeArticleStatus(ArticleStatus.WAIT);
+                }
+                return 1;
+            } else {
+                /** 3개미만의 글은 신청 x*/
+                return -1;
+            }
+        }
+        else{
+            return 0;
+        }
     }
 }
