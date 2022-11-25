@@ -6,4 +6,6 @@ import java.util.Map;
 
 public interface MyPageService {
     Map<Object, Object> findMyPageDefault(Member member);
+
+    Map<Object, Object> findAuthorById(Long authorId);
 }
