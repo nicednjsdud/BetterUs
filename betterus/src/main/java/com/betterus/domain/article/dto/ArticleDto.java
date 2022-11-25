@@ -1,7 +1,7 @@
 /**
  * 작성자 : 정원영
  * 작성 일자 : 2022 - 11 - 06
- * 수정 일자 :
+ * 수정 일자 : 2022 - 11 - 23
  * 기능 : Article dto 화면 뿌리기용
  */
 
@@ -28,4 +28,20 @@ public class ArticleDto {
     private String subTitle;
     private String contents;
     private ArticleStatus status;
+
+    private Long reviewCount;
+
+    private Long jjimCount;
+
+    /**
+     * 리스트 페이징 용
+     */
+    public ArticleDto(String title, String subTitle, String contents, ArticleStatus status, Long reviewCount, Long jjimCount) {
+        this.title = title;
+        this.subTitle = subTitle;
+        this.contents = contents;
+        this.status = status;
+        this.reviewCount = reviewCount;
+        this.jjimCount = jjimCount;
+    }
 }
