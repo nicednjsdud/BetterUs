@@ -26,6 +26,7 @@ public class ArticleServiceImpl implements ArticleService {
     private final ArticleRepository articleRepository;
 
     private final MyPageRepository myPageRepository;
+
     /**
      * 게시글 저장
      */
@@ -34,21 +35,20 @@ public class ArticleServiceImpl implements ArticleService {
     public int saveArticle(ArticleForm articleForm, Member member) {
         Article savedArticle = null;
         Optional<MyPage> memberMyPage = myPageRepository.findByMemberId(member.getId());
-        if(memberMyPage.isPresent()){
+        if (memberMyPage.isPresent()) {
             MyPage myPage = memberMyPage.get();
             if (member.getGrade().equals(Grade.USER)) {
-                Article article = new Article(articleForm.getTitle(), articleForm.getSubTitle(), articleForm.getContents(), ArticleStatus.WAIT, member,myPage);
+                Article article = new Article(articleForm.getTitle(), articleForm.getSubTitle(), articleForm.getContents(), ArticleStatus.WAIT, member, myPage);
                 savedArticle = articleRepository.save(article);
             } else if (member.getGrade().equals(Grade.AUTHOR)) {
-                Article article = new Article(articleForm.getTitle(), articleForm.getSubTitle(), articleForm.getContents(), ArticleStatus.APPROVAL, member,myPage);
+                Article article = new Article(articleForm.getTitle(), articleForm.getSubTitle(), articleForm.getContents(), ArticleStatus.APPROVAL, member, myPage);
                 savedArticle = articleRepository.save(article);
             }
         }
 
         if (savedArticle != null) {
             return 1;
-        }
-        else return 0;
+        } else return 0;
     }
 
     @Override
@@ -62,7 +62,7 @@ public class ArticleServiceImpl implements ArticleService {
         Article findArticle = articleRepository.findArticleById(articleId);
         Article checkArticle = findArticle;
 
-        findArticle.changeArticle(articleForm.getTitle(),articleForm.getSubTitle(),articleForm.getContents());
+        findArticle.changeArticle(articleForm.getTitle(), articleForm.getSubTitle(), articleForm.getContents());
 
         Article updateArticle = articleRepository.findArticleById(articleId);
         if (updateArticle.getTitle().equals(checkArticle.getTitle())) return 1;
@@ -74,7 +74,7 @@ public class ArticleServiceImpl implements ArticleService {
     public int deleteArticle(Long articleId) {
         articleRepository.deleteById(articleId);
         Article deleteArticle = articleRepository.findArticleById(articleId);
-        if (deleteArticle == null ) return 1;
+        if (deleteArticle == null) return 1;
         else return 0;
     }
 
@@ -82,7 +82,15 @@ public class ArticleServiceImpl implements ArticleService {
     public Page<ArticleDto> findArticleList(Pageable pageable) {
         Page<Article> findArticles = articleRepository.findByArticleStatus(ArticleStatus.APPROVAL, pageable);
         Page<ArticleDto> articleDtos = findArticles.map(article ->
-                new ArticleDto(article.getId(),article.getTitle(),article.getSubTitle(), article.getContents(),article.getStatus(),article.getReviewCount(),article.getJjimCount()));
+                new ArticleDto(article.getId(), article.getTitle(), article.getSubTitle(), article.getContents(), article.getStatus(), article.getReviewCount(), article.getJjimCount()));
+        return articleDtos;
+    }
+
+    @Override
+    public Page<ArticleDto> findSearchArticleList(String keyword, Pageable pageable) {
+        Page<Article> findArticles = articleRepository.findSearchListByArticleStatusAndTitleContaining(ArticleStatus.APPROVAL, keyword, pageable);
+        Page<ArticleDto> articleDtos = findArticles.map(article ->
+                new ArticleDto(article.getId(), article.getTitle(), article.getSubTitle(), article.getContents(), article.getStatus(), article.getReviewCount(), article.getJjimCount()));
         return articleDtos;
     }
 }

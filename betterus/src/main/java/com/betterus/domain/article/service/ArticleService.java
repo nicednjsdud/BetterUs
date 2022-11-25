@@ -21,4 +21,6 @@ public interface ArticleService {
     int deleteArticle(Long articleId);
 
     Page<ArticleDto> findArticleList(Pageable pageable);
+
+    Page<ArticleDto> findSearchArticleList(String keyword, Pageable pageable);
 }
