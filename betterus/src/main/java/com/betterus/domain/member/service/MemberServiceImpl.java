@@ -10,12 +10,15 @@ package com.betterus.domain.member.service;
 
 import com.betterus.domain.article.domain.Article;
 import com.betterus.domain.article.dto.ArticleDto;
+import com.betterus.domain.article.repository.ArticleRepository;
 import com.betterus.domain.email.domain.Email;
 import com.betterus.domain.email.repository.EmailRepository;
 import com.betterus.domain.member.domain.Member;
 import com.betterus.domain.member.dto.MemberDto;
 import com.betterus.domain.member.dto.MemberEditForm;
 import com.betterus.domain.member.repository.MemberRepository;
+import com.betterus.domain.mypage.domain.MyPage;
+import com.betterus.domain.mypage.repository.MyPageRepository;
 import com.betterus.model.ArticleStatus;
 import com.betterus.model.Grade;
 import lombok.RequiredArgsConstructor;
@@ -26,6 +29,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
 import java.util.List;
+import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
 
@@ -37,6 +41,8 @@ public class MemberServiceImpl implements MemberService {
     private final MemberRepository memberRepository;
 
     private final EmailRepository emailRepository;
+
+    private final MyPageRepository myPageRepository;
 
     private final EntityManager em;
 
@@ -61,6 +67,9 @@ public class MemberServiceImpl implements MemberService {
 
         if (duplicateEmail == null && findEmail.getAuthCode().equals(authCode)) {
             Member joinMember = memberRepository.save(member);
+            // 마이페이지 생성
+            MyPage myPage = new MyPage(member);
+            myPageRepository.save(myPage);
             return 1;
         } else return 0;
     }
@@ -124,4 +133,5 @@ public class MemberServiceImpl implements MemberService {
 //                new ArticleDto(article.getId(),article.getTitle(),article.getSubTitle(),article.getSubTitle(),article.getStatus()));
         return null;
     }
+
 }
