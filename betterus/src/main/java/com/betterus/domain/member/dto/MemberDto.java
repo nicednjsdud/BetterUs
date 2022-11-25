@@ -23,9 +23,9 @@ public class MemberDto {
     private Grade grade;
     private String user_info;
 
-    private int gudok_count;
+    private Long gudok_count;
 
-    private int articleseries_count;
+    private Long gudokForCount;
 
     public MemberDto(Member member){
         id = member.getId();
@@ -42,5 +42,15 @@ public class MemberDto {
     public MemberDto(Long id, String nickName) {
         this.id = id;
         this.nickName = nickName;
+    }
+
+    /**
+     * 회원 정보 마이페이지 용
+     */
+
+    public MemberDto(String nickName,Long gudok_count ,Long gudokForCount) {
+        this.nickName = nickName;
+        this.gudok_count = gudok_count;
+        this.gudokForCount = gudokForCount;
     }
 }
