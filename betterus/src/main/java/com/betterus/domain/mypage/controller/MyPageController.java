@@ -47,6 +47,24 @@ public class MyPageController {
     }
 
     /**
+     * 마이페이지 (관리자) default (list - 최신순)
+     */
+    @GetMapping("/myPage/admin/memberInfo")
+    public String myPage_admin(Model model, HttpServletRequest request) {
+        HttpSession session = request.getSession();
+        Member member = (Member) session.getAttribute("member");
+        if (member != null) {
+            Map<Object, Object> myPage = myPageService.findMyPageDefault(member);
+            model.addAttribute("myPage", myPage);
+            return "/myPage/myPage(info)";
+        } else {
+            String msg = "회원만 접근이 가능합니다.";
+            model.addAttribute("msg", msg);
+            return "redirect:/";
+        }
+    }
+
+    /**
      * 작가 상세 페이지 (패이징) 진행중
      */
     @GetMapping("/list/authorPage/{authorId}/default")
@@ -66,6 +84,31 @@ public class MyPageController {
             }
         } else {
             msg = "회원만 보기가 가능합니다.";
+            model.addAttribute("msg", msg);
+            return "redirect:/";
+        }
+    }
+
+    /**
+     * 작가 신청 하기 (마이페이지에서)
+     */
+    @GetMapping("/list/myPage/authorApplication")
+    public String authorInfo(Model model, HttpServletRequest request) {
+        String msg = "";
+        HttpSession session = request.getSession();
+        Member member = (Member) session.getAttribute("member");
+        if (member != null) {
+            Long sessionMemberId = member.getId();
+            int result = myPageService.applicationInfo(sessionMemberId);
+
+            if (result == 1) msg = "작가 신청이 완료되었습니다.";
+            else if (result == -1) msg = "3개 이상 출간하셔야 합니다.";
+            else if (result == 0) msg = "오류가 발생했습니다. 다시시도해주세요.";
+
+            model.addAttribute("msg", msg);
+            return "/redirect:/myPage/default";
+        } else {
+            msg = "회원만 신청이 가능합니다.";
             model.addAttribute("msg", msg);
             return "redirect:/";
         }

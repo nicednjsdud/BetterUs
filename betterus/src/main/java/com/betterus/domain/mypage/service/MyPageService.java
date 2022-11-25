@@ -8,4 +8,6 @@ public interface MyPageService {
     Map<Object, Object> findMyPageDefault(Member member);
 
     Map<Object, Object> findAuthorById(Long authorId);
+
+    int applicationInfo(Long sessionMemberId);
 }
