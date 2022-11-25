@@ -15,6 +15,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
+import org.springframework.test.annotation.Rollback;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
@@ -39,21 +40,14 @@ class ArticleRepositoryTest {
     @Autowired
     MemberRepository memberRepository;
 
-    @BeforeEach
-    @DisplayName("회원가입")
-    public void join() {
-        Member User = new Member("User", "123123", "nicednjsdud12@gmail.com", Grade.USER);
-        Member Author = new Member("Author", "123123", "nicednjsdud123@gmail.com", Grade.AUTHOR);
-        memberRepository.save(User);
-        memberRepository.save(Author);
-
-        em.flush();
-        em.clear();
-    }
 
     @Test
     @DisplayName("게시글 저장")
     public void saveByStatus() {
+        Member User = new Member("User", "123123", "nicednjsdud12@gmail.com", Grade.USER);
+        Member Author = new Member("Author", "123123", "nicednjsdud123@gmail.com", Grade.AUTHOR);
+        memberRepository.save(User);
+        memberRepository.save(Author);
         Optional<Member> findMembers = memberRepository.findById(1L);
         if (findMembers.isPresent()) {
             Member findMember = findMembers.get();
@@ -76,6 +70,10 @@ class ArticleRepositoryTest {
     @Test
     @DisplayName("게시글 Id로 한개 불러오기")
     public void findByArticleId() {
+        Member User = new Member("User", "123123", "nicednjsdud12@gmail.com", Grade.USER);
+        Member Author = new Member("Author", "123123", "nicednjsdud123@gmail.com", Grade.AUTHOR);
+        memberRepository.save(User);
+        memberRepository.save(Author);
         Optional<Member> findMembers = memberRepository.findById(1L);
         if (findMembers.isPresent()) {
             Member findMember = findMembers.get();
@@ -93,6 +91,10 @@ class ArticleRepositoryTest {
     @Test
     @DisplayName("기본 article 리스트 불러오기 - 10개씩")
     public void findArticlePaging() {
+        Member User = new Member("User", "123123", "nicednjsdud12@gmail.com", Grade.USER);
+        Member Author = new Member("Author", "123123", "nicednjsdud123@gmail.com", Grade.AUTHOR);
+        memberRepository.save(User);
+        memberRepository.save(Author);
         Optional<Member> findMembers = memberRepository.findById(1L);
         if (findMembers.isPresent()) {
             Member findMember = findMembers.get();

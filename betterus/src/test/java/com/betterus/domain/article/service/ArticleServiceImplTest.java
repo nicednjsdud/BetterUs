@@ -44,9 +44,10 @@ class ArticleServiceImplTest {
     @PersistenceContext
     EntityManager em;
 
-    @BeforeEach
-    @DisplayName("회원가입")
-    public void join() {
+
+    @Test
+    @DisplayName("게시글 저장 테스트")
+    public void articleSave(){
         Member User = new Member("User", "123123", "nicednjsdud12@gmail.com", Grade.USER);
         Member Author = new Member("Author", "123123", "nicednjsdud123@gmail.com", Grade.AUTHOR);
         memberRepository.save(User);
@@ -54,11 +55,6 @@ class ArticleServiceImplTest {
 
         em.flush();
         em.clear();
-    }
-
-    @Test
-    @DisplayName("게시글 저장 테스트")
-    public void articleSave(){
         ArticleForm articleForm = new ArticleForm("Test1","test1","테스트");
         Optional<Member> findMember1 = memberRepository.findById(1L);
         Optional<Member> findMember2 = memberRepository.findById(2L);
@@ -86,6 +82,13 @@ class ArticleServiceImplTest {
     @Test
     @DisplayName("articleId로 Article 찾기")
     public void findByArticleId(){
+        Member User = new Member("User", "123123", "nicednjsdud12@gmail.com", Grade.USER);
+        Member Author = new Member("Author", "123123", "nicednjsdud123@gmail.com", Grade.AUTHOR);
+        memberRepository.save(User);
+        memberRepository.save(Author);
+
+        em.flush();
+        em.clear();
         Optional<Member> findMembers = memberRepository.findById(1L);
         if(findMembers.isPresent()) {
             Member findMember = findMembers.get();
@@ -103,6 +106,13 @@ class ArticleServiceImplTest {
     @Test
     @DisplayName("article 수정 확인")
     public void updateArticle(){
+        Member User = new Member("User", "123123", "nicednjsdud12@gmail.com", Grade.USER);
+        Member Author = new Member("Author", "123123", "nicednjsdud123@gmail.com", Grade.AUTHOR);
+        memberRepository.save(User);
+        memberRepository.save(Author);
+
+        em.flush();
+        em.clear();
         Optional<Member> findMembers = memberRepository.findById(1L);
         if(findMembers.isPresent()) {
             //given
@@ -127,6 +137,13 @@ class ArticleServiceImplTest {
     @Test
     @DisplayName("article 삭제 확인")
     public void deleteArticle(){
+        Member User = new Member("User", "123123", "nicednjsdud12@gmail.com", Grade.USER);
+        Member Author = new Member("Author", "123123", "nicednjsdud123@gmail.com", Grade.AUTHOR);
+        memberRepository.save(User);
+        memberRepository.save(Author);
+
+        em.flush();
+        em.clear();
         Optional<Member> findMembers = memberRepository.findById(1L);
         if(findMembers.isPresent()) {
             //given
@@ -149,6 +166,13 @@ class ArticleServiceImplTest {
     @Test
     @DisplayName("article list 10개씩 불러오기")
     public void articleListPaging(){
+        Member User = new Member("User", "123123", "nicednjsdud12@gmail.com", Grade.USER);
+        Member Author = new Member("Author", "123123", "nicednjsdud123@gmail.com", Grade.AUTHOR);
+        memberRepository.save(User);
+        memberRepository.save(Author);
+
+        em.flush();
+        em.clear();
         Optional<Member> findMembers = memberRepository.findById(1L);
         if(findMembers.isPresent()) {
             //given

@@ -143,7 +143,6 @@ class MemberRepositoryTest {
 
     @Test
     @DisplayName("작가 찾기 페이징")
-    @Rollback(value = false)
     public void findAuthorByGrade(){
         for (int i = 0; i < 13; i++) {
             memberRepository.save(new Member("Member"+i, "123123"+i, "nicednjsdud@gmail.com"+i, Grade.AUTHOR));
@@ -151,7 +150,9 @@ class MemberRepositoryTest {
 
 
         Optional<Member> findMember = memberRepository.findById(3L);
-        Member member = findMember.get();
+        if(findMember.isPresent()) {
+            Member member = findMember.get();
+        }
         em.flush();
         em.clear();
 
