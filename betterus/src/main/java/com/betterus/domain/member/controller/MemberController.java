@@ -1,7 +1,7 @@
 /**
  * 작성자 : 정원영
  * 작성 일자 : 2022 - 11 - 03
- * 수정 일자 : 2022 = 11 - 18
+ * 수정 일자 : 2022 = 11 - 22
  * 기능 : MemberController
  */
 
@@ -16,6 +16,7 @@ import com.betterus.domain.member.dto.MemberDto;
 import com.betterus.domain.member.dto.MemberEditForm;
 import com.betterus.domain.member.dto.MemberJoinForm;
 import com.betterus.domain.member.service.MemberService;
+import com.betterus.domain.mypage.repository.MyPageRepository;
 import com.betterus.model.Grade;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -30,13 +31,16 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Controller
 @RequiredArgsConstructor
 public class MemberController {
 
     private final MemberService memberService;
+
 
     private final EmailService emailService;
 
@@ -58,25 +62,6 @@ public class MemberController {
             model.addAttribute("nowPage",nowPage);
             model.addAttribute("startPage",startPage);
             model.addAttribute("endPage",endPage);
-        }
-        else{
-            msg = "회원만 보기가 가능합니다.";
-            model.addAttribute("msg",msg);
-            return "redirect:/";
-        }
-        return "화면 구현 안됨";
-    }
-
-    /**
-     *  작가 상세 페이지 (패이징) 진행중
-     */
-    @GetMapping("/list/authorPage/{authorId}/default")
-    public String authorInfo(@PathVariable("authorId")Long authorId,@PageableDefault(size = 10,sort = "createDate") Pageable pageable, Model model, HttpServletRequest request) {
-        String msg = "";
-        HttpSession session = request.getSession();
-        Object member = session.getAttribute("member");
-        if (member != null) {
-//            memberService.findMemberById(authorId)
         }
         else{
             msg = "회원만 보기가 가능합니다.";
