@@ -37,18 +37,17 @@ public class ArticleController {
      * 글 목록 리스트 (패이징) 진행중
      */
     @RequestMapping("/list/article")
-    public String articleListBasic(@PageableDefault(size = 10)Pageable pageable, Model model, HttpServletRequest request) {
+    public String articleListBasic(@PageableDefault(size = 10) Pageable pageable, Model model, HttpServletRequest request) {
         String msg = "";
         HttpSession session = request.getSession();
         Object member = session.getAttribute("member");
         if (member != null) {
             Page<ArticleDto> articleList = articleService.findArticleList(pageable);
-            model.addAttribute("articleList",articleList);
+            model.addAttribute("articleList", articleList);
             return "화면 구현 안됨";
-        }
-        else{
+        } else {
             msg = "회원만 리스트 접근이 가능합니다.";
-            model.addAttribute("msg",msg);
+            model.addAttribute("msg", msg);
             return "direct:/";
         }
     }
@@ -57,14 +56,16 @@ public class ArticleController {
      * 서치 목록 리스트 (패이징) 진행중
      */
     @GetMapping("/list/search")
-    public String articleListBasic(@RequestParam("searchKeyword")String keyword, Model model, HttpServletRequest request) {
-        HttpSession session = request.getSession();
-        Object member = session.getAttribute("member");
-        if (member != null) {
-
-        }
-
-        return null;
+    public String articleListBasic(@RequestParam("searchKeyword") String keyword, @PageableDefault(size = 10) Pageable pageable, Model model) {
+        Page<ArticleDto> searchArticleList = articleService.findSearchArticleList(keyword, pageable);
+        int nowPage = searchArticleList.getPageable().getPageNumber();
+        int startPage = Math.max(nowPage - 4, 1);
+        int endPage = Math.min(nowPage + 5, searchArticleList.getTotalPages());
+        model.addAttribute("list", searchArticleList);
+        model.addAttribute("nowPage", nowPage);
+        model.addAttribute("startPage", startPage);
+        model.addAttribute("endPage", endPage);
+        return "article/articles";
     }
 
 
@@ -72,22 +73,20 @@ public class ArticleController {
      * 글 상세보기
      */
     @GetMapping("/list/article/{articleId}")
-    public String articleInfo(@PathVariable("articleId") Long articleId,Model model, HttpServletRequest request) {
+    public String articleInfo(@PathVariable("articleId") Long articleId, Model model, HttpServletRequest request) {
         String msg = "";
         HttpSession session = request.getSession();
         Object member = session.getAttribute("member");
         if (member != null) {
             Article findArticle = articleService.findArticle(articleId);
-            model.addAttribute("article",findArticle);
-        }
-        else{
+            model.addAttribute("article", findArticle);
+        } else {
             msg = "회원만 보기가 가능합니다.";
-            model.addAttribute("msg",msg);
+            model.addAttribute("msg", msg);
             return "redirect:/";
         }
         return "article/a_article";
     }
-
 
 
     /**
@@ -150,12 +149,12 @@ public class ArticleController {
      */
     @PostMapping("myPage/{articleId}/edit")
     public String updateArticle(@PathVariable("articleId") Long articleId, @ModelAttribute("form") ArticleForm articleForm,
-                                HttpServletRequest request,Model model) {
+                                HttpServletRequest request, Model model) {
         String msg = "";
         HttpSession session = request.getSession();
         Member member = (Member) session.getAttribute("member");
         if (member != null) {
-            int result = articleService.updateArticle(articleId,articleForm);
+            int result = articleService.updateArticle(articleId, articleForm);
             if (result == 1) {
                 msg = "글 수정이 완료되었습니다.";
                 model.addAttribute("msg", msg);
@@ -178,7 +177,7 @@ public class ArticleController {
      */
     @PostMapping("myPage/{articleId}/delete")
     public String updateArticle(@PathVariable("articleId") Long articleId,
-                                HttpServletRequest request,Model model) {
+                                HttpServletRequest request, Model model) {
         String msg = "";
         HttpSession session = request.getSession();
         Member member = (Member) session.getAttribute("member");
