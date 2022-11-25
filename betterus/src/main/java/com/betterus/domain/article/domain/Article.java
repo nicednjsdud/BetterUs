@@ -93,13 +93,15 @@ public class Article extends BaseTimeEntity {
     /**
      * article 수정
      */
-
     public void changeArticle(String title,String subTitle,String contents){
         this.title = title;
         this.subTitle = subTitle;
         this.contents = contents;
     }
 
+    /**
+     *  리뷰 카운트 증가 or 삭제
+     */
     public void changeReviewCount(Long reviewCount,String msg){
         if(msg == "리뷰추가") this.reviewCount += reviewCount;
         else if(msg == "리뷰삭제"){
@@ -108,6 +110,9 @@ public class Article extends BaseTimeEntity {
         }
     }
 
+    /**
+     *  찜 카운트 증가 or 삭제
+     */
     public void changeJjimCount(Long jjimCount,String msg){
         if(msg == "찜추가") this.jjimCount += jjimCount;
         else if(msg == "찜삭제"){
@@ -115,6 +120,14 @@ public class Article extends BaseTimeEntity {
             else this.jjimCount = 0L;
         }
     }
+
+    /**
+     *  article 상태 (취소, 승인, 대기중)
+     */
+    public void changeArticleStatus(ArticleStatus articleStatus){
+        this.status = articleStatus;
+    }
+
 
 
 }
