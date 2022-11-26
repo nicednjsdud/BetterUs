@@ -56,7 +56,7 @@ public class ArticleController {
      * 서치 목록 리스트 (패이징) 진행중
      */
     @GetMapping("/list/search")
-    public String articleListBasic(@RequestParam("searchKeyword") String keyword, @PageableDefault(size = 10) Pageable pageable, Model model) {
+    public String articleListSearch(@RequestParam("searchKeyword") String keyword, @PageableDefault(size = 10) Pageable pageable, Model model) {
         Page<ArticleDto> searchArticleList = articleService.findSearchArticleList(keyword, pageable);
         int nowPage = searchArticleList.getPageable().getPageNumber();
         int startPage = Math.max(nowPage - 4, 1);

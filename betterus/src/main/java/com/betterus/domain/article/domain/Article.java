@@ -124,8 +124,8 @@ public class Article extends BaseTimeEntity {
     /**
      *  article 상태 (취소, 승인, 대기중)
      */
-    public void changeArticleStatus(ArticleStatus articleStatus){
-        this.status = articleStatus;
+    public void changeArticleStatus(String msg){
+        if(msg =="작가신청") this.status = ArticleStatus.WAIT;
     }
 
 
