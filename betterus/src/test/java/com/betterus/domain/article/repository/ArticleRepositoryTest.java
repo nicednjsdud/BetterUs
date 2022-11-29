@@ -113,4 +113,27 @@ class ArticleRepositoryTest {
         }
 
     }
+
+    @Test
+    @DisplayName("작가신청 article 리스트 불러오기 - 10개씩")
+    public void findConfirmArticlePaging() {
+        Member User = new Member("User", "123123", "nicednjsdud12@gmail.com", Grade.USER);
+        memberRepository.save(User);
+        Optional<Member> findMembers = memberRepository.findById(1L);
+        if (findMembers.isPresent()) {
+            Member findMember = findMembers.get();
+            for (int i = 0; i < 13; i++) {
+                articleRepository.save(new Article("Test" + i, "test" + i, "테스트" + i, ArticleStatus.WAIT, findMember));
+            }
+            PageRequest pageRequest = PageRequest.of(0,10,Sort.by(Sort.DEFAULT_DIRECTION,"member.authorConfirmDate"));
+            Page<Article> findArticles = articleRepository.findConfirmArticleByArticleStatus(ArticleStatus.WAIT, pageRequest);
+
+            assertThat(findArticles.getSize()).isEqualTo(10);
+            assertThat(findArticles.getTotalPages()).isEqualTo(2);
+            assertThat(findArticles.getTotalElements()).isEqualTo(13);
+            assertThat(findArticles.getNumber()).isEqualTo(0);
+            assertThat(findArticles.isFirst()).isTrue();
+            assertThat(findArticles.hasNext()).isTrue();
+        }
+    }
 }
