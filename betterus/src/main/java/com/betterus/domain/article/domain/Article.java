@@ -126,6 +126,7 @@ public class Article extends BaseTimeEntity {
      */
     public void changeArticleStatus(String msg){
         if(msg =="작가신청") this.status = ArticleStatus.WAIT;
+        else if(msg == "작가승인") this.status = ArticleStatus.APPROVAL;
     }
 
 

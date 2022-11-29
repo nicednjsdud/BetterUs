@@ -120,4 +120,31 @@ public class MyPageServiceImpl implements MyPageService {
                 new MemberDto(member.getId(),member.getNickName(),member.getGrade(),member.getAuthorConfirmDate(),member.getCreateDate()));
         return MemberDtos;
     }
+
+    /**
+     * 관리자 페이지 article 하나 보이기 용
+     */
+    @Override
+    public ArticleDto articleConfirmCheck(Long articleId) {
+        Article article = articleRepository.findArticleById(articleId);
+        ArticleDto articleDto = new ArticleDto(article.getId(),article.getTitle(),article.getSubTitle(),article.getContents(),article.getMember().getNickName(),article.getCreateDate());
+        return articleDto;
+    }
+
+    /**
+     * 관리자 페이지 회원 작가 신청 승인
+     */
+    @Override
+    public int authorPass(Long memberId) {
+        Optional<MyPage> findMyPage = myPageRepository.findByMemberId(memberId);
+        if(findMyPage.isPresent()){
+            MyPage userPage = findMyPage.get();
+            List<Article> articleList = userPage.getArticleList();
+            for (Article article : articleList) {
+                article.changeArticleStatus("작가승인");
+            }
+            userPage.getMember().changeGrade(Grade.AUTHOR);
+        }
+        return 1;
+    }
 }

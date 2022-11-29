@@ -20,4 +20,8 @@ public interface MyPageService {
     Page<ArticleDto> findAdminPageConfirmArticle(Pageable pageable);
 
     Page<MemberDto> findSearchMemberList(String keyword, Pageable pageable);
+
+    ArticleDto articleConfirmCheck(Long articleId);
+
+    int authorPass(Long memberId);
 }
