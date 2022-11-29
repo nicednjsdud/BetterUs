@@ -12,6 +12,8 @@ import com.betterus.model.Grade;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDateTime;
+
 @Getter
 @NoArgsConstructor
 public class MemberDto {
@@ -26,6 +28,10 @@ public class MemberDto {
     private Long gudok_count;
 
     private Long gudokForCount;
+
+    private String authorConfirmDate;
+
+    private LocalDateTime createDate;
 
     public MemberDto(Member member){
         id = member.getId();
@@ -52,5 +58,16 @@ public class MemberDto {
         this.nickName = nickName;
         this.gudok_count = gudok_count;
         this.gudokForCount = gudokForCount;
+    }
+
+    /**
+     * 관리자 페이지 회원 정보 서칭 용
+     */
+    public MemberDto(Long id, String nickName, Grade grade, String authorConfirmDate, LocalDateTime createDate) {
+        this.id = id;
+        this.nickName = nickName;
+        this.grade = grade;
+        this.authorConfirmDate = authorConfirmDate;
+        this.createDate = createDate;
     }
 }
