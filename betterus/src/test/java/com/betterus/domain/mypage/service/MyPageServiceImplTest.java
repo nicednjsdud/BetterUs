@@ -15,6 +15,9 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.test.annotation.Rollback;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -23,6 +26,7 @@ import javax.persistence.PersistenceContext;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.*;
 import static org.junit.jupiter.api.Assertions.*;
@@ -49,7 +53,7 @@ class MyPageServiceImplTest {
 
     @Test
     @DisplayName("멤버 아이디로 회원 정보, articleList 가져오기")
-    void findMyPageListByMemberId(){
+    void findMyPageListByMemberId() {
         // given
         Member member = new Member("MemberA", "123123", "nicednjsdud@gmail.com", Grade.AUTHOR);
         Member saveMember = memberRepository.save(member);
@@ -57,7 +61,7 @@ class MyPageServiceImplTest {
         Long authorId = saveMember.getId();
 
         for (int i = 0; i < 13; i++) {
-            articleRepository.save(new Article("Test" + i, "test" + i, "테스트" + i, ArticleStatus.APPROVAL, saveMember,findMypage));
+            articleRepository.save(new Article("Test" + i, "test" + i, "테스트" + i, ArticleStatus.APPROVAL, saveMember, findMypage));
         }
         em.flush();
         em.clear();
@@ -69,5 +73,62 @@ class MyPageServiceImplTest {
         // then
         assertThat(articleDtoList.size()).isEqualTo(13);
         assertThat(memberDto.getNickName()).isEqualTo("MemberA");
+    }
+
+    @Test
+    @DisplayName("글상태 3개이상이면 대기중으로 변경하기")
+    void changeArticleStatus() {
+        // given
+        Member member = new Member("MemberA", "123123", "nicednjsdud@gmail.com", Grade.USER);
+        Member saveMember = memberRepository.save(member);
+        MyPage findMypage = myPageRepository.save(new MyPage(member));
+        Long authorId = saveMember.getId();
+
+        for (int i = 0; i < 13; i++) {
+            articleRepository.save(new Article("Test" + i, "test" + i, "테스트" + i, ArticleStatus.SAVE, saveMember, findMypage));
+        }
+        em.flush();
+        em.clear();
+
+        // when
+        int result = myPageService.applicationInfo(authorId);
+        Optional<MyPage> findMyPage = myPageRepository.findByMemberId(authorId);
+        if (findMyPage.isPresent()) {
+            MyPage myPage = findMyPage.get();
+            Article article = myPage.getArticleList().get(1);
+
+            // then
+            assertThat(result).isEqualTo(1);
+            assertThat(article.getStatus()).isEqualTo(ArticleStatus.WAIT);
+        }
+
+    }
+
+    @Test
+    @DisplayName("작가신청 리스트 페이지로 가져오기")
+    @Rollback(value = false)
+    void findArticleConfirmByArticleStatus() {
+        // given
+        Member member = new Member("MemberA", "123123", "nicednjsdud@gmail.com", Grade.USER);
+        Member saveMember = memberRepository.save(member);
+        MyPage findMypage = myPageRepository.save(new MyPage(member));
+        Long authorId = saveMember.getId();
+        for (int i = 0; i < 13; i++) {
+            articleRepository.save(new Article("Test" + i, "test" + i, "테스트" + i, ArticleStatus.WAIT, saveMember, findMypage));
+        }
+        em.flush();
+        em.clear();
+
+        // when
+        PageRequest pageRequest = PageRequest.of(0,10, Sort.by(Sort.DEFAULT_DIRECTION,"member.authorConfirmDate"));
+        Page<ArticleDto> articleList = myPageService.findAdminPageConfirmArticle(pageRequest);
+        // then
+        assertThat(articleList.getSize()).isEqualTo(10);
+        assertThat(articleList.getTotalPages()).isEqualTo(2);
+        assertThat(articleList.getTotalElements()).isEqualTo(13);
+        assertThat(articleList.getNumber()).isEqualTo(0);
+        assertThat(articleList.isFirst()).isTrue();
+        assertThat(articleList.hasNext()).isTrue();
+        assertThat(articleList.get().findFirst().get().getStatus()).isEqualTo(ArticleStatus.WAIT);
     }
 }
