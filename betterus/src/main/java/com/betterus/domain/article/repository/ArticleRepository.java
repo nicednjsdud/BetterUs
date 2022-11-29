@@ -28,5 +28,8 @@ public interface ArticleRepository extends JpaRepository<Article, Long> {
     List<Article> findByMemberId(Long id);
     Article findArticleById(Long id);
 
-    Page<Article> findSearchListByArticleStatusAndTitleContaining(ArticleStatus status,String keyword, Pageable pageable);
+    Page<Article> findSearchListByTitleContaining(ArticleStatus status,String keyword, Pageable pageable);
+
+    @Query("select a from Article a")
+    Page<Article> findConfirmArticleByArticleStatus(ArticleStatus status,Pageable pageable);
 }

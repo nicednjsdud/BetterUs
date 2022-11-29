@@ -88,7 +88,7 @@ public class ArticleServiceImpl implements ArticleService {
 
     @Override
     public Page<ArticleDto> findSearchArticleList(String keyword, Pageable pageable) {
-        Page<Article> findArticles = articleRepository.findSearchListByArticleStatusAndTitleContaining(ArticleStatus.APPROVAL, keyword, pageable);
+        Page<Article> findArticles = articleRepository.findSearchListByTitleContaining(ArticleStatus.APPROVAL, keyword, pageable);
         Page<ArticleDto> articleDtos = findArticles.map(article ->
                 new ArticleDto(article.getId(), article.getTitle(), article.getSubTitle(), article.getContents(), article.getStatus(), article.getReviewCount(), article.getJjimCount()));
         return articleDtos;
