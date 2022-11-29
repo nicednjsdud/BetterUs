@@ -181,4 +181,33 @@ class MyPageServiceImplTest {
         }
 
     }
+
+    @Test
+    @DisplayName("작가 신청 불승인")
+    void authorFail(){
+        // given
+        Member member = new Member("MemberA", "123123", "nicednjsdud@gmail.com", Grade.USER);
+        Member saveMember = memberRepository.save(member);
+        MyPage findMypage = myPageRepository.save(new MyPage(member));
+        Long authorId = saveMember.getId();
+        Article saveArticle = articleRepository.save(new Article("Test", "test", "테스트", ArticleStatus.WAIT, saveMember, findMypage));
+        Article saveArticle1 = articleRepository.save(new Article("Test", "test", "테스트", ArticleStatus.WAIT, saveMember, findMypage));
+        Article saveArticle2 = articleRepository.save(new Article("Test", "test", "테스트", ArticleStatus.WAIT, saveMember, findMypage));
+        Long id = saveArticle.getId();
+        em.flush();
+        em.clear();
+
+        // when
+        int result = myPageService.authorFail(authorId);
+        Optional<Member> findMember = memberRepository.findById(authorId);
+        Article findArticle = articleRepository.findArticleById(id);
+        if(findMember.isPresent()){
+            Member member1 = findMember.get();
+            // then
+            assertThat(result).isEqualTo(1);
+            assertThat(member1.getGrade()).isEqualTo(Grade.USER);
+            assertThat(findArticle.getStatus()).isEqualTo(ArticleStatus.CANCEL);
+        }
+
+    }
 }
