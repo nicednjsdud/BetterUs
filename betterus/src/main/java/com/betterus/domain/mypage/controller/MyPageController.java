@@ -139,6 +139,20 @@ public class MyPageController {
         return "manager/manager(info)";
     }
 
+    /**
+     * 마이페이지 (관리자) 작가 신청 불승인
+     */
+    @GetMapping("/myPage/admin/fail")
+    public String authorFail(@RequestParam("memberId")Long memberId,Model model) {
+        int result = myPageService.authorFail(memberId);
+        String msg = "";
+        if(result == 1){
+            msg = "작가 승인을 취소하였습니다.";
+            model.addAttribute("msg",msg);
+        }
+        return "manager/manager(info)";
+    }
+
     
 
     /**

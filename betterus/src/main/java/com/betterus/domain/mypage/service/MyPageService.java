@@ -24,4 +24,6 @@ public interface MyPageService {
     ArticleDto articleConfirmCheck(Long articleId);
 
     int authorPass(Long memberId);
+
+    int authorFail(Long memberId);
 }

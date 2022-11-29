@@ -135,6 +135,7 @@ public class MyPageServiceImpl implements MyPageService {
      * 관리자 페이지 회원 작가 신청 승인
      */
     @Override
+    @Transactional
     public int authorPass(Long memberId) {
         Optional<MyPage> findMyPage = myPageRepository.findByMemberId(memberId);
         if(findMyPage.isPresent()){
@@ -144,6 +145,23 @@ public class MyPageServiceImpl implements MyPageService {
                 article.changeArticleStatus("작가승인");
             }
             userPage.getMember().changeGrade(Grade.AUTHOR);
+        }
+        return 1;
+    }
+
+    /**
+     * 관리자 페이지 회원 작가 신청 불승인
+     */
+    @Override
+    @Transactional
+    public int authorFail(Long memberId) {
+        Optional<MyPage> findMyPage = myPageRepository.findByMemberId(memberId);
+        if(findMyPage.isPresent()){
+            MyPage userPage = findMyPage.get();
+            List<Article> articleList = userPage.getArticleList();
+            for (Article article : articleList) {
+                article.changeArticleStatus("작가불승인");
+            }
         }
         return 1;
     }
