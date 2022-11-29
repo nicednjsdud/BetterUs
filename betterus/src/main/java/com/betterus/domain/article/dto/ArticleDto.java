@@ -17,6 +17,8 @@ import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 
+import java.time.LocalDateTime;
+
 import static javax.persistence.FetchType.LAZY;
 
 @NoArgsConstructor
@@ -39,6 +41,8 @@ public class ArticleDto {
     private Grade grade;
 
     private String authorConfirmDate;
+
+    private LocalDateTime createDate;
 
     /**
      * 리스트 페이징 용
@@ -64,5 +68,18 @@ public class ArticleDto {
         this.nickName = nickName;
         this.grade = grade;
         this.authorConfirmDate = authorConfirmDate;
+    }
+
+    /**
+     * 관리자 페이지 article 한개 보이기 용
+     */
+
+    public ArticleDto(Long id, String title, String subTitle, String contents, String nickName, LocalDateTime createDate) {
+        this.id = id;
+        this.title = title;
+        this.subTitle = subTitle;
+        this.contents = contents;
+        this.nickName = nickName;
+        this.createDate = createDate;
     }
 }

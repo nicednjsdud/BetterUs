@@ -10,6 +10,7 @@ package com.betterus.domain.member.domain;
 
 import com.betterus.domain.gudok.domain.Gudok;
 import com.betterus.domain.jjim.domain.Jjim;
+import com.betterus.model.ArticleStatus;
 import com.betterus.model.BaseTimeEntity;
 import com.betterus.model.Grade;
 import lombok.AccessLevel;
