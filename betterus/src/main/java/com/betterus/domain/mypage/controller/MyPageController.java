@@ -116,6 +116,32 @@ public class MyPageController {
     }
 
     /**
+     * 마이페이지 (관리자) 작가신청 회원글 1개 보기
+     */
+    @GetMapping("/myPage/admin/articleConfirmCheck/article/{articleId}")
+    public String confirmCheckArticle(@PathVariable("articleId") Long articleId,Model model) {
+        ArticleDto articleDto = myPageService.articleConfirmCheck(articleId);
+        model.addAttribute("articleDto", articleDto);
+        return "article/articles";
+    }
+
+    /**
+     * 마이페이지 (관리자) 작가 신청 승인
+     */
+    @GetMapping("/myPage/admin/pass")
+    public String authorPass(@RequestParam("memberId")Long memberId,Model model) {
+        int result = myPageService.authorPass(memberId);
+        String msg = "";
+        if(result == 1){
+            msg = "작가 승인이 완료되었습니다.";
+            model.addAttribute("msg",msg);
+        }
+        return "manager/manager(info)";
+    }
+
+    
+
+    /**
      * 작가 상세 페이지 (패이징) 진행중
      */
     @GetMapping("/list/authorPage/{authorId}/default")
