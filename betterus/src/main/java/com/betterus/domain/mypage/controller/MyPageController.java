@@ -1,21 +1,26 @@
 /**
  * 작성자 : 정원영
  * 작성 일자 : 2022 - 11 - 04
- * 수정 일자 : 2022 - 11 - 25
+ * 수정 일자 : 2022 - 11 - 28
  * 기능 : 마이페이지 컨트롤러
  */
 
 package com.betterus.domain.mypage.controller;
 
+import com.betterus.domain.article.dto.ArticleDto;
 import com.betterus.domain.member.domain.Member;
+import com.betterus.domain.member.dto.MemberDto;
 import com.betterus.domain.mypage.service.MyPageService;
+import com.betterus.model.Grade;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -32,7 +37,7 @@ public class MyPageController {
      * 마이페이지 (유저,작가) default (list - 최신순)
      */
     @GetMapping("/myPage/default")
-    public String myPage_user(Model model, HttpServletRequest request) {
+    public String myPageUser(Model model, HttpServletRequest request) {
         HttpSession session = request.getSession();
         Member member = (Member) session.getAttribute("member");
         if (member != null) {
@@ -47,21 +52,67 @@ public class MyPageController {
     }
 
     /**
-     * 마이페이지 (관리자) default (list - 최신순)
+     * 마이페이지 (관리자) default (list - 최신순), 옵션 값 추가 예정
      */
     @GetMapping("/myPage/admin/memberInfo")
-    public String myPage_admin(Model model, HttpServletRequest request) {
+    public String myPageAdmin(@PageableDefault(size = 10) Pageable pageable, Model model, HttpServletRequest request) {
         HttpSession session = request.getSession();
         Member member = (Member) session.getAttribute("member");
-        if (member != null) {
-            Map<Object, Object> myPage = myPageService.findMyPageDefault(member);
-            model.addAttribute("myPage", myPage);
-            return "/myPage/myPage(info)";
+        if (member != null && member.getGrade() == Grade.ADMIN) {
+            Page<MemberDto> memberList = myPageService.findAdminPageDefault(pageable);
+            int nowPage = memberList.getPageable().getPageNumber();
+            int startPage = Math.max(nowPage - 4, 1);
+            int endPage = Math.min(nowPage + 5, memberList.getTotalPages());
+            model.addAttribute("list", memberList);
+            model.addAttribute("nowPage", nowPage);
+            model.addAttribute("startPage", startPage);
+            model.addAttribute("endPage", endPage);
+            return "/myPage/myPage(info)";  // 확인
         } else {
-            String msg = "회원만 접근이 가능합니다.";
+            String msg = "관리자만 접근이 가능합니다.";
             model.addAttribute("msg", msg);
             return "redirect:/";
         }
+    }
+
+    /**
+     * 마이페이지 (관리자) 작가 신청 확인 글 (list - 최신순), 옵션 값 추가 예정
+     */
+    @GetMapping("/myPage/admin/articleConfirmCheck")
+    public String myPageAdminConfirmCheck(@PageableDefault(size = 10) Pageable pageable, Model model, HttpServletRequest request) {
+        HttpSession session = request.getSession();
+        Member member = (Member) session.getAttribute("member");
+        if (member != null && member.getGrade() == Grade.ADMIN) {
+            Page<ArticleDto> articleList = myPageService.findAdminPageConfirmArticle(pageable);
+            int nowPage = articleList.getPageable().getPageNumber();
+            int startPage = Math.max(nowPage - 4, 1);
+            int endPage = Math.min(nowPage + 5, articleList.getTotalPages());
+            model.addAttribute("list", articleList);
+            model.addAttribute("nowPage", nowPage);
+            model.addAttribute("startPage", startPage);
+            model.addAttribute("endPage", endPage);
+            return "/myPage/myPage(info)";  // 확인
+        } else {
+            String msg = "관리자만 접근이 가능합니다.";
+            model.addAttribute("msg", msg);
+            return "redirect:/";
+        }
+    }
+
+    /**
+     * 마이페이지 (관리자) 회원정보 서칭 리스트 (list - 최신순)
+     */
+    @GetMapping("/myPage/admin/memberInfo/search")
+    public String articleListSearch(@RequestParam("searchKeyword") String keyword, @PageableDefault(size = 10) Pageable pageable, Model model) {
+        Page<MemberDto> searchArticleList = myPageService.findSearchMemberList(keyword, pageable);
+        int nowPage = searchArticleList.getPageable().getPageNumber();
+        int startPage = Math.max(nowPage - 4, 1);
+        int endPage = Math.min(nowPage + 5, searchArticleList.getTotalPages());
+        model.addAttribute("list", searchArticleList);
+        model.addAttribute("nowPage", nowPage);
+        model.addAttribute("startPage", startPage);
+        model.addAttribute("endPage", endPage);
+        return "article/articles";
     }
 
     /**
@@ -93,7 +144,7 @@ public class MyPageController {
      * 작가 신청 하기 (마이페이지에서)
      */
     @GetMapping("/list/myPage/authorApplication")
-    public String authorInfo(Model model, HttpServletRequest request) {
+    public String authorApplication(Model model, HttpServletRequest request) {
         String msg = "";
         HttpSession session = request.getSession();
         Member member = (Member) session.getAttribute("member");
