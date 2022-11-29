@@ -20,7 +20,11 @@ import org.hibernate.validator.constraints.UniqueElements;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 
+import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
 @Entity
@@ -59,6 +63,9 @@ public class Member extends BaseTimeEntity {
 
     @Column(name = "gudokForCount")
     private Long gudokForCount;
+
+    @Column(name = "authorConfirmDate")
+    private String authorConfirmDate;
 
 
     @OneToMany(mappedBy = "member")
@@ -120,7 +127,7 @@ public class Member extends BaseTimeEntity {
     }
 
     /**
-     * 구독 카운트 변경
+     * 관심작가 카운트 변경
      */
     public void changeGudokForCount(Long gudokForCount,String msg){
         if(msg == "구독추가") this.gudokForCount += gudokForCount;
@@ -128,5 +135,16 @@ public class Member extends BaseTimeEntity {
             if(this.gudokForCount !=0L)this.gudokForCount -= gudokForCount;
             else this.gudokForCount = 0L;
         }
+    }
+
+    /**
+     * 등급 변경 (작가, 일반회원, 관리자)
+     */
+    public void changeGrade(Grade grade){
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy.MM.dd");
+        Calendar c1 = Calendar.getInstance();
+        String strToday = sdf.format(c1.getTime());
+        this.authorConfirmDate = strToday;
+        this.grade = grade;
     }
 }
