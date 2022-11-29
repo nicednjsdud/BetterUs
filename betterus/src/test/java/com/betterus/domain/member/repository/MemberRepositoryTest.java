@@ -159,7 +159,6 @@ class MemberRepositoryTest {
         PageRequest pageRequest = PageRequest.of(0,10, Sort.by(Sort.DEFAULT_DIRECTION,"gudok_count"));
         Page<MemberDto> findAuthors = memberRepository.findAuthorByGrade(Grade.AUTHOR,pageRequest);
 
-
         assertThat(findAuthors.getSize()).isEqualTo(10);
         assertThat(findAuthors.getTotalPages()).isEqualTo(2);
         assertThat(findAuthors.getTotalElements()).isEqualTo(13);
@@ -168,5 +167,25 @@ class MemberRepositoryTest {
         assertThat(findAuthors.hasNext()).isTrue();
 
 
+    }
+
+    @Test
+    @DisplayName("검색으로 작가 찾기 페이징")
+    public void findAuthorByNickNameContaining(){
+        for (int i = 0; i < 13; i++) {
+            memberRepository.save(new Member("Member"+i, "123123"+i, "nicednjsdud@gmail.com"+i, Grade.AUTHOR));
+        }
+        em.flush();
+        em.clear();
+
+        PageRequest pageRequest = PageRequest.of(0,10, Sort.by(Sort.DEFAULT_DIRECTION,"authorConfirmDate"));
+        Page<Member> findMember = memberRepository.findSearchListByNickNameContaining("Member", pageRequest);
+
+        assertThat(findMember.getSize()).isEqualTo(10);
+        assertThat(findMember.getTotalPages()).isEqualTo(2);
+        assertThat(findMember.getTotalElements()).isEqualTo(13);
+        assertThat(findMember.getNumber()).isEqualTo(0);
+        assertThat(findMember.isFirst()).isTrue();
+        assertThat(findMember.hasNext()).isTrue();
     }
 }
