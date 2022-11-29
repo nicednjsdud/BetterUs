@@ -43,7 +43,13 @@ public class ArticleController {
         Object member = session.getAttribute("member");
         if (member != null) {
             Page<ArticleDto> articleList = articleService.findArticleList(pageable);
-            model.addAttribute("articleList", articleList);
+            int nowPage = articleList.getPageable().getPageNumber();
+            int startPage = Math.max(nowPage - 4, 1);
+            int endPage = Math.min(nowPage + 5, articleList.getTotalPages());
+            model.addAttribute("list", articleList);
+            model.addAttribute("nowPage", nowPage);
+            model.addAttribute("startPage", startPage);
+            model.addAttribute("endPage", endPage);
             return "화면 구현 안됨";
         } else {
             msg = "회원만 리스트 접근이 가능합니다.";
