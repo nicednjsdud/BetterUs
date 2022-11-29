@@ -32,4 +32,7 @@ public interface MemberRepository extends JpaRepository<Member, Long>,MemberRepo
 
     @Query(value = "select m from Member m  where m.grade = :grade")
     Page<MemberDto> findAuthorByGrade(@Param("grade") Grade grade, Pageable pageable);
+
+    Page<Member> findSearchListByNickNameContaining(String keyword, Pageable pageable);
+
 }
