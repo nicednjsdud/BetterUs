@@ -113,10 +113,10 @@ public class Article extends BaseTimeEntity {
     /**
      *  찜 카운트 증가 or 삭제
      */
-    public void changeJjimCount(Long jjimCount,String msg){
-        if(msg == "찜추가") this.jjimCount += jjimCount;
+    public void changeJjimCount(String msg){
+        if(msg == "찜추가") this.jjimCount += 1L;
         else if(msg == "찜삭제"){
-            if(this.jjimCount !=0L)this.jjimCount -= jjimCount;
+            if(this.jjimCount !=0L)this.jjimCount -= 1L;
             else this.jjimCount = 0L;
         }
     }
