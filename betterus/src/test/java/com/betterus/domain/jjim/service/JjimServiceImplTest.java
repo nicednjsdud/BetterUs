@@ -3,6 +3,7 @@ package com.betterus.domain.jjim.service;
 import com.betterus.domain.article.domain.Article;
 import com.betterus.domain.article.repository.ArticleRepository;
 import com.betterus.domain.jjim.domain.Jjim;
+import com.betterus.domain.jjim.repository.JjimRepository;
 import com.betterus.domain.member.domain.Member;
 import com.betterus.domain.member.repository.MemberRepository;
 import com.betterus.domain.mypage.domain.MyPage;
@@ -43,6 +44,9 @@ class JjimServiceImplTest {
     @Autowired
     MyPageRepository myPageRepository;
 
+    @Autowired
+    JjimRepository jjimRepository;
+
     @Test
     @DisplayName("찜추가 및 찜카운트 테스트")
     void addJjimAndAddJjimCount(){
@@ -67,5 +71,33 @@ class JjimServiceImplTest {
         // then
         assertThat(result).isEqualTo(1);
         assertThat(findArticle.getJjimCount()).isEqualTo(1L);
+    }
+
+    @Test
+    @DisplayName("찜삭제 및 찜카운트 테스트")
+    void deleteJjimAndAddJjimCount(){
+
+        // given
+        Member member = new Member("MemberA", "123123", "nicednjsdud@gmail.com", Grade.AUTHOR);
+        Member member2 = new Member("MemberB","124123","nicednjsdud12@gmail.com",Grade.USER);
+        Member saveMember = memberRepository.save(member);
+        Member saveMember2 = memberRepository.save(member2);
+        MyPage findMypage = myPageRepository.save(new MyPage(member));
+        Long userId = saveMember2.getId();
+        Article saveArticle = articleRepository.save(new Article("Test", "test", "테스트", ArticleStatus.APPROVAL, saveMember, findMypage));
+        Article saveArticle1 = articleRepository.save(new Article("Test", "test", "테스트", ArticleStatus.APPROVAL, saveMember, findMypage));
+        Article saveArticle2 = articleRepository.save(new Article("Test", "test", "테스트", ArticleStatus.APPROVAL, saveMember, findMypage));
+        Long id = saveArticle.getId();
+        Jjim jjim = new Jjim(saveMember2,saveArticle);
+        jjimRepository.save(jjim);
+        em.flush();
+        em.clear();
+        // when
+        jjimService.deleteJjim(saveMember2,id);
+        // then
+        Jjim findJjim = jjimRepository.findByArticleIdAndMemberId(id, userId);
+        assertThat(findJjim).isNull();
+
+
     }
 }
