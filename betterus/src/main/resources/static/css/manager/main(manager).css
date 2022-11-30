@@ -1,0 +1,133 @@
+ /* 
+* 작성자 곽수경
+* 작성 일자: 10.22
+* 수정 일자
+* 기능: 메인 화면 css  
+*/
+
+* {
+  font-family: 'Noto Sans KR', sans-serif;
+}
+
+div {
+  border-style: solid;
+  border-color: white;
+}
+
+a {
+  text-decoration: none;
+  color: white;
+}
+
+body {
+  /* background-image: url('../img/main_bg_new.jpg'); */
+  /* width: 100vw; 
+  height: 100vh; */
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-color: rgba(255, 255, 255, 0.488);
+}
+
+/*-------------------------- header---------------------------- */
+.header {
+  display: flex;
+  height: 60px;
+  background-color: rgba(162, 155, 146, 0.9);
+}
+
+.sidebars{
+  width: 33.3vw;
+}
+
+img.menu {
+  margin: 15px 15px;
+  width: 40px;
+  height: 30px;
+}
+
+input#menuicon {
+  display: none;
+}
+
+.sidebar {
+  width: 260px;
+  height: 60%;
+  background-color: rgba(70, 52, 31);
+  position: fixed;
+  top: 60px;
+  left: -300px;
+  z-index: index 1;
+  transition: all .35s;
+  border-radius: 2px;
+}
+
+div.sidebar>ul>li {
+  margin-top: 60px;
+  margin-left: 50px;
+  line-height: 50px;
+}
+
+div.sidebar>ul>li>a {
+  font-size: 17px;
+}
+
+input#menuicon:checked+label+div {
+  left: -10px;
+}
+
+.logo {
+  text-align: center;
+  width: 33.4vw;
+  /* background-color: orange; */
+}
+
+img.logo {
+  width: 150px;
+  height: 50px;
+}
+
+.nav {
+  width: 33.3vw; 
+  display: flex;
+  justify-content: flex-end;
+  /* calc(1920px - 1500px - 100px); */
+  font-family: 'Pretendard';
+  font-size: 15px;
+  /* background-color: yellow; */
+  line-height: 60px;
+}
+
+.nav>li {
+  color: black;
+  margin-left: 10px;
+  margin-right: 20px;
+}
+/*-------------------------- header---------------------------- */
+
+/*-------------------------- section---------------------------- */
+div.terms {
+  margin-top: 20vh;
+  margin-left: 10vw;
+  font-family: 'Pretendard';
+  font-size: 40px;
+  color: rgb(103, 103, 103);
+}
+
+big {
+  display: inline;
+  font-size: 50px;
+  font-weight: 800;
+}
+
+div.welcome {
+  display: inline-block;
+  margin-top: 20vh;
+  margin-left: 30vh;
+  padding: 20px 50px;
+  font-family: 'Pretendard';
+  font-size: 30px;
+  font-weight: 500;
+  color: rgb(103, 103, 103);
+  border: 2px solid rgb(103, 103, 103);
+}
+/*-------------------------- section---------------------------- */

@@ -132,18 +132,22 @@ img.logo {
   /* border: 1px solid black; */
 }
 
-.searching>input {
+.searching>form {
+  display: inline;
+}
+
+.searching>form>input {
   width: 200px;
   font-size: 20px;
   border-color: transparent;
   border-bottom: 1px solid black;
 }
 
-.searching>input:focus {
+.searching>form>input:focus {
   outline: none;
 }
 
-.searching>img {
+.searching>a>img {
   width: 20px;
 }
 

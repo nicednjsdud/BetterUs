@@ -6,7 +6,7 @@
 -->
 
 <!DOCTYPE html>
-<html lang="kor">
+<html lang="kor" xmlns:th="http://www.thymeleaf.org">
   <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -19,10 +19,10 @@
   <body>
     <div class="header">
       <div class="home">
-        <a href="#"><img class="home" src="../../static/img/home.png" alt=" "></a>
+        <a href="/"><img class="home" src="../../static/img/home.png" alt=" "></a>
       </div>
       <div class="logo">
-        <img class="logo" src="../../static/img/logo_B_new.png" alt=" ">
+        <a href="/"><img class="logo" src="../../static/img/logo_B_new.png" alt=" "></a>
       </div>
       <div class="nothing"></div>
     </div>
@@ -30,13 +30,15 @@
       <div class="left"></div>
       <div class="center">
         <div class="title">
-          <a href="#"><div id="first" class="choice">회원정보</div></a>
-          <a href="#"><div id="second" class="choice">작가&nbsp;신청&nbsp;글&nbsp;확인</div></a>
+          <a href="/myPage/admin/memberInfo"><div id="first" class="choice">회원정보</div></a>
+          <a href="/myPage/admin/articleConfirmCheck"><div id="second" class="choice">작가&nbsp;신청&nbsp;글&nbsp;확인</div></a>
         </div>
         <div class="search">
           <div class="searching">
-            <img src="https://s3.ap-northeast-2.amazonaws.com/cdn.wecode.co.kr/icon/search.png">
-            <input type="text">
+            <a href="/MyPage/admin/memberInfo/search?"><img src="https://s3.ap-northeast-2.amazonaws.com/cdn.wecode.co.kr/icon/search.png"></a>
+            <form>
+              <input type="text">
+            </form>
           </div>
           <div class="condition">
             <select name="search-condition" id="search-condition-select">
@@ -49,7 +51,7 @@
           </div>
           <div class="sort">
             <select name="sort-condition" id="sort-condition-select">
-              <option value="" disabled selected>날짜</option>
+              <option value="" disabled selected>정렬</option>
               <option value="asc">오름차순</option>
               <option value="decs">내림차순</option>
             </select>
@@ -68,8 +70,14 @@
             <div class="nickname">독자2</div>
             <div class="email">sky339128@gmail.com</div>
             <div class="state">작가 신청 대기</div>
-            <div class="application-day">2021.01.07</div>
-            
+            <div class="application-day">2021.01.07</div>   
+          </div>
+          <div class="instance" th:each="instance2 : ${instance2List}">
+            <div class="article-title" th:text="${instance2.title}"></div>
+            <div class="nickname" th:text="${instance2.nickname}"></div>
+            <div class="email" th:text="$[instance2.email}"></div>
+            <div class="state" th:text="${instance2.state}"></div>
+            <div class="application-day" th:text="${instance2.application-day}"></div>   
           </div>
         </div>   
       </div>
@@ -78,3 +86,4 @@
       </div>
     </div>
   </body>
+</html>

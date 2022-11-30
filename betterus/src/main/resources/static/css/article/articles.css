@@ -17,6 +17,8 @@ span {
 
 a {
   font-family: 'Pretendard';
+  text-decoration: none;
+  color: black;
 }
 
 div {
@@ -77,14 +79,18 @@ img.logo {
   margin-left: -20px;
 }
 
-.searching>input {
+.searching>form {
+  display: inline;
+}
+
+.searching>form>input {
   width: 200px;
   font-size: 20px;
   border-color: transparent;
   border-bottom: 1px solid black;
 }
 
-.searching>input:focus {
+.searching>form>input:focus {
   outline: none;
 }
 
@@ -130,7 +136,7 @@ img.logo {
   margin-bottom: 10px;
   font-size: 15px;
   font-weight: 600;
-  height: 43px;
+  height: 44px;
   display: -webkit-box;
   -webkit-box-orient: vertical;
   -webkit-line-clamp: 3;

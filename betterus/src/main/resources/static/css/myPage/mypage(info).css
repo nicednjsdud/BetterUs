@@ -146,7 +146,7 @@ img.logo {
 
 
 #info {
-  margin-bottom: 420px;
+  margin-bottom: 592px;
 }
 
 .state {
@@ -206,7 +206,17 @@ img.logo {
   margin-bottom: 200px;
 }
 
-.login-button>button {
+.input>form>a>button {
+  width: 500px;
+  height: 50px;
+  font-size: 25px;
+  border-radius: 10px;
+  color: white;
+  border-color: transparent;
+  background-color: rgb(170, 170, 170);
+}
+
+.login-button>a>button {
   width: 500px;
   height: 50px;
   font-size: 30px;
@@ -228,9 +238,10 @@ img.logo {
   margin-top: 75px;
 }
 
-.nickname-button>button {
+.nickname-button>a>button {
+  display: inline-block;
   margin-top: 177px;
-  width: 100px;
+  width:100px;
   height: 50px;
   font-size: 18px;
   border-radius: 10px;
@@ -239,7 +250,7 @@ img.logo {
   background-color: rgb(170, 170, 170);
 }
 
-.password-button>button {
+/* .password-button>a>button {
   margin-top: 75px;
   width: 100px;
   height: 50px;
@@ -248,7 +259,7 @@ img.logo {
   color: white;
   border-color: transparent;
   background-color: rgb(170, 170, 170);
-}
+} */
 
 
 

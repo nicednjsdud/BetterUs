@@ -31,34 +31,37 @@
       <div class="center">
           <div class="title">회원가입</div>
           <div class="input">
-            <div class="email-caption">이메일</div>
-            <input class="inputbox" type="email">
-          </div>
-          <div class="input">
-            <div class="nickname">닉네임</div>
-            <input class="inputbox" type="password">
-          </div>
-          <div class="input">
-            <div class="pw-caption">비밀번호</div>
-            <input class="inputbox" type="email">
-          </div>
-          <div class="input">
-            <div class="pwcheck-caption">비밀번호확인</div>
-            <input class="inputbox" type="email">
+            <form>
+              <div class="email-caption">이메일</div>
+              <input id="email" class="inputbox" type="email">
+              <div class="autho-caption" class="hide">인증번호 입력</div>
+              <input class="inputbox" class="hide" type="text" >
+              <div class="nickname">닉네임</div>
+              <input class="inputbox" type="password">
+              <div class="pw-caption">비밀번호</div>
+              <input id="password" class="inputbox" type="email">
+              <div class="pwcheck-caption">비밀번호확인</div>
+              <input id="pwCheck" class="inputbox" type="email">
+            </form>
           </div>
           <div class="login-button">
-            <button type="submit">가입하기</button>
+            <a href="/signUp (POST)"><button id="signUp" type="submit">가입하기</button></a>
           </div> 
       </div>
       <div class="right">
         <div class="button">
           <div class="email-button">
-            <button type="submit">이메일&nbsp;인증</button>
+            <a href="/signUp/emailDuplicate">
+              <button type="submit">중복&nbsp;확인</button>
+            </a>
+            <a href="/mail/mailConfirm"><button type="submit">이메일&nbsp;인증</button></a>
           </div>
           <div class="nickname-button">
-            <button type="submit">중복&nbsp;확인</button>
+            <a href="/signUp/duplicateNickName"><button type="submit">중복&nbsp;확인</button></a>
           </div>
       </div>
       </div>
     </div>
+    <script src="../../static/js/login/signUp.js"></script>
   </body>
+</html>

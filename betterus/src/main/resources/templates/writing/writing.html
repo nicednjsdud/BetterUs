@@ -1,7 +1,7 @@
 <!-- 
   * 작성자 곽수경
 * 작성 일자: 10.29
-* 수정 일자: 
+* 수정 일자: 11.18
 * 기능: 글쓰기 화면
 -->
 
@@ -25,17 +25,20 @@
         <img class="logo" src="../../static/img/logo_W_new.png" alt=" ">
       </div>
       <ul class="nav">
-        <li><a href="#">저장</a></li>
-        <li><a href="#">출간</a></li>
+        <li><a href="myPage/{articleId}/edit">저장</a></li>
       </ul>
     </div>
     <div class="section">
       <div class="background-space">
         <div class="writing-space">
-          <input class="title" type="text" placeholder="제목을 입력해주세요">
-          <input class="subtitle" type="text" placeholder="소제목을 입력해주세요.">
+          <form>
+            <input class="title" type="text" placeholder="제목을 입력해주세요">
+            <input class="subtitle" type="text" placeholder="소제목을 입력해주세요.">
+          </form>
           <hr/>
+          <form>
           <textarea class="content" cols="30" rows="20" placeholder="내용을 입력해주세요"></textarea>
+          </form>
         </div>
       </div>
     </div>
