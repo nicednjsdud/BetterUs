@@ -16,7 +16,7 @@ import java.util.Optional;
 @Service
 @Transactional(readOnly = true)
 @AllArgsConstructor
-public class JjimServiceImpl implements JjimService{
+public class JjimServiceImpl implements JjimService {
 
     private final JjimRepository jjimRepository;
 
@@ -28,7 +28,7 @@ public class JjimServiceImpl implements JjimService{
         Jjim jjim = jjimRepository.findByArticleIdAndMemberId(articleId, member.getId());
         if (jjim == null) {
             Article findArticle = articleRepository.findArticleById(articleId);
-            jjim = new Jjim(member,findArticle);
+            jjim = new Jjim(member, findArticle);
             findArticle.changeJjimCount("찜추가");
             jjimRepository.save(jjim);
 
@@ -37,5 +37,13 @@ public class JjimServiceImpl implements JjimService{
             // 중복된 추가가 있음
             return 2;
         }
+    }
+
+    @Override
+    @Transactional
+    public int deleteJjim(Member member, Long articleId) {
+        Jjim jjim = jjimRepository.findByArticleIdAndMemberId(articleId, member.getId());
+        jjimRepository.deleteById(jjim.getId());
+        return 1;
     }
 }
