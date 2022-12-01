@@ -6,14 +6,14 @@
 -->
 
 <!DOCTYPE html>
-<html lang="kor">
+<html xmlns:th="http://www.thymeleaf.org">
   <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reset-css@5.0.1/reset.min.css">
-    <link rel="stylesheet" href="../../static/css/main/main.css?after">
+    <link rel="stylesheet" href="/css/main/main.css?ver=1">
     <title>Better Us Main</title>
   </head>
   <body>
@@ -21,7 +21,7 @@
       <div class="sidebars">
         <input id="menuicon" type="checkbox"/>
         <label for="menuicon">
-          <img class="menu" src="../../static/img/menu.png" alt=" ">
+          <img class="menu" src="/img/menu.png" alt=" ">
         </label>
         <div class="sidebar">
           <ul class="submenu">
@@ -32,11 +32,16 @@
         </div>
       </div>
       <div class="logo">
-        <a href="/"><img class="logo" src="../../static/img/logo_W_new.png" alt=" "></a>
+        <a href="/"><img class="logo" src="/img/logo_W_new.png" alt=" "></a>
       </div>
-      <ul class="nav">
+
+      <ul th:if="${session.isLogOn != true}" class="nav">
         <li><a href="/login">로그인</a></li>
         <li><a href="/signUp">회원가입</a></li>
+      </ul>
+      <ul th:if="${session.isLogOn == true}" class="nav">
+        <li><a href="/logout">로그아웃</a></li>
+        <li><a href="#" th:href="@{/editInfo/{memberId}/edit (memberId=${session.member})}">마이페이지</a></li>
       </ul>
     </div>
     <div class="terms">글을 쓰며 더 나은 <big>'나'</big>로<br/><br/>글을 나누며 더 나은 <big>'우리'</big>로</div>

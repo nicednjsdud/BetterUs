@@ -6,23 +6,32 @@
 -->
 
 <!DOCTYPE html>
-<html lang="kor">
+<html xmlns:th="http://www.thymeleaf.org">
   <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reset-css@5.0.1/reset.min.css">
-    <link rel="stylesheet" href="../../static/css/myPage/mypage(info).css">
+    <link rel="stylesheet" href="/css/myPage/mypage(info).css?ver=1">
     <title>Better Us Mypage(회원정보)</title>
+    <script th:inline="javascript">
+       $(document).ready(function() {
+        let message = [[${msg}]];
+        if (message != null) {
+            alert(message);
+        }
+        });
+
+    </script>
   </head>
   <body>
     <div class="header">
       <div class="home">
-        <a href="#"><img class="home" src="../../static/img/home.png" alt=" "></a>
+        <a href="/"><img class="home" src="/img/home.png" alt=" "></a>
       </div>
       <div class="logo">
-        <img class="logo" src="../../static/img/logo_B_new.png" alt=" ">
+        <img class="logo" src="/img/logo_B_new.png" alt=" ">
       </div>
       <div class="nothing"></div>
     </div>
@@ -30,7 +39,7 @@
       <div class="left"></div>
       <div class="center">
           <div class="title">
-            <a href="/myPage/default"><div id="first" class="choice">내&nbsp;정보</div></a>
+            <a href="#" th:href="@{/editInfo/{memberId}/edit (memberId=${session.member})}"><div id="first" class="choice">내&nbsp;정보</div></a>
             <a href="/myPage/default"><div id="second" class="choice">내&nbsp;노트</div></a>
           </div>
           <div class="input-total">
@@ -42,16 +51,18 @@
             <div class="input-box">
               <div class="state">독자</div>
               <div class="input">
-                <form>
+                <form role="form" id="edit" th:object="${form}" th:action="@{/editInfo/{memberId}/edit (memberId=${session.member})}" action="#" method="post">
                   <div class="changing">닉네임&nbsp;변경</div>
-                  <input class="inputbox" type="text" placeholder="변경할 닉네임">
+                  <input class="inputbox" th:field="*{nickName}" type="text" placeholder="변경할 닉네임">
+                  <button type="submit" name="action" value="닉네임변경">수정하기</button>
                   <div class="changing">소개글&nbsp;변경</div>
-                  <input class="inputbox" type="text" placeholder="소개글 입력">
+                  <input class="inputbox" th:field="*{info}" type="text" placeholder="소개글 입력">
+                  <button type="submit" name="action" value="회원소개변경">수정하기</button>
                   <div class="changing">비밀번호&nbsp;변경</div>
-                  <input class="inputbox" type="password" placeholder="현재 비밀번호">
-                  <input class="inputbox" type="password" placeholder="변경할 비밀번호">
+                  <input class="inputbox" type="password" th:field="*{prePassword}" placeholder="현재 비밀번호">
+                  <input class="inputbox" type="password" th:field="*{afterPassword}" placeholder="변경할 비밀번호">
                   <input class="inputbox" type="password" placeholder="변경할 비밀번호 확인">
-                  <a href="#"><button type="submit">수정하기</button></a>
+                  <button type="submit" name="action" value="비밀번호변경">수정하기</button>
 
                 </form>
               </div>
