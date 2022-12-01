@@ -14,6 +14,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reset-css@5.0.1/reset.min.css">
     <link rel="stylesheet" href="../../static/css/login/signup.css">
+    <script src='//cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js'></script>
     <title>Better Us Signup</title>
   </head>
   <body>
@@ -33,31 +34,68 @@
           <div class="input">
             <form>
               <div class="email-caption">이메일</div>
-              <input id="email" class="inputbox" type="email">
-              <div class="autho-caption" class="hide">인증번호 입력</div>
-              <input class="inputbox" class="hide" type="text" >
-              <div class="nickname">닉네임</div>
-              <input class="inputbox" type="password">
+              <input id="email" class="inputbox" type="email" check_result="fail" certification="fail">
+              <div class="autho-caption">인증번호 입력</div>
+              <input class="inputbox" type="text" >
+              <div id="nickname" class="nickname">닉네임</div>
+              <input class="inputbox" type="text" check_result="fail">
               <div class="pw-caption">비밀번호</div>
-              <input id="password" class="inputbox" type="email">
-              <div class="pwcheck-caption">비밀번호확인</div>
-              <input id="pwCheck" class="inputbox" type="email">
+              <input id="password" class="inputbox" type="password">
+              <div class="pwcheck-caption">비밀번호&nbsp;확인</div>
+              <input id="pwCheck" class="inputbox" type="password">
             </form>
           </div>
           <div class="login-button">
-            <a href="/signUp (POST)"><button id="signUp" type="submit">가입하기</button></a>
+            <button action="/signUp (POST)" id="signUp" type="submit">가입하기</button>
           </div> 
       </div>
       <div class="right">
         <div class="button">
           <div class="email-button">
-            <a href="/signUp/emailDuplicate">
-              <button type="submit">중복&nbsp;확인</button>
-            </a>
-            <a href="/mail/mailConfirm"><button type="submit">이메일&nbsp;인증</button></a>
+              <button id="email-check" type="submit">중복&nbsp;확인</button>
+              <script>
+                var email = $("#email").val();
+                $("#email-check").click(function(email){
+                  $.post("/signUp/duplicateNickName", String(email), function(data){
+                    if(data){
+                      alert("사용가능한 이메일입니다.");
+                      $("#email").attr("check_result", "succes");
+                    } else {
+                      alert("이미 가입된 이메일입니다.");
+                    }
+                  });
+                });
+              </script>
+            <button type="submit">이메일&nbsp;인증</button>
+            <script>
+              var email = $("#email").val();
+              $("#email-check").click(function(email){
+                $.post("/signUp/duplicateNickName", String(email), function(data){
+                  if(data){
+                    alert("인증되었습니다.");
+                    $("#email").attr("certification", "success");
+                  } else {
+                    alert("인증에 실패하였습니다.");
+                  }
+                });
+              });
+            </script>
           </div>
           <div class="nickname-button">
-            <a href="/signUp/duplicateNickName"><button type="submit">중복&nbsp;확인</button></a>
+            <button type="submit">중복&nbsp;확인</button>
+            <script>
+              var nickname = $("#nickname").val();
+              $("#nickname-check").click(function(nickname){
+                $.post("/signUp/duplicateNickName", String(nickname), function(data){
+                  if(data){
+                    alert("사용가능한 닉네임입니다.");
+                    $("#nickname").attr("check_result", "success");
+                  } else {
+                    alert("이미 존재하는 닉네임입니다.");
+                  }
+                });
+              });
+            </script>
           </div>
       </div>
       </div>

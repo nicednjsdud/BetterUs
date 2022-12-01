@@ -163,7 +163,7 @@ input.inputbox {
   margin-bottom: 200px;
 }
 
-.login-button>a>button {
+.login-button>button {
   width: 500px;
   height: 50px;
   font-size: 30px;
@@ -184,7 +184,7 @@ input.inputbox {
   text-align: left;
 }
 
-.email-button>a>button {
+.email-button>button {
   margin-top: 177px;
   width: 100px;
   height: 50px;
@@ -195,7 +195,7 @@ input.inputbox {
   background-color: rgb(170, 170, 170);
 }
 
-.nickname-button>a>button {
+.nickname-button>button {
   margin-top: 75px;
   width: 100px;
   height: 50px;
