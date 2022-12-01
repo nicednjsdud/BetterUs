@@ -16,6 +16,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 
 import javax.servlet.http.HttpServletRequest;
@@ -34,7 +35,7 @@ public class LoginController {
     }
 
     @PostMapping("/login/confirm")
-    public String login(MemberLoginForm form, Model model, HttpServletRequest request) {
+    public String login(@ModelAttribute("loginForm") MemberLoginForm form, Model model, HttpServletRequest request) {
 
         String memberEmail = form.getEmail();
         String memberPassword = form.getPassword();
@@ -46,28 +47,27 @@ public class LoginController {
             MemberDto memberDto = new MemberDto(loginMember.getId(), loginMember.getNickName());
             session.setAttribute("member", memberDto.getId());
             session.setAttribute("isLogOn", true);
-            String msg = "안녕하세요. " + memberDto.getNickName() + "님";
-            model.addAttribute("msg", msg);
             return "redirect:/";
         } else {
             String msg = "입력하신 아이디 혹은 패스워드가 틀립니다.";
             model.addAttribute("msg", msg);
-            return "/login";
+            return "login/login";
         }
     }
 
     @GetMapping("/logout")
     public String logout(HttpServletRequest request, Model model) {
-        HttpSession session = request.getSession();
-        session.removeAttribute("member");
-        session.removeAttribute("isLogOn");
+        HttpSession session = request.getSession(false);
+        if (session != null) {
+            session.invalidate();
+        }
         return "redirect:/";
     }
 
     @GetMapping("/login/findPassword")
     public String findPassword(Model model) {
         model.addAttribute("emailForm", new EmailAuthRequestDto());
-        return "findPassword";
+        return "login/findpassword";
     }
 
 }
