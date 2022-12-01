@@ -45,7 +45,7 @@ class MyPageRepositoryTest {
     void findAuthorByAuthorId() {
 
         // given
-        Member member = new Member("MemberA", "123123", "member@example.com", Grade.AUTHOR);
+        Member member = new Member("MemberA", "123123", "test@gmail.com", Grade.USER);
         Member saveMember = memberRepository.save(member);
         Long authorId = saveMember.getId();
         MyPage myPage = new MyPage(member);

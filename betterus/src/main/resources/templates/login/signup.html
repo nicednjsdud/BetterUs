@@ -1,67 +1,73 @@
-<!-- 
+<!--
   * 작성자 곽수경
 * 작성 일자: 11.01
 * 수정 일자
-* 기능: 회원가입 화면 
+* 기능: 회원가입 화면
 -->
 
 <!DOCTYPE html>
-<html lang="kor">
-  <head>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reset-css@5.0.1/reset.min.css">
-    <link rel="stylesheet" href="../../static/css/login/signup.css">
+    <link rel="stylesheet" href="/css/login/signup.css?ver=2">
+    <script src="https://code.jquery.com/jquery-3.6.0.js"></script>
     <title>Better Us Signup</title>
-  </head>
-  <body>
-    <div class="header">
-      <div class="home">
-        <a href="#"><img class="home" src="../../static/img/home.png" alt=" "></a>
-      </div>
-      <div class="logo">
-        <img class="logo" src="../../static/img/logo_B_new.png" alt=" ">
-      </div>
-      <div class="nothing"></div>
+</head>
+<body>
+<div class="header">
+    <div class="home">
+        <a href="/"><img class="home" src="/img/home.png" alt=" "></a>
     </div>
-    <div class="section">
-      <div class="left"></div>
-      <div class="center">
-          <div class="title">회원가입</div>
-          <div class="input">
-            <form>
-              <div class="email-caption">이메일</div>
-              <input id="email" class="inputbox" type="email">
-              <div class="autho-caption" class="hide">인증번호 입력</div>
-              <input class="inputbox" class="hide" type="text" >
-              <div class="nickname">닉네임</div>
-              <input class="inputbox" type="password">
-              <div class="pw-caption">비밀번호</div>
-              <input id="password" class="inputbox" type="email">
-              <div class="pwcheck-caption">비밀번호확인</div>
-              <input id="pwCheck" class="inputbox" type="email">
+    <div class="logo">
+        <img class="logo" src="/img/logo_B_new.png" alt=" ">
+    </div>
+    <div class="nothing"></div>
+</div>
+<div class="section">
+    <div class="left"></div>
+    <div class="center">
+        <div class="title">회원가입</div>
+        <div class="input">
+            <form role="form" id="form" action="/signUp" th:object="${joinForm}" method="post">
+                <div class="email-caption">이메일</div>
+                <input id="email" class="inputbox" type="text" th:field="*{email}">
+                <div class="autho-caption">인증번호 입력</div>
+                <input class="inputbox" type="text" th:field="*{authCode}">
+                <div class="nickname">닉네임</div>
+                <input class="inputbox" type="text" th:field="*{nickname}">
+                <div class="pw-caption">비밀번호</div>
+                <input id="password" class="inputbox" type="text" th:field="*{password}">
+                <div class="pwcheck-caption">비밀번호확인</div>
+                <input id="pwCheck" class="inputbox" type="text">
+                <div class="login-button">
+                    <button id="signUp" type="submit">가입하기</button>
+                </div>
             </form>
-          </div>
-          <div class="login-button">
-            <a href="/signUp (POST)"><button id="signUp" type="submit">가입하기</button></a>
-          </div> 
-      </div>
-      <div class="right">
-        <div class="button">
-          <div class="email-button">
-            <a href="/signUp/emailDuplicate">
-              <button type="submit">중복&nbsp;확인</button>
-            </a>
-            <a href="/mail/mailConfirm"><button type="submit">이메일&nbsp;인증</button></a>
-          </div>
-          <div class="nickname-button">
-            <a href="/signUp/duplicateNickName"><button type="submit">중복&nbsp;확인</button></a>
-          </div>
-      </div>
-      </div>
+        </div>
+
     </div>
-    <script src="../../static/js/login/signUp.js"></script>
-  </body>
+    <div class="right">
+        <div class="button">
+            <div class="email-button">
+                <a href="/signUp/emailDuplicate">
+                    <button type="submit">중복&nbsp;확인</button>
+                </a>
+                <a href="/mail/mailConfirm">
+                    <button type="submit">이메일&nbsp;인증</button>
+                </a>
+            </div>
+            <div class="nickname-button">
+                <a href="/signUp/duplicateNickName">
+                    <button type="submit">중복&nbsp;확인</button>
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="/js/login/signUp.js"></script>
+</body>
 </html>

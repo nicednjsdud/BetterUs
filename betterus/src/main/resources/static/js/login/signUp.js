@@ -28,7 +28,8 @@ function loginLink(event){
   } 
 
   if ((isVaild == true) && (isVaild1 == true) && (isVaild2 == true)){
-    location.href = "loginSuccess";
+    let form = document.getElementById("form");
+    form.submit();
   }
 }
   
