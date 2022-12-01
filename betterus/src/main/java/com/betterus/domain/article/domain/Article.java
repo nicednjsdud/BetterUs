@@ -17,6 +17,9 @@ import org.hibernate.annotations.DynamicInsert;
 
 import javax.persistence.*;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import static javax.persistence.FetchType.LAZY;
 
 @Entity
@@ -58,6 +61,12 @@ public class Article extends BaseTimeEntity {
     @ManyToOne(fetch = LAZY)
     @JoinColumn(name = "myPageId")
     private MyPage myPage;
+
+    @OneToMany(
+            mappedBy = "article",
+            cascade = {CascadeType.PERSIST,CascadeType.REMOVE},
+            orphanRemoval = true)
+    private List<Image> image = new ArrayList<>();
 
     /**
      *  리뷰count 와 찜count 초기 0 설정
@@ -130,6 +139,14 @@ public class Article extends BaseTimeEntity {
         else if(msg == "작가불승인") this.status = ArticleStatus.CANCEL;
     }
 
+    /**
+     * Article에서 파일 처리 위함
+     */
+    public void addImage(Image image){
+        this.image.add(image);
 
+        // 게시글에 파일이 저장되어 있지 않은 경우
+        if(image.getArticle() != this) image.setArticle(this);
+    }
 
 }

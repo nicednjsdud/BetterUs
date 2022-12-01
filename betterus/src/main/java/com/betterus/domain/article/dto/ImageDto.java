@@ -1,6 +1,7 @@
 package com.betterus.domain.article.dto;
 
 import com.betterus.domain.article.domain.Article;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -15,6 +16,14 @@ import static javax.persistence.FetchType.LAZY;
 public class ImageDto {
 
     private Long id;
-    private String fileName;
+    private String origFileName;
     private String fullPath;
+    private Long fileSize;
+
+    @Builder
+    public ImageDto(String origFileName, String fullPath, Long fileSize) {
+        this.origFileName = origFileName;
+        this.fullPath = fullPath;
+        this.fileSize = fileSize;
+    }
 }

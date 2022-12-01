@@ -45,39 +45,39 @@ class ArticleServiceImplTest {
     EntityManager em;
 
 
-    @Test
-    @DisplayName("게시글 저장 테스트")
-    public void articleSave(){
-        Member User = new Member("User", "123123", "nicednjsdud12@gmail.com", Grade.USER);
-        Member Author = new Member("Author", "123123", "nicednjsdud123@gmail.com", Grade.AUTHOR);
-        memberRepository.save(User);
-        memberRepository.save(Author);
-
-        em.flush();
-        em.clear();
-        ArticleForm articleForm = new ArticleForm("Test1","test1","테스트");
-        Optional<Member> findMember1 = memberRepository.findById(1L);
-        Optional<Member> findMember2 = memberRepository.findById(2L);
-        if(findMember1.isPresent()) {
-            Member findMemberUser = findMember1.get();
-            articleService.saveArticle(articleForm, findMemberUser);
-            List<Article> findMembers1 = articleRepository.findByMemberId(1L);
-            Article articleUser = findMembers1.get(0);
-
-            // then
-            assertThat(articleUser.getStatus()).isEqualTo(ArticleStatus.WAIT);
-        }
-
-        else if(findMember2.isPresent()) {
-            Member findMemberAuthor = findMember2.get();
-            articleService.saveArticle(articleForm,findMemberAuthor);
-            List<Article> findMembers2 = articleRepository.findByMemberId(2L);
-            Article articleAuthor = findMembers2.get(0);
-
-            // then
-            assertThat(articleAuthor.getStatus()).isEqualTo(ArticleStatus.APPROVAL);
-        }
-    }
+//    @Test
+//    @DisplayName("게시글 저장 테스트")
+//    public void articleSave(){
+//        Member User = new Member("User", "123123", "nicednjsdud12@gmail.com", Grade.USER);
+//        Member Author = new Member("Author", "123123", "nicednjsdud123@gmail.com", Grade.AUTHOR);
+//        memberRepository.save(User);
+//        memberRepository.save(Author);
+//
+//        em.flush();
+//        em.clear();
+//        ArticleForm articleForm = new ArticleForm("Test1","test1","테스트");
+//        Optional<Member> findMember1 = memberRepository.findById(1L);
+//        Optional<Member> findMember2 = memberRepository.findById(2L);
+//        if(findMember1.isPresent()) {
+//            Member findMemberUser = findMember1.get();
+//            articleService.saveArticle(articleForm, findMemberUser);
+//            List<Article> findMembers1 = articleRepository.findByMemberId(1L);
+//            Article articleUser = findMembers1.get(0);
+//
+//            // then
+//            assertThat(articleUser.getStatus()).isEqualTo(ArticleStatus.WAIT);
+//        }
+//
+//        else if(findMember2.isPresent()) {
+//            Member findMemberAuthor = findMember2.get();
+//            articleService.saveArticle(articleForm,findMemberAuthor);
+//            List<Article> findMembers2 = articleRepository.findByMemberId(2L);
+//            Article articleAuthor = findMembers2.get(0);
+//
+//            // then
+//            assertThat(articleAuthor.getStatus()).isEqualTo(ArticleStatus.APPROVAL);
+//        }
+//    }
 
     @Test
     @DisplayName("articleId로 Article 찾기")
@@ -103,37 +103,37 @@ class ArticleServiceImplTest {
         }
     }
 
-    @Test
-    @DisplayName("article 수정 확인")
-    public void updateArticle(){
-        Member User = new Member("User", "123123", "nicednjsdud12@gmail.com", Grade.USER);
-        Member Author = new Member("Author", "123123", "nicednjsdud123@gmail.com", Grade.AUTHOR);
-        memberRepository.save(User);
-        memberRepository.save(Author);
-
-        em.flush();
-        em.clear();
-        Optional<Member> findMembers = memberRepository.findById(1L);
-        if(findMembers.isPresent()) {
-            //given
-            Member findMember = findMembers.get();
-            Article article1 = new Article("Test1", "test1", "테스트", ArticleStatus.WAIT, findMember);
-            articleRepository.save(article1);
-
-            em.flush();
-            em.clear();
-
-            // when
-            ArticleForm form = new ArticleForm("Test2","test2","테스트2");
-            articleService.updateArticle(3L,form);
-            Article findArticle = articleService.findArticle(3L);
-            // then
-            assertThat(findArticle.getTitle()).isEqualTo("Test2");
-            assertThat(findArticle.getSubTitle()).isEqualTo("test2");
-            assertThat(findArticle.getContents()).isEqualTo("테스트2");
-        }
-
-    }
+//    @Test
+//    @DisplayName("article 수정 확인")
+//    public void updateArticle(){
+//        Member User = new Member("User", "123123", "nicednjsdud12@gmail.com", Grade.USER);
+//        Member Author = new Member("Author", "123123", "nicednjsdud123@gmail.com", Grade.AUTHOR);
+//        memberRepository.save(User);
+//        memberRepository.save(Author);
+//
+//        em.flush();
+//        em.clear();
+//        Optional<Member> findMembers = memberRepository.findById(1L);
+//        if(findMembers.isPresent()) {
+//            //given
+//            Member findMember = findMembers.get();
+//            Article article1 = new Article("Test1", "test1", "테스트", ArticleStatus.WAIT, findMember);
+//            articleRepository.save(article1);
+//
+//            em.flush();
+//            em.clear();
+//
+//            // when
+//            ArticleForm form = new ArticleForm("Test2","test2","테스트2");
+//            articleService.updateArticle(3L,form);
+//            Article findArticle = articleService.findArticle(3L);
+//            // then
+//            assertThat(findArticle.getTitle()).isEqualTo("Test2");
+//            assertThat(findArticle.getSubTitle()).isEqualTo("test2");
+//            assertThat(findArticle.getContents()).isEqualTo("테스트2");
+//        }
+//
+//    }
     @Test
     @DisplayName("article 삭제 확인")
     public void deleteArticle(){
