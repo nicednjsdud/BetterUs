@@ -20,7 +20,7 @@ public class ImageServiceImpl implements ImageService{
 
     @Override
     public void deleteImage(Long id) {
-       imageRepository.deleteImage(id);
+       imageRepository.deleteImageById(id);
     }
 
     @Override
