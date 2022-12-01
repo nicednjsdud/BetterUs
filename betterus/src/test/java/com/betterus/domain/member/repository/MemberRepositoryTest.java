@@ -37,9 +37,10 @@ class MemberRepositoryTest {
 
     @Test
     @DisplayName("로그인 성공")
+    @Rollback(value = false)
     public void login() {
 
-        Member member = new Member("MemberA", "123123", "nicednjsdud@gmail.com", Grade.ADMIN);
+        Member member = new Member("정원영", "123123", "nicednjsdud@gmail.com", Grade.ADMIN);
         Member saveMember = memberRepository.save(member);
 
         Member findMember = memberRepository.findByEmailAndPassword("nicednjsdud@gmail.com", "123123");

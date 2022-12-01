@@ -25,6 +25,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 @RequiredArgsConstructor
@@ -39,11 +40,15 @@ public class MyPageController {
     @GetMapping("/myPage/default")
     public String myPageUser(Model model, HttpServletRequest request) {
         HttpSession session = request.getSession();
-        Member member = (Member) session.getAttribute("member");
+        Object member =session.getAttribute("member");
+        Long sessionMemberId = (Long) member;
         if (member != null) {
-            Map<Object, Object> myPage = myPageService.findMyPageDefault(member);
-            model.addAttribute("myPage", myPage);
-            return "/myPage/myPage(info)";
+            Map<Object, Object> myPage = myPageService.findMyPageDefault(sessionMemberId);
+            List<ArticleDto> articleDtoList = (List<ArticleDto>) myPage.get("articleDtoList");
+            MemberDto memberDto = (MemberDto) myPage.get("memberDto");
+            model.addAttribute("articleDtoList", articleDtoList);
+            model.addAttribute("memberDto", memberDto);
+            return "myPage/mypage(library)";
         } else {
             String msg = "회원만 접근이 가능합니다.";
             model.addAttribute("msg", msg);

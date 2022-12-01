@@ -11,6 +11,8 @@ package com.betterus.domain.email.controller;
 import com.betterus.domain.email.dto.EmailAuthRequestDto;
 import com.betterus.domain.email.service.EmailService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
@@ -18,25 +20,25 @@ import org.springframework.web.bind.annotation.RestController;
 import javax.mail.MessagingException;
 import java.io.UnsupportedEncodingException;
 
-@RestController
+@Controller
 @RequiredArgsConstructor
 public class EmailController {
 
     private final EmailService emailService;
 
     @PostMapping("mail/mailConfirm")
-    public String mailConfirm(@RequestBody EmailAuthRequestDto emailDto) throws MessagingException, UnsupportedEncodingException {
+    public String mailConfirm(@ModelAttribute("emailForm") EmailAuthRequestDto emailDto) throws MessagingException, UnsupportedEncodingException {
         String action = "mailConfirm";
-        String authCode = emailService.sendEmail(emailDto.getEmail(),action);
-        emailService.saveAuthCode(emailDto.getEmail(),authCode);
+        String authCode = emailService.sendEmail(emailDto.getEmail(), action);
+        emailService.saveAuthCode(emailDto.getEmail(), authCode);
         return authCode;
     }
 
     @PostMapping("mail/sendTempPassword")
-    public String sendTempPassword(@RequestBody EmailAuthRequestDto emailDto) throws MessagingException, UnsupportedEncodingException{
+    public String sendTempPassword(@ModelAttribute("emailForm") EmailAuthRequestDto emailDto) throws MessagingException, UnsupportedEncodingException {
         String action = "sendTempPassword";
-        String authCode = emailService.sendEmail(emailDto.getEmail(),action);
-        emailService.saveTempPassword(emailDto.getEmail(),authCode);
+        String authCode = emailService.sendEmail(emailDto.getEmail(), action);
+        emailService.saveTempPassword(emailDto.getEmail(), authCode);
         return authCode;
     }
 }
