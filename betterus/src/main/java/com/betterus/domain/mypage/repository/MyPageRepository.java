@@ -10,8 +10,8 @@ import java.util.Optional;
 
 public interface MyPageRepository extends JpaRepository<MyPage, Long> {
 
-    @Query("select mp from MyPage mp")
-    Optional<MyPage> findByMemberId(Long id);
+    @Query("select mp from MyPage mp left join mp.member m where m.id = :MemberId")
+    Optional<MyPage> findByMemberId(@Param("MemberId") Long MemberId);
 
 //    @Query("select m,count(g)  from Member m fetch join m.gudoks g where id = :id")
 //    Member findMemberAndGudokByMemberId(Long id);
