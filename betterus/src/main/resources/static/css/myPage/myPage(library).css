@@ -18,6 +18,7 @@ span {
 a {
   font-family: 'Pretendard';
   text-decoration: none;
+  color: black;
 }
 
 div {
@@ -202,7 +203,6 @@ img.logo {
   color: rgb(103, 103, 103);
   border-top: 2px solid rgb(103, 103, 103);
   text-align: center;
-  
 }
 
 #second {
@@ -211,16 +211,22 @@ img.logo {
   text-align: center;
 } 
 
+.oneline {
+  width: 600px;
+  height: 50px;
+  color: rgb(103, 103, 103);
+  border-top: 2px solid rgb(189, 189, 189);
+  text-align: center;
+  margin-top: 20px;
+}
 
 .article{
   display: flex;
   text-align: center;
   padding-top: 20px;
-  /* width: 60vw; */
   height: 100px;
   padding-bottom: 20px;
   border-bottom: 1px solid gray;
-  /* background-color: green; */
 }
 
 .image img {
