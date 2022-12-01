@@ -8,22 +8,29 @@
 package com.betterus.domain.article.controller;
 
 import com.betterus.domain.article.domain.Article;
+import com.betterus.domain.article.domain.Image;
 import com.betterus.domain.article.dto.ArticleDto;
 import com.betterus.domain.article.dto.ArticleForm;
 import com.betterus.domain.article.service.ArticleService;
+import com.betterus.domain.article.service.ImageService;
 import com.betterus.domain.gudok.service.GudokService;
 import com.betterus.domain.member.domain.Member;
+import com.betterus.domain.member.service.MemberService;
 import com.betterus.model.Grade;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.util.CollectionUtils;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+import java.util.ArrayList;
 import java.util.List;
 
 @Controller
@@ -31,6 +38,8 @@ import java.util.List;
 public class ArticleController {
 
     private final ArticleService articleService;
+
+    private final ImageService imageService;
 
 
     /**
@@ -117,12 +126,13 @@ public class ArticleController {
      * 글 쓰기 (이미지 업로드 기능 추가예정)
      */
     @PostMapping("/write")
-    public String writeArticle(ArticleForm articleForm, Model model, HttpServletRequest request) {
+    @ResponseStatus(HttpStatus.CREATED)
+    public String writeArticle(ArticleForm articleForm, Model model, HttpServletRequest request) throws Exception {
         String msg = "";
         HttpSession session = request.getSession();
         Member member = (Member) session.getAttribute("member");
         if (member != null) {
-            int result = articleService.saveArticle(articleForm, member);
+            int result = articleService.saveArticle(articleForm, member,articleForm.getFiles());
             if (result == 1) {
                 msg = "글쓰기가 완료되었습니다.";
                 model.addAttribute("msg", msg);
@@ -145,7 +155,8 @@ public class ArticleController {
     @GetMapping("myPage/{articleId}/edit")
     public String updateArticleForm(@PathVariable("articleId") Long articleId, Model model) {
         Article article = articleService.findArticle(articleId);
-        ArticleForm articleForm = new ArticleForm(article.getTitle(), article.getSubTitle(), article.getContents());
+
+        ArticleForm articleForm = new ArticleForm(article.getTitle(), article.getSubTitle(), article.getContents(),null);
         model.addAttribute("articleForm", articleForm);
         return "writing/writing(correction)";
     }
@@ -159,8 +170,47 @@ public class ArticleController {
         String msg = "";
         HttpSession session = request.getSession();
         Member member = (Member) session.getAttribute("member");
+        // DB에 저장되어있는 파일 불러오기
+        List<Image> dbImgList = imageService.findAllByArticle(articleId);
+        // 전달되어온 파일들
+        List<MultipartFile> multipartFileList = articleForm.getFiles();
+        // 새롭게 전달되어온 파일들의 목록을 저장할 List 선언
+        List<MultipartFile> addFileList = new ArrayList<>();
         if (member != null) {
-            int result = articleService.updateArticle(articleId, articleForm);
+            if(CollectionUtils.isEmpty(multipartFileList)){
+                // 전달되어온 파일이 없으면
+                for (Image dbImage : dbImgList) {
+                    imageService.deleteImage(dbImage.getId());
+                }
+            }
+            else{
+                // 파일이 하나 이상 존재하면
+                List<String> dbOriginNameList = new ArrayList<>();
+
+                // DB의 파일 원본명 추출
+                for (Image dbImage : dbImgList) {
+                    // file id로 DB에 저장된 파일 정보 얻어오기
+                    Image findImage = imageService.findByImageId(dbImage.getId());
+                    // DB의 파일 원본명 얻어오기
+                    String dbOrigFileName = findImage.getOrigFileName();
+                    // 서버에 저장된 파일들 중 전달되어온 파일이 존재하지 않는다면
+                    if(!multipartFileList.contains(dbOrigFileName))
+                        // 파일 삭제
+                            imageService.deleteImage(dbImage.getId());
+                    // 그것도 아니라면
+                    else dbOriginNameList.add(dbOrigFileName);  // DB에 저장할 파일 목록에 추가
+                }
+                for (MultipartFile multipartFile : multipartFileList) {
+                    // 전달되어온 파일 하나씩 검사
+                    // 파일의 원본명 얻기
+                    String multipartFileOrigName = multipartFile.getOriginalFilename();
+                    if(!dbOriginNameList.contains(multipartFileOrigName)){
+                        // DB에 없는 파일이라면
+                        addFileList.add(multipartFile); // DB에 저장할 파일 목록에 추가
+                    }
+                }
+            }
+            int result = articleService.updateArticle(articleId, articleForm,addFileList);
             if (result == 1) {
                 msg = "글 수정이 완료되었습니다.";
                 model.addAttribute("msg", msg);

@@ -11,8 +11,10 @@ import com.betterus.domain.article.domain.Image;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.persistence.Column;
+import java.util.List;
 
 @Getter
 @AllArgsConstructor
@@ -22,4 +24,5 @@ public class ArticleForm {
     private String title;
     private String subTitle;
     private String contents;
+    private List<MultipartFile> files;
 }
