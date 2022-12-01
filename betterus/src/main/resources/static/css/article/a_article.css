@@ -16,6 +16,7 @@ div {
 
 a {
   text-decoration: none;
+  color: black;
 }
 
 body {
@@ -29,6 +30,46 @@ body {
   display: flex;
   height: 60px;
   border-bottom: 1px solid rgb(0, 0, 0);
+}
+
+.sidebars{
+  width: 33.3vw;
+}
+
+img.menu {
+  margin: 15px 15px;
+  width: 40px;
+  height: 30px;
+}
+
+input#menuicon {
+  display: none;
+}
+
+.sidebar {
+  width: 260px;
+  height: 60%;
+  background-color: rgba(223, 227, 231, 0.7);
+  position: fixed;
+  top: 60px;
+  left: -300px;
+  z-index: index 1;
+  transition: all .35s;
+  border-radius: 2px;
+}
+
+div.sidebar>ul>li {
+  margin-top: 60px;
+  margin-left: 50px;
+  line-height: 50px;
+}
+
+div.sidebar>ul>li>a {
+  font-size: 17px;
+}
+
+input#menuicon:checked+label+div {
+  left: -10px;
 }
 
 .home{
@@ -154,7 +195,7 @@ img.logo {
   padding-top: 50px;
 }
 
-.img>img {
+.img>a>img {
   width: 60px;
   height: 60px;
   border-radius: 10px;
