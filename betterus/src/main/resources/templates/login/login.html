@@ -19,7 +19,7 @@
   <body>
     <div class="header">
       <div class="home">
-        <a href="#"><img class="home" src="../../static/img/home.png" alt=" "></a>
+        <a href="/"><img class="home" src="../../static/img/home.png" alt=" "></a>
       </div>
       <div class="logo">
         <img class="logo" src="../../static/img/logo_B_new.png" alt=" ">
@@ -29,20 +29,22 @@
     <div class="section">
       <div class="title">로그인</div>
       <div class="input">
-        <div class="email-caption">이메일</div>
-        <input class="inputbox" type="email">
+        <form id="login" action="#">
+          <div class="email-caption">이메일</div>
+          <input id="email-inputbox" class="inputbox" type="email" />
+          <div class="pw-caption">비밀번호</div>
+          <input id="pw-inputbox"class="inputbox" type="password">
+        </form>
       </div>
-      <div class="input">
-        <div class="pw-caption">비밀번호</div>
-        <input class="inputbox" type="password">
-      </div>
-      <div class="login-button">
-        <button type="submit">로그인</button>
-      </div> 
+      <a href="/login/confirm">
+        <button class="login" type="submit">로그인</button>
+      </a>
       <ul class="else">
-        <li><a href="#">비밀번호&nbsp;찾기</a></li>
+        <li><a href="/login/findPassword">비밀번호&nbsp;찾기</a></li>
         <li>&nbsp;|&nbsp;</li>
-        <li><a href="#">회원가입</a></li>
+        <li><a href="/signUp">회원가입</a></li>
       </ul>
     </div>
+    <script src="../../static/js/login/login.js"></script>
   </body>
+</html>
