@@ -30,8 +30,8 @@
       <div class="left"></div>
       <div class="center">
           <div class="title">
-            <a href="#"><div id="first" class="choice">회원정보</div></a>
-            <a href="#"><div id="second" class="choice">내&nbsp;노트</div></a>
+            <a href="/myPage/default"><div id="first" class="choice">내&nbsp;정보</div></a>
+            <a href="/myPage/default"><div id="second" class="choice">내&nbsp;노트</div></a>
           </div>
           <div class="input-total">
             <div class="input-title">
@@ -42,17 +42,21 @@
             <div class="input-box">
               <div class="state">독자</div>
               <div class="input">
-                <div class="changing">닉네임&nbsp;변경</div>
-                <input class="inputbox" type="text" placeholder="변경할 닉네임">
-              </div>
-              <div class="input">
-                <div class="changing">비밀번호&nbsp;변경</div>
-                <input class="inputbox" type="password" placeholder="현재 비밀번호">
-                <input class="inputbox" type="password" placeholder="변경할 비밀번호">
-                <input class="inputbox" type="password" placeholder="변경할 비밀번호 확인">
+                <form>
+                  <div class="changing">닉네임&nbsp;변경</div>
+                  <input class="inputbox" type="text" placeholder="변경할 닉네임">
+                  <div class="changing">소개글&nbsp;변경</div>
+                  <input class="inputbox" type="text" placeholder="소개글 입력">
+                  <div class="changing">비밀번호&nbsp;변경</div>
+                  <input class="inputbox" type="password" placeholder="현재 비밀번호">
+                  <input class="inputbox" type="password" placeholder="변경할 비밀번호">
+                  <input class="inputbox" type="password" placeholder="변경할 비밀번호 확인">
+                  <a href="#"><button type="submit">수정하기</button></a>
+
+                </form>
               </div>
               <div class="login-button">
-                <button type="submit">회원&nbsp;탈퇴하기</button>
+                <a><button type="submit">회원&nbsp;탈퇴하기</button></a>
               </div> 
           </div>   
         </div>
@@ -60,10 +64,7 @@
       <div class="right">
         <div class="button">
           <div class="nickname-button">
-            <button type="submit">중복&nbsp;확인</button>
-          </div>
-          <div class="password-button">
-            <button type="submit">수정</button>
+            <a href="/signUp/duplicateNickName"><button type="submit">중복&nbsp;확인</button></a>
           </div>
       </div>
       </div>
