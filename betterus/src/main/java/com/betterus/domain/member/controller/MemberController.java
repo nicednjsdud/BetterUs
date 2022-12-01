@@ -31,9 +31,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 
 @Controller
 @RequiredArgsConstructor
@@ -77,7 +74,7 @@ public class MemberController {
     @GetMapping("/signUp")
     public String joinForm(Model model) {
         model.addAttribute("joinForm", new MemberJoinForm());
-        return "signUp";
+        return "login/signup";
     }
 
     /**
@@ -98,11 +95,10 @@ public class MemberController {
     }
 
     @PostMapping("/signUp/duplicateNickName")
-    public String duplicateNickName(@RequestParam("nickName") String nickName, Model model) {
-
+    public int duplicateNickName(@RequestParam("nickName") String nickName, Model model) {
         int result = memberService.duplicateCheck(nickName);
         model.addAttribute("result", result);
-        return "signup";
+        return result;
     }
 
     /**
@@ -132,7 +128,7 @@ public class MemberController {
             model.addAttribute("findMember",findMember);
             model.addAttribute("form",form);
         }
-        return "아직 화면 구현안됨";
+        return "myPage/mypage(info)";
     }
 
     /**
@@ -150,13 +146,13 @@ public class MemberController {
             case 1:
                 msg = "수정이 완료되었습니다.";
                 model.addAttribute("msg",msg);
-                return "redirect:/myPage";
+                return "redirect:/";
             case 2:
                 msg = "입력하신 비밀번호가 틀립니다.";
                 model.addAttribute("msg",msg);
                 return "/editInfo/{memberId}/edit";
             default:
-                return "redirect:/myPage";
+                return "redirect:/";
         }
     }
 }
