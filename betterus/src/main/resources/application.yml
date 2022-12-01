@@ -7,7 +7,7 @@ spring:
 
   jpa:
     hibernate:
-      ddl-auto: create
+      ddl-auto: none
     properties:
       hibernate:
         #          show_sql: true
@@ -16,8 +16,8 @@ spring:
   mail:
     host: smtp.naver.com #smtp 서버 주소
     port: 465 # 메일 인증서버 포트
-    username: betterus-info #네이버 아이디
-    password: Betterus@ #네이버 비밀번호
+    username: su__kk #네이버 아이디
+    password: qwer1234! #네이버 비밀번호
     properties:
       mail:
         smtp:

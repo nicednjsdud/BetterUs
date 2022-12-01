@@ -9,7 +9,7 @@ import org.springframework.data.domain.Pageable;
 import java.util.Map;
 
 public interface MyPageService {
-    Map<Object, Object> findMyPageDefault(Member member);
+    Map<Object, Object> findMyPageDefault(Long id);
 
     Map<Object, Object> findAuthorById(Long authorId);
 

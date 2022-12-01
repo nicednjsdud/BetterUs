@@ -37,11 +37,30 @@ public class MyPageServiceImpl implements MyPageService {
     private final ArticleRepository articleRepository;
 
     @Override
-    public Map<Object, Object> findMyPageDefault(Member member) {
+    public Map<Object, Object> findMyPageDefault(Long id) {
+        Optional<MyPage> findMyPage = myPageRepository.findByMemberId(id);
+        Map<Object, Object> map = new HashMap<>();
+        if (findMyPage.isPresent()) {
+            MyPage myPage = findMyPage.get();
+            List<Article> articleList = myPage.getArticleList();
 
-//        myPageRepository.findMemberAndGudokByMemberId(member.getId());
-//  페이징 진행중
-        return null;
+            /** 모든 아티클 가져오기 */
+            List<ArticleDto> articleDtoList = new ArrayList<>();
+            for (Article article : articleList) {
+                ArticleDto articleDto =
+                        new ArticleDto(article.getId(),article.getTitle(), article.getSubTitle(), article.getContents(), article.getStatus(), article.getReviewCount(), article.getJjimCount());
+                articleDtoList.add(articleDto);
+                // 이미지 추가 예정
+            }
+            /** 회원정보 가져오기 */
+            Member member = myPage.getMember();
+            MemberDto memberDto = new MemberDto(member.getNickName(), member.getGudok_count(), member.getGudokForCount(),member.getUser_info());
+
+            map.put("articleDtoList", articleDtoList);
+            map.put("memberDto", memberDto);
+        }
+        return map;
+
     }
 
     @Override
@@ -61,7 +80,7 @@ public class MyPageServiceImpl implements MyPageService {
             }
             /** 회원정보 가져오기 */
             Member member = myPage.getMember();
-            MemberDto memberDto = new MemberDto(member.getNickName(), member.getGudok_count(), member.getGudokForCount());
+            MemberDto memberDto = new MemberDto(member.getNickName(), member.getGudok_count(), member.getGudokForCount(), member.getUser_info());
 
             map.put("articleDtoList", articleDtoList);
             map.put("memberDto", memberDto);
