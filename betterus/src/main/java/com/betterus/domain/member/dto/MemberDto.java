@@ -11,10 +11,12 @@ import com.betterus.domain.member.domain.Member;
 import com.betterus.model.Grade;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import java.time.LocalDateTime;
 
 @Getter
+@Setter
 @NoArgsConstructor
 public class MemberDto {
 
@@ -54,10 +56,11 @@ public class MemberDto {
      * 회원 정보 마이페이지 용
      */
 
-    public MemberDto(String nickName,Long gudok_count ,Long gudokForCount) {
+    public MemberDto(String nickName,Long gudok_count ,Long gudokForCount,String user_info) {
         this.nickName = nickName;
         this.gudok_count = gudok_count;
         this.gudokForCount = gudokForCount;
+        this.user_info = user_info;
     }
 
     /**
