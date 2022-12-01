@@ -163,7 +163,7 @@ input.inputbox {
   margin-bottom: 200px;
 }
 
-.login-button>a>button {
+.login-button>button {
   width: 500px;
   height: 50px;
   font-size: 30px;
