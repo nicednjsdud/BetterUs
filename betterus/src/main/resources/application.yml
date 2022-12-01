@@ -40,3 +40,11 @@ logging:
   level:
     org.hibernate.SQL: debug
     org.hibernate.type: trace
+
+thymeleaf:
+  prefix=classpath: templates/
+  suffix: .html
+  check-template-location: true
+  cache: false
+  mvc:
+    static-path-pattern: "/static/**"

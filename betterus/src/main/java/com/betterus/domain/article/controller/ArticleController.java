@@ -166,7 +166,7 @@ public class ArticleController {
      */
     @PostMapping("myPage/{articleId}/edit")
     public String updateArticle(@PathVariable("articleId") Long articleId, @ModelAttribute("form") ArticleForm articleForm,
-                                HttpServletRequest request, Model model) {
+                                HttpServletRequest request, Model model) throws Exception {
         String msg = "";
         HttpSession session = request.getSession();
         Member member = (Member) session.getAttribute("member");
