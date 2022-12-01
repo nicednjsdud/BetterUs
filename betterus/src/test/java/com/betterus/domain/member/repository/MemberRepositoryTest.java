@@ -1,12 +1,19 @@
 package com.betterus.domain.member.repository;
 
+import com.betterus.domain.article.domain.Article;
 import com.betterus.domain.member.domain.Member;
+import com.betterus.domain.member.dto.MemberDto;
+import com.betterus.model.ArticleStatus;
 import com.betterus.model.Grade;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
+import org.springframework.test.annotation.Rollback;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
@@ -117,5 +124,68 @@ class MemberRepositoryTest {
         assertThrows(NullPointerException.class, () -> findMember.getId());
     }
 
+    @Test
+    @DisplayName("멤버 아이디로 조회하기")
+    public void findMemberById() {
 
+        Member member = new Member("MemberA", "123123", "nicednjsdud@gmail.com", Grade.ADMIN);
+        Member saveMember = memberRepository.save(member);
+
+        Optional<Member> find = memberRepository.findById(saveMember.getId());
+        if(find.isPresent()){
+            Member findMember = find.get();
+
+
+            assertThat(findMember.getId()).isEqualTo(saveMember.getId());
+        }
+
+    }
+
+    @Test
+    @DisplayName("작가 찾기 페이징")
+    public void findAuthorByGrade(){
+        for (int i = 0; i < 13; i++) {
+            memberRepository.save(new Member("Member"+i, "123123"+i, "nicednjsdud@gmail.com"+i, Grade.AUTHOR));
+        }
+
+
+        Optional<Member> findMember = memberRepository.findById(3L);
+        if(findMember.isPresent()) {
+            Member member = findMember.get();
+        }
+        em.flush();
+        em.clear();
+
+        PageRequest pageRequest = PageRequest.of(0,10, Sort.by(Sort.DEFAULT_DIRECTION,"gudok_count"));
+        Page<MemberDto> findAuthors = memberRepository.findAuthorByGrade(Grade.AUTHOR,pageRequest);
+
+        assertThat(findAuthors.getSize()).isEqualTo(10);
+        assertThat(findAuthors.getTotalPages()).isEqualTo(2);
+        assertThat(findAuthors.getTotalElements()).isEqualTo(13);
+        assertThat(findAuthors.getNumber()).isEqualTo(0);
+        assertThat(findAuthors.isFirst()).isTrue();
+        assertThat(findAuthors.hasNext()).isTrue();
+
+
+    }
+
+    @Test
+    @DisplayName("검색으로 작가 찾기 페이징")
+    public void findAuthorByNickNameContaining(){
+        for (int i = 0; i < 13; i++) {
+            memberRepository.save(new Member("Member"+i, "123123"+i, "nicednjsdud@gmail.com"+i, Grade.AUTHOR));
+        }
+        em.flush();
+        em.clear();
+
+        PageRequest pageRequest = PageRequest.of(0,10, Sort.by(Sort.DEFAULT_DIRECTION,"authorConfirmDate"));
+        Page<Member> findMember = memberRepository.findSearchListByNickNameContaining("Member", pageRequest);
+
+        assertThat(findMember.getSize()).isEqualTo(10);
+        assertThat(findMember.getTotalPages()).isEqualTo(2);
+        assertThat(findMember.getTotalElements()).isEqualTo(13);
+        assertThat(findMember.getNumber()).isEqualTo(0);
+        assertThat(findMember.isFirst()).isTrue();
+        assertThat(findMember.hasNext()).isTrue();
+    }
 }
