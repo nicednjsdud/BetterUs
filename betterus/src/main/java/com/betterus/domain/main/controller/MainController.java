@@ -18,8 +18,7 @@ public class MainController {
 
     @RequestMapping("/")
     public String main(){
-        // resources 에 (static 에는 js, css templates 에는 html)
-        return "main";
+        return "main/main";
     }
 
 }
