@@ -127,23 +127,27 @@ img.logo {
 
 .searching {
   text-align: left;
-  height: 80px;
+  height: 50px;
   margin-bottom: 10px;
   /* border: 1px solid black; */
 }
 
-.searching>input {
+.searching>form {
+  display: inline;
+}
+
+.searching>form>input {
   width: 200px;
   font-size: 20px;
   border-color: transparent;
   border-bottom: 1px solid black;
 }
 
-.searching>input:focus {
+.searching>form>input:focus {
   outline: none;
 }
 
-.searching>img {
+.searching>a>img {
   width: 20px;
 }
 
@@ -162,16 +166,16 @@ img.logo {
 }
 
 .relation {
-  height: 800px;
+  height: 70vw;
   /* border: 1px solid black; */
 }
 
 /*-------------------------- schema---------------------------- */
 .schema {
   display: flex;
-  height: 50px;
-  margin-bottom: 7px;
-  /* border: 1px solid black; */
+  height: 30px;
+  margin-bottom: 10px;
+  border-bottom: 1px solid gray;
 }
 
 .schema>div {

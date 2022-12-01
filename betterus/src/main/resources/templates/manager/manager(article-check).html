@@ -1,8 +1,8 @@
 <!-- 
   * 작성자 곽수경
-* 작성 일자: 11.02
+* 작성 일자: 11.10
 * 수정 일자
-* 기능: 관리자페이지(회원정보) 화면 
+* 기능: 관리자페이지(작가 신청 글 확인) 화면 
 -->
 
 <!DOCTYPE html>
@@ -13,8 +13,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reset-css@5.0.1/reset.min.css">
-    <link rel="stylesheet" href="../../static/css/manager/manager(info).css">
-    <title>Better Us ManagerPage(회원정보)</title>
+    <link rel="stylesheet" href="../../static/css/manager/manager(article-check).css">
+    <title>Better Us ManagerPage(작가 신청 글 확인)</title>
   </head>
   <body>
     <div class="header">
@@ -22,7 +22,7 @@
         <a href="/"><img class="home" src="../../static/img/home.png" alt=" "></a>
       </div>
       <div class="logo">
-        <img class="logo" src="../../static/img/logo_B_new.png" alt=" ">
+        <a href="/"><img class="logo" src="../../static/img/logo_B_new.png" alt=" "></a>
       </div>
       <div class="nothing"></div>
     </div>
@@ -30,7 +30,7 @@
       <div class="left"></div>
       <div class="center">
         <div class="title">
-          <a href=“/myPage/admin/memberInfo”><div id="first" class="choice">회원정보</div></a>
+          <a href="/myPage/admin/memberInfo"><div id="first" class="choice">회원정보</div></a>
           <a href="/myPage/admin/articleConfirmCheck"><div id="second" class="choice">작가&nbsp;신청&nbsp;글&nbsp;확인</div></a>
         </div>
         <div class="search">
@@ -45,7 +45,6 @@
               <option value="" disabled selected>검색조건</option>
               <option value="nickname">닉네임</option>
               <option value="email">이메일</option>
-              <option value="state">회원상태</option>
               <option value="signupday">회원가입일</option>
               <option value="writerday">작가신청일</option>
             </select>
@@ -60,29 +59,30 @@
         </div>
         <div class="relation">
           <div class="schema">
+            <div class="article-title">제목</div>
             <div class="nickname">닉네임</div>
             <div class="email">이메일</div>
             <div class="state">회원상태</div>
-            <div class="signupday">회원가입일</div>
-            <div class="writerday">작가승인일</div>
+            <div class="application-day">작가신청일</div>
           </div>
           <div class="instance">
-            <div class="nickname" >독자2</div>
+            <div class="article-title">그들은 보는 그들의 품었기 새가 이것이다. 그들에게 우리 있을 있으며, 발휘하기 있다.</div>
+            <div class="nickname">독자2</div>
             <div class="email">sky339128@gmail.com</div>
-            <div class="state">독자</div>
-            <div class="signupday">2021.01.07</div>
-            <div class="writerday"></div>
+            <div class="state">작가 신청 대기</div>
+            <div class="application-day">2021.01.07</div>   
           </div>
-          <div class="instance" th:each="instacne : ${managerData}">
-            <div class="nickname" th:text="${managerData.id}"></div>
-            <div class="email" th:text="${managerData.email}"></div>
-            <div class="state" th:text="${managerData.state}"></div>
-            <div class="signupday" th:text="${managerData.signUpDay}"></div>
-            <div class="writerday" th:text="${managerData.writerDay}"></div>
+          <div class="instance" th:each="instance2 : ${instance2List}">
+            <div class="article-title" th:text="${instance2.title}"></div>
+            <div class="nickname" th:text="${instance2.nickname}"></div>
+            <div class="email" th:text="$[instance2.email}"></div>
+            <div class="state" th:text="${instance2.state}"></div>
+            <div class="application-day" th:text="${instance2.application-day}"></div>   
           </div>
         </div>   
       </div>
       <div class="right">
+        
       </div>
     </div>
   </body>

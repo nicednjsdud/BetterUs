@@ -1,8 +1,8 @@
 /*
-* 작성자 곽수경
-* 작성 일자: 11.03
+* 작성자: 곽수경
+* 작성 일자: 11.10
 * 수정 일자: 
-* 기능: 글 1개 화면 css 
+* 기능: 글 수정 및 삭제
 */
 
 * {
@@ -115,7 +115,7 @@ img.logo {
 
 .article {
   margin-top: 50px;
-  margin-bottom: 50px;
+  margin-bottom: 80px;
   width: 40vw;
   font-family: 'Pretendard';
   font-size: 17px;
@@ -137,21 +137,10 @@ img.logo {
   width: 25vw;
 } */
 
+
 .writer {
   display: flex;
-  width: 50vw;
-  border-top: 1px solid gray;
-}
-
-.w-nothing {
-  width: 5vw;
-}
-
-.writer-box {
-  display: flex;
-  justify-content: left;
   width: 40vw;
-  padding-top: 50px;
 }
 
 .img>img {

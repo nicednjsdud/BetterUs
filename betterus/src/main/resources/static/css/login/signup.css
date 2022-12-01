@@ -13,7 +13,7 @@
 body {
   /* background-image: url('../img/login_bg_new.jpg'); */
   width: 100vw;
-  height: 100vh;
+  height: 1000px;
 }
 
 span {
@@ -26,7 +26,7 @@ a {
   color: black;
 }
 
-/*-------------------------- header---------------------------- */
+/*-------------------------- header ---------------------------- */
 .header {
   display: flex;
   height: 60px;
@@ -106,6 +106,24 @@ div.input {
   margin-bottom: 10px;
 }
 
+.autho-caption {
+  display: none;
+  text-align: center;
+  margin-right: 420px;
+  font-size: 15px;
+  font-weight: 550;
+  margin-top: 20px;
+  margin-bottom: 10px;
+}
+
+.autho-caption + input {
+  display: none;
+  width: 500px;
+  height: 30px;
+  font-size: 20px;
+  border-radius: 10px;
+}
+
 .nickname {
   text-align: center;
   margin-right: 435px;
@@ -138,12 +156,14 @@ input.inputbox {
   border-radius: 10px;
 }
 
+
+
 .login-button {
   margin-top: 80px;
   margin-bottom: 200px;
 }
 
-.login-button>button {
+.login-button>a>button {
   width: 500px;
   height: 50px;
   font-size: 30px;
@@ -164,7 +184,7 @@ input.inputbox {
   text-align: left;
 }
 
-.email-button>button {
+.email-button>a>button {
   margin-top: 177px;
   width: 100px;
   height: 50px;
@@ -175,7 +195,7 @@ input.inputbox {
   background-color: rgb(170, 170, 170);
 }
 
-.nickname-button>button {
+.nickname-button>a>button {
   margin-top: 75px;
   width: 100px;
   height: 50px;
