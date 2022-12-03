@@ -41,6 +41,8 @@ public class ArticleController {
 
     private final ImageService imageService;
 
+    private final MemberService memberService;
+
 
     /**
      * 글 목록 리스트 (패이징) 진행중
@@ -93,14 +95,14 @@ public class ArticleController {
         HttpSession session = request.getSession();
         Object member = session.getAttribute("member");
         if (member != null) {
-            Article findArticle = articleService.findArticle(articleId);
+            ArticleDto findArticle = articleService.findArticle(articleId);
             model.addAttribute("article", findArticle);
+            return "article/a_article";
         } else {
             msg = "회원만 보기가 가능합니다.";
             model.addAttribute("msg", msg);
             return "redirect:/";
         }
-        return "article/a_article";
     }
 
 
@@ -126,17 +128,18 @@ public class ArticleController {
      * 글 쓰기 (이미지 업로드 기능 추가예정)
      */
     @PostMapping("/write")
-    @ResponseStatus(HttpStatus.CREATED)
     public String writeArticle(ArticleForm articleForm, Model model, HttpServletRequest request) throws Exception {
         String msg = "";
         HttpSession session = request.getSession();
-        Member member = (Member) session.getAttribute("member");
+        Object member = session.getAttribute("member");
+        Long sessionMemberId = (Long) member;
+        Member findMember = memberService.findMemberById(sessionMemberId);
         if (member != null) {
-            int result = articleService.saveArticle(articleForm, member,articleForm.getFiles());
+            int result = articleService.saveArticle(articleForm, findMember, articleForm.getFiles());
             if (result == 1) {
                 msg = "글쓰기가 완료되었습니다.";
                 model.addAttribute("msg", msg);
-                return "myPage/myPage(info)";
+                return "redirect:/";
             } else {
                 msg = "오류가 발생했습니다. 다시 시도해주세요.";
                 model.addAttribute("msg", msg);
@@ -154,9 +157,9 @@ public class ArticleController {
      */
     @GetMapping("myPage/{articleId}/edit")
     public String updateArticleForm(@PathVariable("articleId") Long articleId, Model model) {
-        Article article = articleService.findArticle(articleId);
+        ArticleDto article = articleService.findArticle(articleId);
 
-        ArticleForm articleForm = new ArticleForm(article.getTitle(), article.getSubTitle(), article.getContents(),null);
+        ArticleForm articleForm = new ArticleForm(article.getTitle(), article.getSubTitle(), article.getContents(), null);
         model.addAttribute("articleForm", articleForm);
         return "writing/writing(correction)";
     }
@@ -169,7 +172,9 @@ public class ArticleController {
                                 HttpServletRequest request, Model model) throws Exception {
         String msg = "";
         HttpSession session = request.getSession();
-        Member member = (Member) session.getAttribute("member");
+        Object member = session.getAttribute("member");
+        Long sessionMemberId = (Long) member;
+        Member findMember = memberService.findMemberById(sessionMemberId);
         // DB에 저장되어있는 파일 불러오기
         List<Image> dbImgList = imageService.findAllByArticle(articleId);
         // 전달되어온 파일들
@@ -177,13 +182,12 @@ public class ArticleController {
         // 새롭게 전달되어온 파일들의 목록을 저장할 List 선언
         List<MultipartFile> addFileList = new ArrayList<>();
         if (member != null) {
-            if(CollectionUtils.isEmpty(multipartFileList)){
+            if (CollectionUtils.isEmpty(multipartFileList)) {
                 // 전달되어온 파일이 없으면
                 for (Image dbImage : dbImgList) {
                     imageService.deleteImage(dbImage.getId());
                 }
-            }
-            else{
+            } else {
                 // 파일이 하나 이상 존재하면
                 List<String> dbOriginNameList = new ArrayList<>();
 
@@ -194,23 +198,23 @@ public class ArticleController {
                     // DB의 파일 원본명 얻어오기
                     String dbOrigFileName = findImage.getOrigFileName();
                     // 서버에 저장된 파일들 중 전달되어온 파일이 존재하지 않는다면
-                    if(!multipartFileList.contains(dbOrigFileName))
+                    if (!multipartFileList.contains(dbOrigFileName))
                         // 파일 삭제
-                            imageService.deleteImage(dbImage.getId());
-                    // 그것도 아니라면
+                        imageService.deleteImage(dbImage.getId());
+                        // 그것도 아니라면
                     else dbOriginNameList.add(dbOrigFileName);  // DB에 저장할 파일 목록에 추가
                 }
                 for (MultipartFile multipartFile : multipartFileList) {
                     // 전달되어온 파일 하나씩 검사
                     // 파일의 원본명 얻기
                     String multipartFileOrigName = multipartFile.getOriginalFilename();
-                    if(!dbOriginNameList.contains(multipartFileOrigName)){
+                    if (!dbOriginNameList.contains(multipartFileOrigName)) {
                         // DB에 없는 파일이라면
                         addFileList.add(multipartFile); // DB에 저장할 파일 목록에 추가
                     }
                 }
             }
-            int result = articleService.updateArticle(articleId, articleForm,addFileList);
+            int result = articleService.updateArticle(articleId, articleForm, addFileList);
             if (result == 1) {
                 msg = "글 수정이 완료되었습니다.";
                 model.addAttribute("msg", msg);
@@ -232,11 +236,11 @@ public class ArticleController {
      * 글 삭제 (이미지 업로드 기능 추가예정)
      */
     @PostMapping("myPage/{articleId}/delete")
-    public String updateArticle(@PathVariable("articleId") Long articleId,
+    public String deleteArticle(@PathVariable("articleId") Long articleId,
                                 HttpServletRequest request, Model model) {
         String msg = "";
         HttpSession session = request.getSession();
-        Member member = (Member) session.getAttribute("member");
+        Object member = session.getAttribute("member");
         if (member != null) {
             int result = articleService.deleteArticle(articleId);
             if (result == 1) {
@@ -245,7 +249,7 @@ public class ArticleController {
                 msg = "오류가 발생했습니다. 다시 시도해주세요.";
             }
             model.addAttribute("msg", msg);
-            return "myPage/myPage(info)";
+            return "redirect:/myPage/default";
         } else {
             msg = "회원만 삭제가 가능합니다.";
             model.addAttribute("msg", msg);
