@@ -48,7 +48,7 @@ public class MyPageController {
             MemberDto memberDto = (MemberDto) myPage.get("memberDto");
             model.addAttribute("articleDtoList", articleDtoList);
             model.addAttribute("memberDto", memberDto);
-            return "myPage/mypage(library)";
+            return "myPage/myPage(library)";
         } else {
             String msg = "회원만 접근이 가능합니다.";
             model.addAttribute("msg", msg);

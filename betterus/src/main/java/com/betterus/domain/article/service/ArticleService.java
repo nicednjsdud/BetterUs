@@ -14,7 +14,7 @@ public interface ArticleService {
 
     
 
-    Article findArticle(Long articleId);
+    ArticleDto findArticle(Long articleId);
 
     int updateArticle(Long articleId, ArticleForm articleForm, List<MultipartFile> addFileList) throws Exception;
 
