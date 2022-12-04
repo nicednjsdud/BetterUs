@@ -34,7 +34,8 @@ function pwCheckLink(event){
   } 
 
   if ((isVaild_pwCond == true) && (isVaild_pwCheck == true) && (isValid_currentPw)){
-    location.href = "#";
+    let form = document.getElementById("edit");
+     form.submit();
   }
 }
   

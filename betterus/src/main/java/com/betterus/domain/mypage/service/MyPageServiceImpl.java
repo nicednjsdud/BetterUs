@@ -20,9 +20,11 @@ import com.betterus.model.Grade;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.format.DateTimeFormatter;
 import java.util.*;
 
 @Service
@@ -39,14 +41,14 @@ public class MyPageServiceImpl implements MyPageService {
     @Override
     public Map<Object, Object> findMyPageDefault(Long id) {
         Optional<MyPage> findMyPage = myPageRepository.findByMemberId(id);
+        List<Article> findArticle = articleRepository.findByMemberId(Sort.by(Sort.Direction.DESC,"createDate"),id);
         Map<Object, Object> map = new HashMap<>();
         if (findMyPage.isPresent()) {
             MyPage myPage = findMyPage.get();
-            List<Article> articleList = myPage.getArticleList();
 
             /** 모든 아티클 가져오기 */
             List<ArticleDto> articleDtoList = new ArrayList<>();
-            for (Article article : articleList) {
+            for (Article article : findArticle) {
                 ArticleDto articleDto =
                         new ArticleDto(article.getId(),article.getTitle(), article.getSubTitle(), article.getContents(), article.getStatus(), article.getReviewCount(), article.getJjimCount());
                 articleDtoList.add(articleDto);
@@ -146,7 +148,8 @@ public class MyPageServiceImpl implements MyPageService {
     @Override
     public ArticleDto articleConfirmCheck(Long articleId) {
         Article article = articleRepository.findArticleById(articleId);
-        ArticleDto articleDto = new ArticleDto(article.getId(),article.getTitle(),article.getSubTitle(),article.getContents(),article.getMember().getNickName(),article.getCreateDate());
+        String createDate = article.getCreateDate().format(DateTimeFormatter.ofPattern("yyyy-mm-dd"));
+        ArticleDto articleDto = new ArticleDto(article.getId(),article.getTitle(),article.getSubTitle(),article.getContents(),article.getMember().getNickName(),createDate);
         return articleDto;
     }
 

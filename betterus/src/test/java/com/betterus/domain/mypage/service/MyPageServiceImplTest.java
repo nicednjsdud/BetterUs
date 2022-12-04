@@ -67,12 +67,12 @@ class MyPageServiceImplTest {
         em.clear();
 
         // when
-//        Map<Object, Object> findMyPageList = myPageService.findAuthorById(authorId);
-//        List<ArticleDto> articleDtoList = (List<ArticleDto>) findMyPageList.get("articleDtoList");
-//        MemberDto memberDto = (MemberDto) findMyPageList.get("memberDto");
-//        // then
-//        assertThat(articleDtoList.size()).isEqualTo(13);
-//        assertThat(memberDto.getNickName()).isEqualTo("MemberA");
+        Map<Object, Object> findMyPageList = myPageService.findAuthorById(authorId);
+        List<ArticleDto> articleDtoList = (List<ArticleDto>) findMyPageList.get("articleDtoList");
+        MemberDto memberDto = (MemberDto) findMyPageList.get("memberDto");
+        // then
+        assertThat(articleDtoList.size()).isEqualTo(13);
+        assertThat(memberDto.getNickName()).isEqualTo("MemberA");
     }
 
     @Test

@@ -19,6 +19,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Optional;
 
@@ -72,8 +74,11 @@ public class ArticleServiceImpl implements ArticleService {
     }
 
     @Override
-    public Article findArticle(Long articleId) {
-        return articleRepository.findArticleById(articleId);
+    public ArticleDto findArticle(Long articleId) {
+        Article findArticle = articleRepository.findArticleById(articleId);
+        String createDate = findArticle.getCreateDate().format(DateTimeFormatter.ofPattern("yyyy-mm-dd"));
+        ArticleDto articleDto = new ArticleDto(findArticle.getId(), findArticle.getMember().getId(), findArticle.getTitle(), findArticle.getSubTitle(), findArticle.getContents(), findArticle.getReviewCount(), findArticle.getJjimCount(), findArticle.getMember().getNickName(), createDate);
+        return articleDto;
     }
 
     @Override
@@ -90,12 +95,11 @@ public class ArticleServiceImpl implements ArticleService {
             }
             findArticle.changeArticle(articleForm.getTitle(), articleForm.getSubTitle(), articleForm.getContents());
 
-            Article updateArticle = articleRepository.findArticleById(articleId);
-            if (updateArticle.getTitle().equals(checkArticle.getTitle())) return 1;
+            Article updateArticle = articleRepository.findArticleById(findArticle.getId());
+            return 1;
         } else {
             return 0;
         }
-        return 1;
     }
 
     @Override

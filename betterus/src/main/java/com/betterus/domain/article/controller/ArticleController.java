@@ -159,8 +159,8 @@ public class ArticleController {
     public String updateArticleForm(@PathVariable("articleId") Long articleId, Model model) {
         ArticleDto article = articleService.findArticle(articleId);
 
-        ArticleForm articleForm = new ArticleForm(article.getTitle(), article.getSubTitle(), article.getContents(), null);
-        model.addAttribute("articleForm", articleForm);
+        ArticleForm articleForm = new ArticleForm(article.getId(),article.getTitle(), article.getSubTitle(), article.getContents(), null);
+        model.addAttribute("article", articleForm);
         return "writing/writing(correction)";
     }
 
@@ -168,7 +168,7 @@ public class ArticleController {
      * 글 수정 (이미지 업로드 기능 추가예정)
      */
     @PostMapping("myPage/{articleId}/edit")
-    public String updateArticle(@PathVariable("articleId") Long articleId, @ModelAttribute("form") ArticleForm articleForm,
+    public String updateArticle(@PathVariable("articleId") Long articleId, @ModelAttribute("article") ArticleForm articleForm,
                                 HttpServletRequest request, Model model) throws Exception {
         String msg = "";
         HttpSession session = request.getSession();
@@ -176,7 +176,7 @@ public class ArticleController {
         Long sessionMemberId = (Long) member;
         Member findMember = memberService.findMemberById(sessionMemberId);
         // DB에 저장되어있는 파일 불러오기
-        List<Image> dbImgList = imageService.findAllByArticle(articleId);
+        List<Image> dbImgList = imageService.findAllByArticle(articleForm.getId());
         // 전달되어온 파일들
         List<MultipartFile> multipartFileList = articleForm.getFiles();
         // 새롭게 전달되어온 파일들의 목록을 저장할 List 선언
@@ -218,7 +218,7 @@ public class ArticleController {
             if (result == 1) {
                 msg = "글 수정이 완료되었습니다.";
                 model.addAttribute("msg", msg);
-                return "myPage/myPage(info)";
+                return "main/main";
             } else {
                 msg = "오류가 발생했습니다. 다시 시도해주세요.";
                 model.addAttribute("msg", msg);
