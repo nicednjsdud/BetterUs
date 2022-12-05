@@ -34,17 +34,22 @@
         <img class="logo" src="/img/logo_W_new.png" alt=" ">
       </div>
       <ul class="nav">
-        <li><button type="submit" form ="write">저장</button></li>
+        <li><button id="save_btn" type="submit" form ="write">저장</button></li>
       </ul>
     </div>
     <div class="section">
       <div class="background-space">
         <div class="writing-space">
-          <form id="write" role="form" th:object="${articleForm}" action="/write" method="post">
+          <form id="write" role="form" th:object="${articleForm}" action="/write" method="post" enctype="multipart/form-data">
             <input class="title" th:field="*{title}" type="text" placeholder="제목을 입력해주세요">
             <input class="subtitle" th:field="*{subTitle}" type="text" placeholder="소제목을 입력해주세요.">
           <hr/>
           <textarea class="content" th:field="*{contents}"  type="text" cols="30" rows="20" placeholder="내용을 입력해주세요"></textarea>
+            <div>
+              파일을 업로드 해주세요
+              <input class="file"  th:field="*{files}" type="file" />
+            </div>
+
           </form>
         </div>
       </div>

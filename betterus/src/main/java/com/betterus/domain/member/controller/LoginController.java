@@ -12,6 +12,7 @@ import com.betterus.domain.member.domain.Member;
 import com.betterus.domain.member.dto.MemberDto;
 import com.betterus.domain.member.dto.MemberLoginForm;
 import com.betterus.domain.member.service.MemberService;
+import com.betterus.model.Grade;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -44,10 +45,11 @@ public class LoginController {
         // 회원가입 내역이 있으면
         if (loginMember != null) {
             HttpSession session = request.getSession();
-            MemberDto memberDto = new MemberDto(loginMember.getId(), loginMember.getNickName());
+            MemberDto memberDto = new MemberDto(loginMember.getId(), loginMember.getNickName(), loginMember.getGrade());
             session.setAttribute("member", memberDto.getId());
             session.setAttribute("isLogOn", true);
-            return "redirect:/";
+            if(loginMember.getGrade() == Grade.ADMIN) session.setAttribute("admin", true);
+            return "main/main";
         } else {
             String msg = "입력하신 아이디 혹은 패스워드가 틀립니다.";
             model.addAttribute("msg", msg);

@@ -7,6 +7,7 @@
 
 package com.betterus.domain.article.dto;
 
+import com.betterus.domain.article.domain.Image;
 import com.betterus.domain.articleseries.domain.ArticleSeries;
 import com.betterus.domain.member.domain.Member;
 import com.betterus.model.ArticleStatus;
@@ -20,6 +21,8 @@ import javax.persistence.*;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
+import java.util.List;
 
 import static javax.persistence.FetchType.LAZY;
 
@@ -37,6 +40,8 @@ public class ArticleDto {
     private String contents;
     private ArticleStatus status;
 
+    private String email;
+
     private Long reviewCount;
 
     private Long jjimCount;
@@ -49,10 +54,14 @@ public class ArticleDto {
 
     private String createDate;
 
+    private String user_info;
+
+    private String imageFullPath;
+
     /**
      * 리스트 페이징 용
      */
-    public ArticleDto(Long id,String title, String subTitle, String contents, ArticleStatus status, Long reviewCount, Long jjimCount) {
+    public ArticleDto(Long id, String title, String subTitle, String contents, ArticleStatus status, Long reviewCount, Long jjimCount, String imageFullPath) {
         this.id = id;
         this.title = title;
         this.subTitle = subTitle;
@@ -60,18 +69,19 @@ public class ArticleDto {
         this.status = status;
         this.reviewCount = reviewCount;
         this.jjimCount = jjimCount;
+        this.imageFullPath = imageFullPath;
     }
 
     /**
      * 관리자 페이지 작가 신청 확인 article
      */
 
-    public ArticleDto(Long id, String title, ArticleStatus status, String nickName, Grade grade, String authorConfirmDate) {
+    public ArticleDto(Long id, String title, ArticleStatus status, String nickName, String email, String authorConfirmDate) {
         this.id = id;
         this.title = title;
         this.status = status;
         this.nickName = nickName;
-        this.grade = grade;
+        this.email = email;
         this.authorConfirmDate = authorConfirmDate;
     }
 
@@ -79,13 +89,15 @@ public class ArticleDto {
      * 관리자 페이지 article 한개 보이기 용
      */
 
-    public ArticleDto(Long id, String title, String subTitle, String contents, String nickName, String createDate) {
+    public ArticleDto(Long id,Long memberId, String title, String subTitle, String contents, String nickName, String createDate, String user_info) {
         this.id = id;
+        this.memberId = memberId;
         this.title = title;
         this.subTitle = subTitle;
         this.contents = contents;
         this.nickName = nickName;
         this.createDate = createDate;
+        this.user_info = user_info;
     }
 
     /**

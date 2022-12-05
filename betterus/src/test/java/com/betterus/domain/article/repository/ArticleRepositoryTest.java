@@ -102,7 +102,7 @@ class ArticleRepositoryTest {
                 articleRepository.save(new Article("Test" + i, "test" + i, "테스트" + i, ArticleStatus.APPROVAL, findMember));
             }
             PageRequest pageRequest = PageRequest.of(0,10,Sort.by(Sort.DEFAULT_DIRECTION,"createDate"));
-            Page<Article> findArticles = articleRepository.findByArticleStatus(ArticleStatus.APPROVAL, pageRequest);
+            Page<Article> findArticles = articleRepository.findByStatus(ArticleStatus.APPROVAL, pageRequest);
 
             assertThat(findArticles.getSize()).isEqualTo(10);
             assertThat(findArticles.getTotalPages()).isEqualTo(2);
@@ -126,7 +126,7 @@ class ArticleRepositoryTest {
                 articleRepository.save(new Article("Test" + i, "test" + i, "테스트" + i, ArticleStatus.WAIT, findMember));
             }
             PageRequest pageRequest = PageRequest.of(0,10,Sort.by(Sort.DEFAULT_DIRECTION,"member.authorConfirmDate"));
-            Page<Article> findArticles = articleRepository.findConfirmArticleByArticleStatus(ArticleStatus.WAIT, pageRequest);
+            Page<Article> findArticles = articleRepository.findConfirmArticleByStatus(ArticleStatus.WAIT, pageRequest);
 
             assertThat(findArticles.getSize()).isEqualTo(10);
             assertThat(findArticles.getTotalPages()).isEqualTo(2);

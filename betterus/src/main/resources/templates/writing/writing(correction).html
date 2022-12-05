@@ -27,12 +27,12 @@
     </div>
     <ul class="nav">
         <li>
-            <button typ="submit" form="edit">수정</button>
+            <button class="edit_delete_btn" type="submit" form="edit">수정</button>
         </li>
         <li>
             <form method="POST" th:object="${article}"
                   th:action="@{/myPage/{articleId}/delete (articleId=${article.id})}">
-                <button type="submit" name="submit">삭제</button>
+                <button class="edit_delete_btn" type="submit" name="submit">삭제</button>
             </form>
         </li>
     </ul>
@@ -42,8 +42,10 @@
         <div class="writing-space">
             <form id="edit" th:object="${article}" th:action="@{/myPage/{articleId}/edit (articleId=${article.id})}"
                   method="POST">
-                <input class="title" type="text" th:value="${article.title}" th:field="*{title}" placeholder="제목을 입력해주세요">
-                <input class="subtitle" type="text" th:value="${article.subTitle}" th:field="*{subTitle}" placeholder="소제목을 입력해주세요.">
+                <input class="title" type="text" th:value="${article.title}" th:field="*{title}"
+                       placeholder="제목을 입력해주세요">
+                <input class="subtitle" type="text" th:value="${article.subTitle}" th:field="*{subTitle}"
+                       placeholder="소제목을 입력해주세요.">
                 <hr/>
                 <textarea class="content" cols="30" rows="20" th:text="${article.contents}" th:field="*{contents}"
                           placeholder="내용을 입력해주세요"></textarea>

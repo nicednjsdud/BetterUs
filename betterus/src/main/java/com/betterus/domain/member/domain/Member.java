@@ -81,9 +81,10 @@ public class Member extends BaseTimeEntity {
      */
     @PrePersist
     public void prePersist(){
-        if(this.gudok_count == null && this.gudokForCount == null){
+        if(this.gudok_count == null && this.gudokForCount == null && this.getAuthorConfirmDate() == null){
             this.gudok_count = 0L;
             this.gudokForCount = 0L;
+            this.authorConfirmDate = "-";
         }
     }
 
@@ -142,7 +143,7 @@ public class Member extends BaseTimeEntity {
      * 등급 변경 (작가, 일반회원, 관리자)
      */
     public void changeGrade(Grade grade){
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy.MM.dd");
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
         Calendar c1 = Calendar.getInstance();
         String strToday = sdf.format(c1.getTime());
         this.authorConfirmDate = strToday;
