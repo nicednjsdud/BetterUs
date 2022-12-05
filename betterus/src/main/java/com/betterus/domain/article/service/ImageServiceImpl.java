@@ -1,11 +1,13 @@
 package com.betterus.domain.article.service;
 
 import com.betterus.domain.article.domain.Image;
+import com.betterus.domain.article.dto.ImageDto;
 import com.betterus.domain.article.repository.ImageRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @AllArgsConstructor
@@ -27,4 +29,10 @@ public class ImageServiceImpl implements ImageService{
     public Image findByImageId(Long id) {
         return imageRepository.findByImageId(id);
     }
+
+//    @Override
+//    public List<ImageDto> findByArticleId(Long articleId) {
+//        List<Image> imageList = imageRepository.findAllByArticle(articleId);
+//        return imageList.stream().map(ImageDto::new).collect(Collectors.toList());
+//    }
 }

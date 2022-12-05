@@ -50,13 +50,14 @@ public class MyPageServiceImpl implements MyPageService {
             List<ArticleDto> articleDtoList = new ArrayList<>();
             for (Article article : findArticle) {
                 ArticleDto articleDto =
-                        new ArticleDto(article.getId(),article.getTitle(), article.getSubTitle(), article.getContents(), article.getStatus(), article.getReviewCount(), article.getJjimCount());
+                        new ArticleDto(article.getId(),article.getTitle(), article.getSubTitle(), article.getContents(),
+                                article.getStatus(), article.getReviewCount(), article.getJjimCount(),null);
                 articleDtoList.add(articleDto);
-                // 이미지 추가 예정
             }
             /** 회원정보 가져오기 */
             Member member = myPage.getMember();
-            MemberDto memberDto = new MemberDto(member.getNickName(), member.getGudok_count(), member.getGudokForCount(),member.getUser_info());
+            MemberDto memberDto = new MemberDto(member.getNickName(), member.getGudok_count(),
+                    member.getGudokForCount(),member.getUser_info());
 
             map.put("articleDtoList", articleDtoList);
             map.put("memberDto", memberDto);
@@ -77,7 +78,7 @@ public class MyPageServiceImpl implements MyPageService {
             List<ArticleDto> articleDtoList = new ArrayList<>();
             for (Article article : articleList) {
                 ArticleDto articleDto =
-                        new ArticleDto(article.getId(),article.getTitle(), article.getSubTitle(), article.getContents(), article.getStatus(), article.getReviewCount(), article.getJjimCount());
+                        new ArticleDto(article.getId(),article.getTitle(), article.getSubTitle(), article.getContents(), article.getStatus(), article.getReviewCount(), article.getJjimCount(),null);
                 articleDtoList.add(articleDto);
             }
             /** 회원정보 가져오기 */
@@ -116,19 +117,10 @@ public class MyPageServiceImpl implements MyPageService {
      */
     @Override
     public Page<MemberDto> findAdminPageDefault(Pageable pageable) {
-        Page<MemberDto> findArticles = memberRepository.findAll(pageable).map(MemberDto::new);
-        return findArticles;
-    }
 
-    /**
-     * 옵션 적용 안한 기본 article confirm 리스트
-     */
-    @Override
-    public Page<ArticleDto> findAdminPageConfirmArticle(Pageable pageable) {
-        Page<Article> articleList = articleRepository.findConfirmArticleByArticleStatus(ArticleStatus.WAIT,pageable);
-        Page<ArticleDto> articleDtos = articleList.map(article ->
-                new ArticleDto(article.getId(), article.getTitle(), article.getStatus(), article.getMember().getNickName(),article.getMember().getGrade(),article.getMember().getAuthorConfirmDate()));
-        return articleDtos;
+        Page<MemberDto> findArticles = memberRepository.findAll(pageable).map(member ->
+                new MemberDto(member.getId(),member.getNickName(),member.getGrade(),member.getEmail(), member.getAuthorConfirmDate(), member.getCreateDate().format(DateTimeFormatter.ofPattern("yyyy-MM-dd"))));
+        return findArticles;
     }
 
     /**
@@ -138,9 +130,22 @@ public class MyPageServiceImpl implements MyPageService {
     public Page<MemberDto> findSearchMemberList(String keyword, Pageable pageable) {
         Page<Member> findMembers = memberRepository.findSearchListByNickNameContaining(keyword, pageable);
         Page<MemberDto> MemberDtos = findMembers.map(member ->
-                new MemberDto(member.getId(),member.getNickName(),member.getGrade(),member.getAuthorConfirmDate(),member.getCreateDate()));
+                new MemberDto(member.getId(),member.getNickName(),member.getGrade(),member.getEmail(),member.getAuthorConfirmDate(),member.getCreateDate().format(DateTimeFormatter.ofPattern("yyyy-mm-dd"))));
         return MemberDtos;
     }
+
+    /**
+     * 옵션 적용 안한 기본 article confirm 리스트
+     */
+    @Override
+    public Page<ArticleDto> findAdminPageConfirmArticle(Pageable pageable) {
+        Page<Article> articleList = articleRepository.findConfirmArticleByStatus(ArticleStatus.WAIT,pageable);
+        Page<ArticleDto> articleDtos = articleList.map(article ->
+                new ArticleDto(article.getId(), article.getTitle(), article.getStatus(), article.getMember().getNickName(),article.getMember().getEmail(),article.getMember().getAuthorConfirmDate()));
+        return articleDtos;
+    }
+
+
 
     /**
      * 관리자 페이지 article 하나 보이기 용
@@ -148,8 +153,8 @@ public class MyPageServiceImpl implements MyPageService {
     @Override
     public ArticleDto articleConfirmCheck(Long articleId) {
         Article article = articleRepository.findArticleById(articleId);
-        String createDate = article.getCreateDate().format(DateTimeFormatter.ofPattern("yyyy-mm-dd"));
-        ArticleDto articleDto = new ArticleDto(article.getId(),article.getTitle(),article.getSubTitle(),article.getContents(),article.getMember().getNickName(),createDate);
+        String createDate = article.getCreateDate().format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+        ArticleDto articleDto = new ArticleDto(article.getId(),article.getMember().getId(),article.getTitle(),article.getSubTitle(),article.getContents(),article.getMember().getNickName(),createDate,article.getMember().getUser_info());
         return articleDto;
     }
 
@@ -186,5 +191,13 @@ public class MyPageServiceImpl implements MyPageService {
             }
         }
         return 1;
+    }
+
+    @Override
+    public Page<ArticleDto> findSearchArticleList(String keyword, Pageable pageable) {
+        Page<Article> findArticles = articleRepository.findSearchListByTitleContaining(keyword, pageable);
+        Page<ArticleDto> articleDtos = findArticles.map(article ->
+                new ArticleDto(article.getId(), article.getTitle(), article.getStatus(), article.getMember().getNickName(),article.getMember().getEmail(),article.getMember().getAuthorConfirmDate()));
+        return articleDtos;
     }
 }

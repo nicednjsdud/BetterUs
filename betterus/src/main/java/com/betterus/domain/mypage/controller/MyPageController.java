@@ -10,13 +10,17 @@ package com.betterus.domain.mypage.controller;
 import com.betterus.domain.article.dto.ArticleDto;
 import com.betterus.domain.member.domain.Member;
 import com.betterus.domain.member.dto.MemberDto;
+import com.betterus.domain.member.repository.MemberRepository;
+import com.betterus.domain.member.service.MemberService;
 import com.betterus.domain.mypage.service.MyPageService;
 import com.betterus.model.Grade;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.stereotype.Controller;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -28,11 +32,16 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import static com.betterus.model.Grade.ADMIN;
+
 @RequiredArgsConstructor
 @Controller
 public class MyPageController {
 
     private final MyPageService myPageService;
+
+    private final MemberService memberService;
+
 
     /**
      * 마이페이지 (유저,작가) default (list - 최신순)
@@ -40,7 +49,7 @@ public class MyPageController {
     @GetMapping("/myPage/default")
     public String myPageUser(Model model, HttpServletRequest request) {
         HttpSession session = request.getSession();
-        Object member =session.getAttribute("member");
+        Object member = session.getAttribute("member");
         Long sessionMemberId = (Long) member;
         if (member != null) {
             Map<Object, Object> myPage = myPageService.findMyPageDefault(sessionMemberId);
@@ -60,47 +69,25 @@ public class MyPageController {
      * 마이페이지 (관리자) default (list - 최신순), 옵션 값 추가 예정
      */
     @GetMapping("/myPage/admin/memberInfo")
-    public String myPageAdmin(@PageableDefault(size = 10) Pageable pageable, Model model, HttpServletRequest request) {
+    public String myPageAdmin(@PageableDefault(size = 10, page = 0, sort = "createDate", direction = Sort.Direction.DESC) Pageable pageable, Model model, HttpServletRequest request) {
         HttpSession session = request.getSession();
-        Member member = (Member) session.getAttribute("member");
-        if (member != null && member.getGrade() == Grade.ADMIN) {
+        Object member = session.getAttribute("member");
+        Long sessionMemberId = (Long) member;
+        Object admin = session.getAttribute("admin");
+        if (sessionMemberId != null && admin !=null) {
             Page<MemberDto> memberList = myPageService.findAdminPageDefault(pageable);
-            int nowPage = memberList.getPageable().getPageNumber();
+            int nowPage = memberList.getPageable().getPageNumber() + 1;
             int startPage = Math.max(nowPage - 4, 1);
             int endPage = Math.min(nowPage + 5, memberList.getTotalPages());
-            model.addAttribute("list", memberList);
+            model.addAttribute("memberList", memberList);
             model.addAttribute("nowPage", nowPage);
             model.addAttribute("startPage", startPage);
             model.addAttribute("endPage", endPage);
-            return "/myPage/myPage(info)";  // 확인
+            return "manager/manager(info)";
         } else {
             String msg = "관리자만 접근이 가능합니다.";
             model.addAttribute("msg", msg);
-            return "redirect:/";
-        }
-    }
-
-    /**
-     * 마이페이지 (관리자) 작가 신청 확인 글 (list - 최신순), 옵션 값 추가 예정
-     */
-    @GetMapping("/myPage/admin/articleConfirmCheck")
-    public String myPageAdminConfirmCheck(@PageableDefault(size = 10) Pageable pageable, Model model, HttpServletRequest request) {
-        HttpSession session = request.getSession();
-        Member member = (Member) session.getAttribute("member");
-        if (member != null && member.getGrade() == Grade.ADMIN) {
-            Page<ArticleDto> articleList = myPageService.findAdminPageConfirmArticle(pageable);
-            int nowPage = articleList.getPageable().getPageNumber();
-            int startPage = Math.max(nowPage - 4, 1);
-            int endPage = Math.min(nowPage + 5, articleList.getTotalPages());
-            model.addAttribute("list", articleList);
-            model.addAttribute("nowPage", nowPage);
-            model.addAttribute("startPage", startPage);
-            model.addAttribute("endPage", endPage);
-            return "/myPage/myPage(info)";  // 확인
-        } else {
-            String msg = "관리자만 접근이 가능합니다.";
-            model.addAttribute("msg", msg);
-            return "redirect:/";
+            return "main/main";
         }
     }
 
@@ -108,80 +95,130 @@ public class MyPageController {
      * 마이페이지 (관리자) 회원정보 서칭 리스트 (list - 최신순)
      */
     @GetMapping("/myPage/admin/memberInfo/search")
-    public String articleListSearch(@RequestParam("searchKeyword") String keyword, @PageableDefault(size = 10) Pageable pageable, Model model) {
-        Page<MemberDto> searchArticleList = myPageService.findSearchMemberList(keyword, pageable);
-        int nowPage = searchArticleList.getPageable().getPageNumber();
+    public String memberListSearch(@RequestParam("searchKeyword") String keyword, @PageableDefault(size = 10, page = 0, sort = "createDate", direction = Sort.Direction.DESC) Pageable pageable, Model model) {
+        Page<MemberDto> searchMemberList = myPageService.findSearchMemberList(keyword, pageable);
+        int nowPage = searchMemberList.getPageable().getPageNumber() + 1;
         int startPage = Math.max(nowPage - 4, 1);
-        int endPage = Math.min(nowPage + 5, searchArticleList.getTotalPages());
-        model.addAttribute("list", searchArticleList);
+        int endPage = Math.min(nowPage + 5, searchMemberList.getTotalPages());
+        model.addAttribute("memberList", searchMemberList);
         model.addAttribute("nowPage", nowPage);
         model.addAttribute("startPage", startPage);
         model.addAttribute("endPage", endPage);
-        return "article/articles";
+        return "manager/manager(info)";
     }
+
+    /**
+     * 마이페이지 (관리자) 작가 신청 확인 글 (list - 최신순), 옵션 값 추가 예정
+     */
+    @GetMapping("/myPage/admin/articleConfirmCheck")
+    public String myPageAdminConfirmCheck(@PageableDefault(size = 10, page = 0, sort = "createDate", direction = Sort.Direction.DESC) Pageable pageable, Model model, HttpServletRequest request) {
+        HttpSession session = request.getSession();
+        Object member =session.getAttribute("member");
+        Object admin = session.getAttribute("admin");
+        if (member != null && admin !=null) {
+            Page<ArticleDto> articleList = myPageService.findAdminPageConfirmArticle(pageable);
+            int nowPage = articleList.getPageable().getPageNumber() + 1;
+            int startPage = Math.max(nowPage - 4, 1);
+            int endPage = Math.min(nowPage + 5, articleList.getTotalPages());
+            model.addAttribute("articleList", articleList);
+            model.addAttribute("nowPage", nowPage);
+            model.addAttribute("startPage", startPage);
+            model.addAttribute("endPage", endPage);
+            return "manager/manager(article-check)";
+        } else {
+            String msg = "관리자만 접근이 가능합니다.";
+            model.addAttribute("msg", msg);
+            return "main/main";
+        }
+    }
+    /**
+     * 마이페이지 (관리자) 회원정보 서칭 리스트 (list - 최신순)
+     */
+    @GetMapping("/myPage/admin/article/search")
+    public String articleListSearch(HttpServletRequest request,@RequestParam("searchKeyword") String keyword, @PageableDefault(size = 10, page = 0, sort = "createDate", direction = Sort.Direction.DESC) Pageable pageable, Model model) {
+        HttpSession session = request.getSession();
+        Object member =session.getAttribute("member");
+        Object admin = session.getAttribute("admin");
+        if (member != null && admin !=null) {
+            Page<ArticleDto> searchArticleList = myPageService.findSearchArticleList(keyword, pageable);
+            int nowPage = searchArticleList.getPageable().getPageNumber() + 1;
+            int startPage = Math.max(nowPage - 4, 1);
+            int endPage = Math.min(nowPage + 5, searchArticleList.getTotalPages());
+            model.addAttribute("articleList", searchArticleList);
+            model.addAttribute("nowPage", nowPage);
+            model.addAttribute("startPage", startPage);
+            model.addAttribute("endPage", endPage);
+            return "manager/manager(article-check)";
+        }else{
+            String msg = "관리자만 접근이 가능합니다.";
+            model.addAttribute("msg", msg);
+            return "main/main";
+        }
+    }
+
+
 
     /**
      * 마이페이지 (관리자) 작가신청 회원글 1개 보기
      */
     @GetMapping("/myPage/admin/articleConfirmCheck/article/{articleId}")
-    public String confirmCheckArticle(@PathVariable("articleId") Long articleId,Model model) {
+    public String confirmCheckArticle(@PathVariable("articleId") Long articleId, Model model) {
         ArticleDto articleDto = myPageService.articleConfirmCheck(articleId);
-        model.addAttribute("articleDto", articleDto);
-        return "article/articles";
+        model.addAttribute("article", articleDto);
+        return "manager/passOrFail";
     }
 
     /**
      * 마이페이지 (관리자) 작가 신청 승인
      */
-    @GetMapping("/myPage/admin/pass")
-    public String authorPass(@RequestParam("memberId")Long memberId,Model model) {
+    @GetMapping("/myPage/admin/pass/{memberId}")
+    @Transactional
+    public String authorPass(@PathVariable("memberId") Long memberId, Model model) {
         int result = myPageService.authorPass(memberId);
         String msg = "";
-        if(result == 1){
+        if (result == 1) {
             msg = "작가 승인이 완료되었습니다.";
-            model.addAttribute("msg",msg);
+            model.addAttribute("msg", msg);
         }
-        return "manager/manager(info)";
+        return "redirect:/";
     }
 
     /**
      * 마이페이지 (관리자) 작가 신청 불승인
      */
-    @GetMapping("/myPage/admin/fail")
-    public String authorFail(@RequestParam("memberId")Long memberId,Model model) {
+    @GetMapping("/myPage/admin/fail/{memberId}")
+    @Transactional
+    public String authorFail(@PathVariable("memberId") Long memberId, Model model) {
         int result = myPageService.authorFail(memberId);
         String msg = "";
-        if(result == 1){
+        if (result == 1) {
             msg = "작가 승인을 취소하였습니다.";
-            model.addAttribute("msg",msg);
+            model.addAttribute("msg", msg);
         }
-        return "manager/manager(info)";
+        return "redirect:/";
     }
 
-    
 
     /**
      * 작가 상세 페이지 (패이징) 진행중
      */
     @GetMapping("/list/authorPage/{authorId}/default")
     public String authorInfo(@PathVariable("authorId") Long authorId, Model model, HttpServletRequest request) {
-        String msg = "";
         HttpSession session = request.getSession();
-        Member member = (Member) session.getAttribute("member");
-        if (member != null) {
-            if (member.getId() == authorId) {
-                // 만약 자신의 서재이면 마이페이지로 이동
-                return "/redirect:/myPage/default";
-            } else {
-                Map<Object, Object> authorMap = new HashMap<>();
-                authorMap = myPageService.findAuthorById(authorId);
-                model.addAttribute("authorMap", authorMap);
-                return "화면 구현안됨";
-            }
+        Object member = session.getAttribute("member");
+        Long sessionMemberId = (Long) member;
+        String msg = "";
+        if (sessionMemberId != null) {
+            Map<Object, Object> myPage = myPageService.findMyPageDefault(sessionMemberId);
+            List<ArticleDto> articleDtoList = (List<ArticleDto>) myPage.get("articleDtoList");
+            MemberDto memberDto = (MemberDto) myPage.get("memberDto");
+            model.addAttribute("articleDtoList", articleDtoList);
+            model.addAttribute("memberDto", memberDto);
+            return "myPage/myPage(library)";
         } else {
             msg = "회원만 보기가 가능합니다.";
             model.addAttribute("msg", msg);
-            return "redirect:/";
+            return "main/main";
         }
     }
 
@@ -202,11 +239,11 @@ public class MyPageController {
             else if (result == 0) msg = "오류가 발생했습니다. 다시시도해주세요.";
 
             model.addAttribute("msg", msg);
-            return "/redirect:/myPage/default";
+            return "main/main";
         } else {
             msg = "회원만 신청이 가능합니다.";
             model.addAttribute("msg", msg);
-            return "redirect:/";
+            return "main/main";
         }
     }
 }

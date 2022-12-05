@@ -12,12 +12,17 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
+
 @Controller
 @RequiredArgsConstructor
 public class MainController {
 
+
+
     @RequestMapping("/")
-    public String main(){
+    public String main(HttpServletRequest request){
         return "main/main";
     }
 

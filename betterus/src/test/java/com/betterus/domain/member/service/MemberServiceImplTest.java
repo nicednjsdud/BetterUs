@@ -1,6 +1,7 @@
 package com.betterus.domain.member.service;
 
 import com.betterus.domain.member.domain.Member;
+import com.betterus.domain.member.dto.MemberDto;
 import com.betterus.domain.member.dto.MemberEditForm;
 import com.betterus.domain.member.repository.MemberRepository;
 import com.betterus.model.Grade;

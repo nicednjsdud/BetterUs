@@ -25,7 +25,7 @@
         </label>
         <div class="sidebar">
             <ul class="submenu">
-                <li><a href="/myPage/default">마이&nbsp;페이지</a></li>
+                <li><a th:if="${session.admin != true}" href="/myPage/default">마이&nbsp;페이지</a></li>
                 <li><a href="/list/author">작가&nbsp;둘러보기</a></li>
                 <li><a href="/list/article">에세이&nbsp;둘러보기</a></li>
             </ul>
@@ -39,10 +39,10 @@
     </div>
     <ul class="nav" th:if="${session.member == article.memberId}">
         <form method="GET" th:action="@{/myPage/{articleId}/edit (articleId=${article.id})}">
-            <li><button type="submit" name="submit">수정</button></li>
+            <li><button class="edit_delete_btn" type="submit" name="submit">수정</button></li>
         </form>
         <form method="POST" th:action="@{/myPage/{articleId}/delete (articleId=${article.id})}">
-            <li><button type="submit" name="submit">삭제</button></li>
+            <li><button class="edit_delete_btn" type="submit" name="submit">삭제</button></li>
         </form>
     </ul>
 </div>

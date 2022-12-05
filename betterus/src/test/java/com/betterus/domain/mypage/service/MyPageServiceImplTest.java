@@ -79,7 +79,7 @@ class MyPageServiceImplTest {
     @DisplayName("글상태 3개이상이면 대기중으로 변경하기")
     void changeArticleStatus() {
         // given
-        Member member = new Member("MemberA", "123123", "nicednjsdud@gmail.com", Grade.USER);
+        Member member = new Member("정원영", "123123", "nicednjsdud@naver.com", Grade.USER);
         Member saveMember = memberRepository.save(member);
         MyPage findMypage = myPageRepository.save(new MyPage(member));
         Long authorId = saveMember.getId();

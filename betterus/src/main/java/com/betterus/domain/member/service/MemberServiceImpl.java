@@ -128,10 +128,18 @@ public class MemberServiceImpl implements MemberService {
      */
     @Override
     public Page<MemberDto> findAuthorByGrade(Pageable pageable) {
-        Page<MemberDto> findMembers = memberRepository.findAuthorByGrade(Grade.AUTHOR, pageable);
-//        Page<ArticleDto> articleDtos = findArticles.map(article ->
-//                new ArticleDto(article.getId(),article.getTitle(),article.getSubTitle(),article.getSubTitle(),article.getStatus()));
-        return findMembers;
+        Page<Member> findMembers = memberRepository.findAuthorByGrade(Grade.AUTHOR, pageable);
+        Page<MemberDto> memberDto = findMembers.map(member ->
+                new MemberDto(member.getId(), member.getNickName(), member.getUser_info(), member.getGudok_count(), member.getGudokForCount()));
+        return memberDto;
+    }
+
+    @Override
+    public Page<MemberDto> findSearchMemberList(String keyword, Pageable pageable) {
+        Page<Member> findMembers = memberRepository.findAuthorByGradeAndNickNameContaining(Grade.AUTHOR, keyword, pageable);
+        Page<MemberDto> memberDto = findMembers.map(member ->
+                new MemberDto(member.getId(), member.getNickName(), member.getUser_info(), member.getGudok_count(), member.getGudokForCount()));
+        return memberDto;
     }
 
 }

@@ -158,7 +158,7 @@ class MemberRepositoryTest {
         em.clear();
 
         PageRequest pageRequest = PageRequest.of(0,10, Sort.by(Sort.DEFAULT_DIRECTION,"gudok_count"));
-        Page<MemberDto> findAuthors = memberRepository.findAuthorByGrade(Grade.AUTHOR,pageRequest);
+        Page<Member> findAuthors = memberRepository.findAuthorByGrade(Grade.AUTHOR,pageRequest);
 
         assertThat(findAuthors.getSize()).isEqualTo(10);
         assertThat(findAuthors.getTotalPages()).isEqualTo(2);
