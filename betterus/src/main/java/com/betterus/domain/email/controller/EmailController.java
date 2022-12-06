@@ -14,8 +14,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.mail.MessagingException;
 import java.io.UnsupportedEncodingException;
@@ -26,19 +25,18 @@ public class EmailController {
 
     private final EmailService emailService;
 
-    @PostMapping("mail/mailConfirm")
-    public String mailConfirm(@ModelAttribute("emailForm") EmailAuthRequestDto emailDto) throws MessagingException, UnsupportedEncodingException {
+    @PostMapping("/mail/mailConfirm")
+    public void mailConfirm(@RequestParam(value = "email",required = false) String email) throws MessagingException, UnsupportedEncodingException {
         String action = "mailConfirm";
-        String authCode = emailService.sendEmail(emailDto.getEmail(), action);
-        emailService.saveAuthCode(emailDto.getEmail(), authCode);
-        return authCode;
+        String authCode = emailService.sendEmail(email, action);
+        emailService.saveAuthCode(email, authCode);
     }
 
-    @PostMapping("mail/sendTempPassword")
+    @PostMapping("/mail/sendTempPassword")
     public String sendTempPassword(@ModelAttribute("emailForm") EmailAuthRequestDto emailDto) throws MessagingException, UnsupportedEncodingException {
         String action = "sendTempPassword";
         String authCode = emailService.sendEmail(emailDto.getEmail(), action);
         emailService.saveTempPassword(emailDto.getEmail(), authCode);
-        return authCode;
+        return "redirect:login/login";
     }
 }

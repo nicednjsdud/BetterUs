@@ -67,8 +67,8 @@ public class LoginController {
     }
 
     @GetMapping("/login/findPassword")
-    public String findPassword(Model model) {
-        model.addAttribute("emailForm", new EmailAuthRequestDto());
+    public String findPassword(Model model,EmailAuthRequestDto emailAuthRequestDto) {
+        model.addAttribute("emailForm", emailAuthRequestDto);
         return "login/findpassword";
     }
 
