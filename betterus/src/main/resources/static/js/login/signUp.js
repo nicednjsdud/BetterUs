@@ -10,13 +10,15 @@ console.log(emailInput.getAttribute( 'check_result' ));
 let emailRegExp = /^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*.[a-zA-Z]{2,3}$/i;
 let passwordRegExp =/^.*(?=^.{8,15}$)(?=.*\d)(?=.*[a-zA-Z])(?=.*[!@#$%^&+=]).*$/;
 
+
+
 function loginLink(event){
   event.preventDefault();
   let isValid_email=emailRegExp.test(emailInput.value);
-  if(!isValid_email){
-    alert("유효하지 않은 이메일입니다.");
-    return;
-  } 
+//  if(!isValid_email){
+//    alert("유효하지 않은 이메일입니다.");
+//    return;
+//  }
 
   let isValid_pwCond=passwordRegExp.test(pwInput.value);
   if(!isValid_pwCond){
@@ -35,17 +37,17 @@ function loginLink(event){
     return;
   } 
 
-  let isDuplicate_email = (emailInput.getAttribute( 'check_result' ) == "success");
-  if(!isDuplicate_email){
-    alert("이메일 중복 확인을 진행해주십시오.");
-    return;
-  } 
-
-  let isCertificate_email = (emailInput.getAttribute( 'certification' ) == "success");
-  if(!isCertificate_email){
-    alert("이메일 인증을 진행해주십시오.");
-    return;
-  } 
+//  let isDuplicate_email = (emailInput.getAttribute( 'check_result' ) == "success");
+//  if(!isDuplicate_email){
+//    alert("이메일 중복 확인을 진행해주십시오.");
+//    return;
+//  }
+//
+//  let isCertificate_email = (emailInput.getAttribute( 'certification' ) == "success");
+//  if(!isCertificate_email){
+//    alert("이메일 인증을 진행해주십시오.");
+//    return;
+//  }
 
   let isDuplicate_nickname = (nicknameInput.getAttribute( 'check_result2' ) == "success");
   if(!isDuplicate_nickname){
@@ -57,6 +59,10 @@ function loginLink(event){
 //     && (isDuplicate_email) && (isCertificate_email) && (isDuplicate_nickname)){
 //    location.href = "loginSuccess";
 //  }
+    else{
+        const form = document.querySelector('#form');
+        form.submit();
+    }
 }
   
 

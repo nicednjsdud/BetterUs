@@ -25,6 +25,7 @@
         });
 
 
+
     </script>
 </head>
 <body>
@@ -52,7 +53,7 @@
             <div class="input-title">
                 <div id="state" class="input-subtitle">회원&nbsp;상태</div>
                 <div id="info" class="input-subtitle">회원정보&nbsp;수정</div>
-<!--                <div id="out" class="input-subtitle">회원&nbsp;탈퇴</div>-->
+                <!--                <div id="out" class="input-subtitle">회원&nbsp;탈퇴</div>-->
             </div>
             <div class="input-box">
                 <div class="state" th:text="${memberList.grade}"></div>
@@ -72,7 +73,6 @@
                         <input class="inputbox" type="password" th:field="*{afterPassword}" placeholder="변경할 비밀번호">
                         <input class="inputbox" type="password" placeholder="변경할 비밀번호 확인">
                     </form>
-                    <button type="submit" name="action" value="비밀번호변경">수정하기</button>
 
                     <!--                <form action="#" method="">-->
                     <!--                  <div class="changing">닉네임&nbsp;변경</div>-->
@@ -86,7 +86,10 @@
                     <!--                    </form>-->
                 </div>
                 <div class="out-button">
-                    <button type="submit">회원&nbsp;탈퇴하기</button>
+                    <form method="POST" th:object="${memberList}"
+                          th:action="@{/editInfo/{memberId}/delete (memberId=${memberList.id})}">
+                        <button class="edit_delete_btn" type="submit" name="delete">회원&nbsp;탈퇴하기</button>
+                    </form>
                 </div>
             </div>
         </div>
@@ -108,67 +111,54 @@
                             });
                          });
 
+
                 </script>
                 <button id="nicknameCorrect" type="submit" name="action" value="닉네임변경">수정하기</button>
-                <script>
-              var password = $("#currentPassword").val();
-              $("#nicknameCorrect").click(function(password){
-                $.post("/signUp/checkPassward", String(password), function(data){
-                  if(data){
-                    alert("수정되었습니다.");
-                  } else {
-                    alert("일시적 오류입니다. 다시 시도해주십시오.");
-                  }
-                });
-              });
+                <!--                <script>-->
+                <!--              var password = $("#currentPassword").val();-->
+                <!--              $("#nicknameCorrect").click(function(password){-->
+                <!--                $.post("/signUp/checkPassward", String(password), function(data){-->
+                <!--                  if(data){-->
+                <!--                    alert("수정되었습니다.");-->
+                <!--                  } else {-->
+                <!--                    alert("일시적 오류입니다. 다시 시도해주십시오.");-->
+                <!--                  }-->
+                <!--                });-->
+                <!--              });-->
 
-                </script>
+                <!--                </script>-->
             </div>
-            <button id="introCorrect" type="submit" name="action" value="회원소개변경">수정하기</button>
-            <script>
-            var intro = $("#intro").val();
-            $("#introCorrect").click(function(intro){
-              $.post("/signUp/checkPassward", String(intro), function(data){
-                if(data){
-                  alert("수정되었습니다.");
-                } else {
-                  alert("일시적 오류입니다. 다시 시도해주십시오.");
-                }
-              });
-            });
-
-            </script>
+            <button id="introCorrect" form="edit" type="submit" name="action" value="회원소개변경">수정하기</button>
             <div class="pw-button">
-                <button id="pwCheck" type="submit">확인</button>
-                <script>
-              var password = $("#currentPassword").val();
-              $("#pw-check").click(function(password){
-                // 여긴 비밀번호 확인하는 로직 만들어야 함
-                $.post("/signUp/checkPassward", String(password), function(data){
-                  if(data){
-                    alert("확인되었습니다.");
-                    $("#currentPassword").attr("check_result", "succes");
-                  } else {
-                    alert("비밀번호를 확인해 주십시오");
-                  }
-                });
-              });
+                <!--                <script>-->
+                <!--              var password = $("#currentPassword").val();-->
+                <!--              $("#pw-check").click(function(password){-->
+                <!--                // 여긴 비밀번호 확인하는 로직 만들어야 함-->
+                <!--                $.post("/signUp/checkPassward", String(password), function(data){-->
+                <!--                  if(data){-->
+                <!--                    alert("확인되었습니다.");-->
+                <!--                    $("#currentPassword").attr("check_result", "succes");-->
+                <!--                  } else {-->
+                <!--                    alert("비밀번호를 확인해 주십시오");-->
+                <!--                  }-->
+                <!--                });-->
+                <!--              });-->
 
-                </script>
-                <button id="pwCorrect" type="submit" name="action" value="비밀번호변경">수정하기</button>
-                <script>
-              var chagePassword = $("#chagePassword").val();
-              $("#pwCorrect").click(function(chagePassword){
-                $.post("/signUp/checkPassward", String(chagePassword), function(data){
-                  if(data){
-                    alert("수정되었습니다.");
-                  } else {
-                    alert("일시적 오류입니다. 다시 시도해주십시오.");
-                  }
-                });
-              });
+                <!--                </script>-->
+                <button id="pwCorrect" form="edit" type="submit" name="action" value="비밀번호변경">수정하기</button>
+                <!--                <script>-->
+                <!--              var chagePassword = $("#chagePassword").val();-->
+                <!--              $("#pwCorrect").click(function(chagePassword){-->
+                <!--                $.post("/signUp/checkPassward", String(chagePassword), function(data){-->
+                <!--                  if(data){-->
+                <!--                    alert("수정되었습니다.");-->
+                <!--                  } else {-->
+                <!--                    alert("일시적 오류입니다. 다시 시도해주십시오.");-->
+                <!--                  }-->
+                <!--                });-->
+                <!--              });-->
 
-                </script>
+                <!--                </script>-->
             </div>
         </div>
     </div>
