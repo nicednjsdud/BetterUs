@@ -80,7 +80,7 @@ public class MemberServiceImpl implements MemberService {
     @Override
     public int duplicateCheck(String nickName) {
         Member findMember = memberRepository.findByNickName(nickName);
-        if (findMember != null) return 1;
+        if (findMember == null) return 1;
         else return 0;
     }
 
@@ -140,6 +140,16 @@ public class MemberServiceImpl implements MemberService {
         Page<MemberDto> memberDto = findMembers.map(member ->
                 new MemberDto(member.getId(), member.getNickName(), member.getUser_info(), member.getGudok_count(), member.getGudokForCount()));
         return memberDto;
+    }
+
+    @Override
+    @Transactional
+    public void deleteMember(Long memberId) {
+        Optional<Member> findMember = memberRepository.findById(memberId);
+        if(findMember.isPresent()){
+            Member member = findMember.get();
+            memberRepository.delete(member);
+        }
     }
 
 }

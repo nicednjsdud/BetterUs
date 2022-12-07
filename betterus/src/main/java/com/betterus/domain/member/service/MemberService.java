@@ -31,4 +31,6 @@ public interface MemberService {
     Page<MemberDto> findAuthorByGrade(Pageable pageable);
 
     Page<MemberDto> findSearchMemberList(String keyword, Pageable pageable);
+
+    void deleteMember(Long memberId);
 }
