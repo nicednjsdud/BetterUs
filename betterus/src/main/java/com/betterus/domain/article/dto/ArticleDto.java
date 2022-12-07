@@ -58,6 +58,8 @@ public class ArticleDto {
 
     private String imageFullPath;
 
+
+
     /**
      * 리스트 페이징 용
      */
