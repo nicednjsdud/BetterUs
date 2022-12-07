@@ -10,6 +10,7 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.annotation.Rollback;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
@@ -39,7 +40,7 @@ class MemberServiceImplTest {
     @Test
     @DisplayName("로그인 검증")
     public void loginConfirm(){
-        Member member = new Member("MemberA", "123123", "member@example.com", Grade.ADMIN);
+        Member member = new Member("Admin", "123123", "Admin@gmail.com", Grade.ADMIN);
         Member saveMember = memberRepository.save(member);
 
         Member findMember = memberService.loginConfirm("member@example.com", "123123");

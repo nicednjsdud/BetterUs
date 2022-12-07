@@ -34,7 +34,9 @@
         <a href="/"><img class="logo" src="/img/logo_B_new.png" alt=" "></a>
     </div>
     <ul class="nav">
-        <li><a href="/write">글쓰기</a></li>
+        <li><a th:if="${session.member == memberDto.id}" href="/write">글쓰기</a></li>
+        <li><a th:if="${session.member != memberDto.id and gudokCheck == false}" href="/write">구독 추가</a></li>
+        <li><a th:if="${session.member != memberDto.id and gudokCheck == true}" href="/write">구독 취소</a></li>
     </ul>
 </div>
 <div class="section">
