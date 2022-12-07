@@ -8,15 +8,16 @@
 
 package com.betterus.domain.email.controller;
 
+import com.betterus.domain.article.dto.ArticleDto;
 import com.betterus.domain.email.dto.EmailAuthRequestDto;
 import com.betterus.domain.email.service.EmailService;
+import com.betterus.domain.member.dto.MemberJoinForm;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 
 import javax.mail.MessagingException;
+import javax.servlet.http.HttpServletRequest;
 import java.io.UnsupportedEncodingException;
 
 @Controller
@@ -25,8 +26,9 @@ public class EmailController {
 
     private final EmailService emailService;
 
-    @PostMapping("/mail/mailConfirm")
-    public void mailConfirm(@RequestParam(value = "email",required = false) String email) throws MessagingException, UnsupportedEncodingException {
+    @GetMapping("/mail/mailConfirm")
+    public void mailConfirm(@RequestParam("email") String email) throws MessagingException, UnsupportedEncodingException {
+        System.out.println(email);
         String action = "mailConfirm";
         String authCode = emailService.sendEmail(email, action);
         emailService.saveAuthCode(email, authCode);
