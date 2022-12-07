@@ -113,14 +113,15 @@ public class MemberController {
             msg = "회원가입에 실패하였습니다. 다시 시도해주세요.";
         }
         model.addAttribute("msg", msg);
-        return "redirect:/";
+        return "main/main";
+
     }
 
-    @PostMapping("/signUp/duplicateNickName")
-    public int duplicateNickName(@RequestParam("nickName") String nickName, Model model) {
+    @GetMapping("/signUp/duplicateNickName")
+    public void duplicateNickName(@RequestParam("nickName") String nickName, Model model) {
+        String msg ="";
         int result = memberService.duplicateCheck(nickName);
         model.addAttribute("result", result);
-        return result;
     }
 
     /**
@@ -169,13 +170,26 @@ public class MemberController {
             case 1:
                 msg = "수정이 완료되었습니다.";
                 model.addAttribute("msg", msg);
-                return "redirect:/";
+                return "main/main";
             case 2:
                 msg = "입력하신 비밀번호가 틀립니다.";
                 model.addAttribute("msg", msg);
-                return "/editInfo/{memberId}/edit";
+                return "myPage/mypage(info)";
             default:
                 return "redirect:/";
         }
+    }
+
+    /**
+     * 회원 탈퇴
+     */
+    @PostMapping("/editInfo/{memberId}/delete")
+    public String changeInfo(@PathVariable("memberId") Long memberId, Model model,HttpServletRequest request) {
+        memberService.deleteMember(memberId);
+        String msg ="회원 탈퇴가 완료되었습니다. 이용해주셔서 감사합니다.";
+        HttpSession session = request.getSession(false);
+        if (session != null) session.invalidate();
+        model.addAttribute("msg",msg);
+        return "redirect:/";
     }
 }

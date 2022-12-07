@@ -8,6 +8,7 @@
 package com.betterus.domain.member.domain;
 
 
+import com.betterus.domain.article.domain.Article;
 import com.betterus.domain.gudok.domain.Gudok;
 import com.betterus.domain.jjim.domain.Jjim;
 import com.betterus.model.ArticleStatus;
@@ -69,11 +70,14 @@ public class Member extends BaseTimeEntity {
     private String authorConfirmDate;
 
 
-    @OneToMany(mappedBy = "member")
+    @OneToMany(mappedBy = "member",cascade = CascadeType.REMOVE)
     private List<Jjim> jjims = new ArrayList<>();
 
-    @OneToMany(mappedBy = "member")
+    @OneToMany(mappedBy = "member",cascade = CascadeType.REMOVE)
     private List<Gudok> gudoks = new ArrayList<>();
+
+    @OneToMany(mappedBy = "member",cascade = CascadeType.REMOVE)
+    private List<Article> articles = new ArrayList<>();
 
 
     /**
