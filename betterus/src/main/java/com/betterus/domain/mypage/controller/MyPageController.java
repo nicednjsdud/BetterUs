@@ -8,6 +8,7 @@
 package com.betterus.domain.mypage.controller;
 
 import com.betterus.domain.article.dto.ArticleDto;
+import com.betterus.domain.gudok.service.GudokService;
 import com.betterus.domain.member.domain.Member;
 import com.betterus.domain.member.dto.MemberDto;
 import com.betterus.domain.member.repository.MemberRepository;
@@ -41,6 +42,8 @@ public class MyPageController {
     private final MyPageService myPageService;
 
     private final MemberService memberService;
+
+    private final GudokService gudokService;
 
 
     /**
@@ -210,10 +213,12 @@ public class MyPageController {
         String msg = "";
         if (sessionMemberId != null) {
             Map<Object, Object> myPage = myPageService.findMyPageDefault(sessionMemberId);
+            boolean check = gudokService.findGudokCheck(authorId,sessionMemberId);
             List<ArticleDto> articleDtoList = (List<ArticleDto>) myPage.get("articleDtoList");
             MemberDto memberDto = (MemberDto) myPage.get("memberDto");
             model.addAttribute("articleDtoList", articleDtoList);
             model.addAttribute("memberDto", memberDto);
+            model.addAttribute("gudokCheck",check);
             return "myPage/myPage(library)";
         } else {
             msg = "회원만 보기가 가능합니다.";

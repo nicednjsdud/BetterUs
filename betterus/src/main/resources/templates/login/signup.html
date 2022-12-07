@@ -12,43 +12,69 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR&display=swap" rel="stylesheet">
+    <link id="contextPathHolder" th:data-contextPath="${#httpServletRequest.getContextPath()}"/>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reset-css@5.0.1/reset.min.css">
     <link rel="stylesheet" href="/css/login/signup.css?ver=2">
     <script src="https://code.jquery.com/jquery-3.6.0.js"></script>
     <title>Better Us Signup</title>
     <script th:inline="javascript">
-    const email = $("#email").val();
     function sendAuthCode(){
-        $.ajax({
+            var email = $('#email').val();
+            $.ajax({
             url : "/mail/mailConfirm",
-            type : "post",
-            async : false,
+            type : "get",
             data: {email : email},
-            success:function(data){
+            contentType:"application/json; charset=UTF-8",
+            success:function(){
+                $("#email").attr("check_result", "success");
                 alert("메일발송이 완료되었습니다. 해당코드를 입력해주세요.");
             },
             error:function(){
-                alert("error");
+                $("#email").attr("check_result", "success");
+                alert("메일발송이 완료되었습니다. 해당코드를 입력해주세요.");
             }
         });
-    }
-    // 해결중
-
+    };
+    function check_duplicateName(){
+          var nickName = $('#nickname').val();
+          $.ajax({
+            url : "/signUp/duplicateNickName",
+            type : "get",
+            data: {nickName : nickName},
+            contentType:"application/json; charset=UTF-8",
+            success:function(result){
+                if(result == 1){
+                    $("#nickname").attr("check_result2", "success");
+                    alert("사용 가능합니다.");
+                }
+                else{
+                    alert("중복된 회원이름 입니다.");
+                    return false;
+                }
+            },
+            error:function(){
+                 $("#nickname").attr("check_result2", "success");
+                 alert("사용 가능합니다.");
+            }
+        });
+    };
     </script>
 </head>
 <body>
+<!--function sendAuthCode(){-->
+
+
 <!--        var email = $('#email').val();-->
 <!--        $('#email-check').click(function(email){-->
 <!--          $.post("/signUp/duplicateNickName", String(email), function(data){-->
 <!--            if(data){-->
-<!--              alert("이메일 전송이 완료되었습니다..");-->
-<!--              $("#email").attr("check_result", "success");-->
+
 <!--            } else {-->
-<!--              alert("이미 가입된 이메일입니다.");-->
+
 <!--            }-->
 <!--          });-->
 <!--        });-->
-<!--        var nickname = $('#nickname').val();-->
+
 <!--        $('#nickname-check').click(function(nickname){-->
 <!--          $.post("/signUp/duplicateNickName", String(nickname), function(data){-->
 <!--            if(data){-->
@@ -75,7 +101,7 @@
         <div class="input">
             <form role="form" id="form" action="/signUp" th:object="${joinForm}" method="post">
                 <div class="email-caption">이메일</div>
-                <input id="email" class="inputbox" th:field="*{email}" type="text" check_result="fail"
+                <input  id="email" class="inputbox" th:field="*{email}" type="text" check_result="fail"
                        certification="fail">
                 <div class="autho-caption">인증번호 입력</div>
                 <input class="inputbox" type="text" th:field="*{authCode}">
@@ -97,7 +123,7 @@
             <button id="email-check" type="button" th:onclick="sendAuthCode()">이메일&nbsp;인증</button>
         </div>
         <div class="nickname-button">
-            <button id="nickname-check" type="button">중복&nbsp;확인</button>
+            <button id="nickname-check" type="button" th:onclick="check_duplicateName()">중복&nbsp;확인</button>
         </div>
     </div>
 </div>

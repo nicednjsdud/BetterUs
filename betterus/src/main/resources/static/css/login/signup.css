@@ -107,7 +107,6 @@ div.input {
 }
 
 .autho-caption {
-  display: none;
   text-align: center;
   margin-right: 420px;
   font-size: 15px;
@@ -117,7 +116,6 @@ div.input {
 }
 
 .autho-caption + input {
-  display: none;
   width: 500px;
   height: 30px;
   font-size: 20px;
@@ -200,7 +198,7 @@ input.inputbox {
 }
 
 .nickname-button{
-    margin-top: 75px;
+    margin-top: 170px;
 }
 
 .nickname-button>button {
