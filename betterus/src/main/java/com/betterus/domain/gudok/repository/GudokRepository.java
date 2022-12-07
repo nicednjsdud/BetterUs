@@ -12,4 +12,6 @@ public interface GudokRepository extends JpaRepository<Gudok, Long> {
 
     @Query("select g from Gudok g left join fetch g.member m where g.authorId = :authorId and m.id = :memberId" )
     Gudok findGudokTure(@Param("authorId") Long authorId,@Param("memberId") Long memberId);
+
+    Gudok findByAuthorIdAndMemberId(Long authorId, Long sessionMemberId);
 }
