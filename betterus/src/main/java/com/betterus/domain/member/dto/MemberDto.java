@@ -33,23 +33,24 @@ public class MemberDto {
 
     private String authorConfirmDate;
 
-    private LocalDateTime createDate;
+    private String createDate;
 
-    public MemberDto(Member member){
-        id = member.getId();
-        nickName = member.getNickName();
-        password = member.getPassword();
-        email = member.getEmail();
-        grade = member.getGrade();
-        user_info = member.getUser_info();
+    public MemberDto(Long id, String nickName, String password, String email, Grade grade, String user_info) {
+        this.id = id;
+        this.nickName = nickName;
+        this.password = password;
+        this.email = email;
+        this.grade = grade;
+        this.user_info = user_info;
     }
 
     /**
      * 회원 정보 세션 저장용
      */
-    public MemberDto(Long id, String nickName) {
+    public MemberDto(Long id, String nickName,Grade grade) {
         this.id = id;
         this.nickName = nickName;
+        this.grade = grade;
     }
 
     /**
@@ -66,11 +67,28 @@ public class MemberDto {
     /**
      * 관리자 페이지 회원 정보 서칭 용
      */
-    public MemberDto(Long id, String nickName, Grade grade, String authorConfirmDate, LocalDateTime createDate) {
+    public MemberDto(Long id, String nickName, Grade grade,String email, String authorConfirmDate, String createDate) {
         this.id = id;
         this.nickName = nickName;
         this.grade = grade;
+        this.email = email;
         this.authorConfirmDate = authorConfirmDate;
         this.createDate = createDate;
+    }
+
+    public MemberDto(Long id, String nickName) {
+        this.id = id;
+        this.nickName = nickName;
+    }
+
+    /**
+     * 작가 둘러보기 페이지 용
+     */
+    public MemberDto(Long id, String nickName, String user_info, Long gudok_count, Long gudokForCount) {
+        this.id = id;
+        this.nickName = nickName;
+        this.user_info = user_info;
+        this.gudok_count = gudok_count;
+        this.gudokForCount = gudokForCount;
     }
 }

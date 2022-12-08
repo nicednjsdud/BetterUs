@@ -38,7 +38,7 @@ public class FileHandler {
 
             // 프로젝트 디렉터리 내의 저장을 위한 절대 경로 설정
             // 경로 구분자 File.separator 사용
-            String absolutePath = new File("/Users/jeong-won-yeong/Documents/BetterUs/betterus/src/main/resources/static/articleImg").getAbsolutePath() + File.separator + File.separator;
+            String absolutePath = new File("").getAbsolutePath() + File.separator + File.separator;
 
             // 파일을 저장할 세부 경로 지정
             String path = "images" + File.separator + current_date;

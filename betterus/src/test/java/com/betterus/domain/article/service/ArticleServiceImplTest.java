@@ -98,7 +98,7 @@ class ArticleServiceImplTest {
             em.flush();
             em.clear();
 
-            Article findArticle = articleService.findArticle(3L);
+            ArticleDto findArticle = articleService.findArticle(3L);
             assertThat(findArticle.getTitle()).isEqualTo("Test1");
         }
     }

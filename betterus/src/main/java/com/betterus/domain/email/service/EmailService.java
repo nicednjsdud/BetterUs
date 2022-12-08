@@ -72,12 +72,12 @@ public class EmailService {
     public MimeMessage createEmailForm(String email,String action) throws MessagingException, UnsupportedEncodingException {
 
         createCode(); //인증 코드 생성
-        String setFrom = "betterus-info@naver.com";
+        String setFrom = "nicednjsdud@naver.com";
         String toEmail = email; //받는 사람
         String title = "BetterUs 회원가입 인증 번호";
 
         MimeMessage message = emailSender.createMimeMessage();
-        message.addRecipients(MimeMessage.RecipientType.TO, email); //보낼 이메일 설정
+        message.addRecipients(MimeMessage.RecipientType.TO, toEmail); //보낼 이메일 설정
         message.setSubject(title);
         message.setFrom(setFrom);
         message.setText(setContext(authNum,action), "utf-8", "html");

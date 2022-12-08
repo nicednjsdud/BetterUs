@@ -11,15 +11,18 @@ import com.betterus.domain.article.domain.Article;
 import com.betterus.domain.article.domain.Image;
 import com.betterus.domain.article.dto.ArticleDto;
 import com.betterus.domain.article.dto.ArticleForm;
+import com.betterus.domain.article.dto.ImageDto;
 import com.betterus.domain.article.service.ArticleService;
 import com.betterus.domain.article.service.ImageService;
 import com.betterus.domain.gudok.service.GudokService;
 import com.betterus.domain.member.domain.Member;
+import com.betterus.domain.member.dto.MemberDto;
 import com.betterus.domain.member.service.MemberService;
 import com.betterus.model.Grade;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
@@ -48,20 +51,20 @@ public class ArticleController {
      * 글 목록 리스트 (패이징) 진행중
      */
     @RequestMapping("/list/article")
-    public String articleListBasic(@PageableDefault(size = 10) Pageable pageable, Model model, HttpServletRequest request) {
+    public String articleListBasic(@PageableDefault(size = 10, page = 0, sort = "createDate", direction = Sort.Direction.DESC) Pageable pageable, Model model, HttpServletRequest request) {
         String msg = "";
         HttpSession session = request.getSession();
         Object member = session.getAttribute("member");
         if (member != null) {
             Page<ArticleDto> articleList = articleService.findArticleList(pageable);
-            int nowPage = articleList.getPageable().getPageNumber();
+            int nowPage = articleList.getPageable().getPageNumber() + 1;
             int startPage = Math.max(nowPage - 4, 1);
             int endPage = Math.min(nowPage + 5, articleList.getTotalPages());
-            model.addAttribute("list", articleList);
+            model.addAttribute("articleList", articleList);
             model.addAttribute("nowPage", nowPage);
             model.addAttribute("startPage", startPage);
             model.addAttribute("endPage", endPage);
-            return "화면 구현 안됨";
+            return "article/articles";
         } else {
             msg = "회원만 리스트 접근이 가능합니다.";
             model.addAttribute("msg", msg);
@@ -73,16 +76,25 @@ public class ArticleController {
      * 서치 목록 리스트 (패이징) 진행중
      */
     @GetMapping("/list/search")
-    public String articleListSearch(@RequestParam("searchKeyword") String keyword, @PageableDefault(size = 10) Pageable pageable, Model model) {
-        Page<ArticleDto> searchArticleList = articleService.findSearchArticleList(keyword, pageable);
-        int nowPage = searchArticleList.getPageable().getPageNumber();
-        int startPage = Math.max(nowPage - 4, 1);
-        int endPage = Math.min(nowPage + 5, searchArticleList.getTotalPages());
-        model.addAttribute("list", searchArticleList);
-        model.addAttribute("nowPage", nowPage);
-        model.addAttribute("startPage", startPage);
-        model.addAttribute("endPage", endPage);
-        return "article/articles";
+    public String articleListSearch(HttpServletRequest request,@RequestParam("searchKeyword") String keyword, @PageableDefault(size = 10, page = 0, sort = "createDate", direction = Sort.Direction.DESC) Pageable pageable, Model model) {
+        String msg = "";
+        HttpSession session = request.getSession();
+        Object member = session.getAttribute("member");
+        if (member != null) {
+            Page<ArticleDto> searchArticleList = articleService.findSearchArticleList(keyword, pageable);
+            int nowPage = searchArticleList.getPageable().getPageNumber() + 1;
+            int startPage = Math.max(nowPage - 4, 1);
+            int endPage = Math.min(nowPage + 5, searchArticleList.getTotalPages());
+            model.addAttribute("articleList", searchArticleList);
+            model.addAttribute("nowPage", nowPage);
+            model.addAttribute("startPage", startPage);
+            model.addAttribute("endPage", endPage);
+            return "article/articles";
+        }else {
+            msg = "회원만 리스트 접근이 가능합니다.";
+            model.addAttribute("msg", msg);
+            return "main/main";
+        }
     }
 
 
@@ -95,13 +107,15 @@ public class ArticleController {
         HttpSession session = request.getSession();
         Object member = session.getAttribute("member");
         if (member != null) {
+
+//            List<ImageDto> imageDtos = imageService.findByArticleId(articleId);
             ArticleDto findArticle = articleService.findArticle(articleId);
             model.addAttribute("article", findArticle);
             return "article/a_article";
         } else {
             msg = "회원만 보기가 가능합니다.";
             model.addAttribute("msg", msg);
-            return "redirect:/";
+            return "main/main";
         }
     }
 
@@ -119,7 +133,7 @@ public class ArticleController {
         } else {
             String msg = "회원만 글쓰기가 가능합니다.";
             model.addAttribute("msg", msg);
-            return "redirect:/";
+            return "main/main";
         }
 
     }
@@ -128,18 +142,19 @@ public class ArticleController {
      * 글 쓰기 (이미지 업로드 기능 추가예정)
      */
     @PostMapping("/write")
-    public String writeArticle(ArticleForm articleForm, Model model, HttpServletRequest request) throws Exception {
+    public String writeArticle(ArticleForm articleForm, Model model, HttpServletRequest request,MultipartFile multipartFile) throws Exception {
         String msg = "";
         HttpSession session = request.getSession();
         Object member = session.getAttribute("member");
         Long sessionMemberId = (Long) member;
         Member findMember = memberService.findMemberById(sessionMemberId);
+        List<MultipartFile> multipartFileList = articleForm.getFiles();
         if (member != null) {
             int result = articleService.saveArticle(articleForm, findMember, articleForm.getFiles());
             if (result == 1) {
                 msg = "글쓰기가 완료되었습니다.";
                 model.addAttribute("msg", msg);
-                return "redirect:/";
+                return "main/main";
             } else {
                 msg = "오류가 발생했습니다. 다시 시도해주세요.";
                 model.addAttribute("msg", msg);
@@ -148,7 +163,7 @@ public class ArticleController {
         } else {
             msg = "회원만 글쓰기가 가능합니다.";
             model.addAttribute("msg", msg);
-            return "redirect:/";
+            return "main/main";
         }
     }
 
@@ -159,8 +174,8 @@ public class ArticleController {
     public String updateArticleForm(@PathVariable("articleId") Long articleId, Model model) {
         ArticleDto article = articleService.findArticle(articleId);
 
-        ArticleForm articleForm = new ArticleForm(article.getTitle(), article.getSubTitle(), article.getContents(), null);
-        model.addAttribute("articleForm", articleForm);
+        ArticleForm articleForm = new ArticleForm(article.getId(), article.getTitle(), article.getSubTitle(), article.getContents(), null);
+        model.addAttribute("article", articleForm);
         return "writing/writing(correction)";
     }
 
@@ -168,7 +183,7 @@ public class ArticleController {
      * 글 수정 (이미지 업로드 기능 추가예정)
      */
     @PostMapping("myPage/{articleId}/edit")
-    public String updateArticle(@PathVariable("articleId") Long articleId, @ModelAttribute("form") ArticleForm articleForm,
+    public String updateArticle(@PathVariable("articleId") Long articleId, @ModelAttribute("article") ArticleForm articleForm,
                                 HttpServletRequest request, Model model) throws Exception {
         String msg = "";
         HttpSession session = request.getSession();
@@ -176,7 +191,7 @@ public class ArticleController {
         Long sessionMemberId = (Long) member;
         Member findMember = memberService.findMemberById(sessionMemberId);
         // DB에 저장되어있는 파일 불러오기
-        List<Image> dbImgList = imageService.findAllByArticle(articleId);
+        List<Image> dbImgList = imageService.findAllByArticle(articleForm.getId());
         // 전달되어온 파일들
         List<MultipartFile> multipartFileList = articleForm.getFiles();
         // 새롭게 전달되어온 파일들의 목록을 저장할 List 선언
@@ -218,7 +233,7 @@ public class ArticleController {
             if (result == 1) {
                 msg = "글 수정이 완료되었습니다.";
                 model.addAttribute("msg", msg);
-                return "myPage/myPage(info)";
+                return "main/main";
             } else {
                 msg = "오류가 발생했습니다. 다시 시도해주세요.";
                 model.addAttribute("msg", msg);

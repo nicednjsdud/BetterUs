@@ -26,6 +26,7 @@
         }
         });
 
+
     </script>
     <title>Better Us Login</title>
 </head>
@@ -43,22 +44,20 @@
     <div class="title">로그인</div>
     <div class="input">
         <form role="form" id="login" th:object="${loginForm}" action="/login/confirm" method="post">
-            <label th:for="email"><div class="email-caption">이메일</div></label>
+            <label th:for="email">
+                <div class="email-caption">이메일</div>
+            </label>
             <input id="email-inputbox" th:field="*{email}" class="inputbox" type="text"/>
-            <label th:for="password"><div class="pw-caption">비밀번호</div></label>
+            <label th:for="password">
+                <div class="pw-caption">비밀번호</div>
+            </label>
             <input id="pw-inputbox" th:field="*{password}" class="inputbox" type="text">
             <div>
                 <button class="login" type="submit">로그인</button>
             </div>
         </form>
-<<<<<<< HEAD
-<!--    </div>-->
-<!--    <ul class="else">-->
-=======
-      </div>
-      <button class="login" type="submit">로그인</button>
-      <ul class="else">
->>>>>>> b16e597f03e1625b1125ae20289e92b718384ffb
+    </div>
+    <ul class="else">
         <li><a href="/login/findPassword">비밀번호&nbsp;찾기</a></li>
         <li>&nbsp;|&nbsp;</li>
         <li><a href="/signUp">회원가입</a></li>

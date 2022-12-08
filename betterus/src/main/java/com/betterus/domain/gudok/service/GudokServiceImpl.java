@@ -64,4 +64,11 @@ public class GudokServiceImpl implements GudokService {
             return 0;
         }
     }
+
+    @Override
+    public boolean findGudokCheck(Long authorId, Long sessionMemberId) {
+        Gudok findGudok = gudokRepository.findByAuthorIdAndMemberId(authorId, sessionMemberId);
+        if(findGudok == null) return false;
+        else return true;
+    }
 }

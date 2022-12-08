@@ -7,6 +7,7 @@ import com.betterus.domain.article.dto.ArticleForm;
 import com.betterus.domain.article.repository.ArticleRepository;
 import com.betterus.domain.article.repository.ImageRepository;
 import com.betterus.domain.member.domain.Member;
+import com.betterus.domain.member.dto.MemberDto;
 import com.betterus.domain.mypage.domain.MyPage;
 import com.betterus.domain.mypage.repository.MyPageRepository;
 import com.betterus.model.ArticleStatus;
@@ -19,6 +20,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Optional;
 
@@ -53,7 +55,6 @@ public class ArticleServiceImpl implements ArticleService {
                         article.addImage(imageRepository.save(image));
                     }
                 }
-
             } else if (member.getGrade().equals(Grade.AUTHOR)) {
                 Article article = new Article(articleForm.getTitle(), articleForm.getSubTitle(), articleForm.getContents(), ArticleStatus.APPROVAL, member, myPage);
                 savedArticle = articleRepository.save(article);
@@ -72,8 +73,14 @@ public class ArticleServiceImpl implements ArticleService {
     }
 
     @Override
-    public Article findArticle(Long articleId) {
-        return articleRepository.findArticleById(articleId);
+    public ArticleDto findArticle(Long articleId) {
+        Article findArticle = articleRepository.findArticleById(articleId);
+        String createDate = findArticle.getCreateDate().format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+        List<Image> findImage = findArticle.getImage();
+        ArticleDto articleDto = new ArticleDto(findArticle.getId(), findArticle.getMember().getId(),
+                findArticle.getTitle(), findArticle.getSubTitle(), findArticle.getContents(),
+                findArticle.getReviewCount(), findArticle.getJjimCount(), findArticle.getMember().getNickName(), createDate);
+        return articleDto;
     }
 
     @Override
@@ -90,12 +97,11 @@ public class ArticleServiceImpl implements ArticleService {
             }
             findArticle.changeArticle(articleForm.getTitle(), articleForm.getSubTitle(), articleForm.getContents());
 
-            Article updateArticle = articleRepository.findArticleById(articleId);
-            if (updateArticle.getTitle().equals(checkArticle.getTitle())) return 1;
+            Article updateArticle = articleRepository.findArticleById(findArticle.getId());
+            return 1;
         } else {
             return 0;
         }
-        return 1;
     }
 
     @Override
@@ -109,17 +115,18 @@ public class ArticleServiceImpl implements ArticleService {
 
     @Override
     public Page<ArticleDto> findArticleList(Pageable pageable) {
-        Page<Article> findArticles = articleRepository.findByArticleStatus(ArticleStatus.APPROVAL, pageable);
+        Page<Article> findArticles = articleRepository.findByStatus(ArticleStatus.APPROVAL, pageable);
         Page<ArticleDto> articleDtos = findArticles.map(article ->
-                new ArticleDto(article.getId(), article.getTitle(), article.getSubTitle(), article.getContents(), article.getStatus(), article.getReviewCount(), article.getJjimCount()));
+                new ArticleDto(article.getId(), article.getTitle(), article.getSubTitle(),
+                        article.getContents(), article.getStatus(), article.getReviewCount(), article.getJjimCount(),null));
         return articleDtos;
     }
 
     @Override
     public Page<ArticleDto> findSearchArticleList(String keyword, Pageable pageable) {
-        Page<Article> findArticles = articleRepository.findSearchListByTitleContaining(ArticleStatus.APPROVAL, keyword, pageable);
+        Page<Article> findArticles = articleRepository.findSearchListByStatusAndTitleContaining(ArticleStatus.APPROVAL, keyword, pageable);
         Page<ArticleDto> articleDtos = findArticles.map(article ->
-                new ArticleDto(article.getId(), article.getTitle(), article.getSubTitle(), article.getContents(), article.getStatus(), article.getReviewCount(), article.getJjimCount()));
+                new ArticleDto(article.getId(), article.getTitle(), article.getSubTitle(), article.getContents(), article.getStatus(), article.getReviewCount(), article.getJjimCount(),null));
         return articleDtos;
     }
 }

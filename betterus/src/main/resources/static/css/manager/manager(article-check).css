@@ -166,8 +166,22 @@ img.logo {
 }
 
 .relation {
-  height: 70vw;
+  margin-top: 100px;
+  /* height: 70vw; */
   /* border: 1px solid black; */
+}
+.paging{
+    padding-top: 20px;
+    margin : auto;
+    text-align: center;
+    font-size: 30px;
+}
+
+#member_search_btn{
+    margin-bottom : 40px;
+    color: white;
+    background-color: white;
+    border: 0;
 }
 
 /*-------------------------- schema---------------------------- */

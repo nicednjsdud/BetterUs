@@ -67,19 +67,19 @@ class MyPageServiceImplTest {
         em.clear();
 
         // when
-//        Map<Object, Object> findMyPageList = myPageService.findAuthorById(authorId);
-//        List<ArticleDto> articleDtoList = (List<ArticleDto>) findMyPageList.get("articleDtoList");
-//        MemberDto memberDto = (MemberDto) findMyPageList.get("memberDto");
-//        // then
-//        assertThat(articleDtoList.size()).isEqualTo(13);
-//        assertThat(memberDto.getNickName()).isEqualTo("MemberA");
+        Map<Object, Object> findMyPageList = myPageService.findAuthorById(authorId);
+        List<ArticleDto> articleDtoList = (List<ArticleDto>) findMyPageList.get("articleDtoList");
+        MemberDto memberDto = (MemberDto) findMyPageList.get("memberDto");
+        // then
+        assertThat(articleDtoList.size()).isEqualTo(13);
+        assertThat(memberDto.getNickName()).isEqualTo("MemberA");
     }
 
     @Test
     @DisplayName("글상태 3개이상이면 대기중으로 변경하기")
     void changeArticleStatus() {
         // given
-        Member member = new Member("MemberA", "123123", "nicednjsdud@gmail.com", Grade.USER);
+        Member member = new Member("정원영", "123123", "nicednjsdud@naver.com", Grade.USER);
         Member saveMember = memberRepository.save(member);
         MyPage findMypage = myPageRepository.save(new MyPage(member));
         Long authorId = saveMember.getId();
@@ -108,12 +108,12 @@ class MyPageServiceImplTest {
     @DisplayName("작가신청 리스트 페이지로 가져오기")
     void findArticleConfirmByArticleStatus() {
         // given
-        Member member = new Member("MemberA", "123123", "nicednjsdud@gmail.com", Grade.USER);
+        Member member = new Member("AuthorTest", "123123", "Author@gmail.com", Grade.AUTHOR);
         Member saveMember = memberRepository.save(member);
         MyPage findMypage = myPageRepository.save(new MyPage(member));
         Long authorId = saveMember.getId();
         for (int i = 0; i < 13; i++) {
-            articleRepository.save(new Article("Test" + i, "test" + i, "테스트" + i, ArticleStatus.WAIT, saveMember, findMypage));
+            articleRepository.save(new Article("Test" + i, "test" + i, "테스트" + i, ArticleStatus.APPROVAL, saveMember, findMypage));
         }
         em.flush();
         em.clear();

@@ -72,6 +72,7 @@ img.logo {
   /* flex-direction: column; */
   text-align: center;
 }
+
 /*-------------------------- section(left)---------------------------- */
 .left {
   width: 100px;
@@ -120,6 +121,9 @@ img.logo {
   display: flex;
   flex-direction: row;
 }
+.relation{
+    padding-top:200px;
+}
 
 .input-title {
   width: 200px;
@@ -146,7 +150,7 @@ img.logo {
 
 
 #info {
-  margin-bottom: 500px;
+  margin-bottom: 25px;
 }
 
 .state {
@@ -217,7 +221,7 @@ img.logo {
   background-color: rgb(170, 170, 170);
 }
 
-.input-box .out-button>button {
+.edit_delete_btn {
   width: 500px;
   height: 50px;
   font-size: 30px;
@@ -277,7 +281,7 @@ img.logo {
 }
 
 .pw-button #pwCheck {
-  margin-top: 74px;
+  margin-top: 100px;
 }
 
 /* .password-button>a>button {

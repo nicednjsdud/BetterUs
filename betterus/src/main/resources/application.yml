@@ -1,9 +1,9 @@
 spring:
   datasource:
-    url: jdbc:h2:tcp://localhost/~/test2
-    username: sas
-    password: 12
-    driver-class-name: org.h2.Driver
+    url: jdbc:mysql://localhost:3306/localhost?createDatabaseIfNotExist=true&useUnicode&characterEncoding=UTF-8
+    username: root
+    password: 12345678
+    driver-class-name: com.mysql.cj.jdbc.Driver
 
   jpa:
     hibernate:
@@ -16,8 +16,8 @@ spring:
   mail:
     host: smtp.naver.com #smtp 서버 주소
     port: 465 # 메일 인증서버 포트
-    username: su__kk #네이버 아이디
-    password: qwer1234! #네이버 비밀번호
+    username: nicednjsdud@naver.com #네이버 아이디
+    password: dnjsdud12! #네이버 비밀번호
     properties:
       mail:
         smtp:

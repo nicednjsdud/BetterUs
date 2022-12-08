@@ -7,18 +7,14 @@
 
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-  <head>
+<head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reset-css@5.0.1/reset.min.css">
-<<<<<<< HEAD
-    <link rel="stylesheet" href="/css/myPage/mypage(info).css?ver=1">
-=======
-<!--    <link rel="stylesheet" href="../../static/css/myPage/mypage(info).css">-->
-<!--    <script src='//cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js'></script>-->
->>>>>>> b16e597f03e1625b1125ae20289e92b718384ffb
+    <link rel="stylesheet" href="/css/myPage/mypage(info).css?ver=2">
+    <script src='//cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js'></script>
     <title>Better Us Mypage(회원정보)</title>
     <script th:inline="javascript">
        $(document).ready(function() {
@@ -28,145 +24,146 @@
         }
         });
 
+
+
     </script>
-  </head>
-  <body>
-    <div class="header">
-      <div class="home">
+</head>
+<body>
+<div class="header">
+    <div class="home">
         <a href="/"><img class="home" src="/img/home.png" alt=" "></a>
-      </div>
-      <div class="logo">
-        <img class="logo" src="/img/logo_B_new.png" alt=" ">
-      </div>
-      <div class="nothing"></div>
     </div>
-    <div class="section">
-      <div class="left"></div>
-      <div class="center">
-          <div class="title">
-            <a href="#" th:href="@{/editInfo/{memberId}/edit (memberId=${session.member})}"><div id="first" class="choice">내&nbsp;정보</div></a>
-            <a href="/myPage/default"><div id="second" class="choice">내&nbsp;노트</div></a>
-          </div>
-          <div class="input-total">
+    <div class="logo">
+        <img class="logo" src="/img/logo_B_new.png" alt=" ">
+    </div>
+    <div class="nothing"></div>
+</div>
+<div class="section">
+    <div class="left"></div>
+    <div class="center">
+        <div class="title">
+            <a href="#" th:href="@{/editInfo/{memberId}/edit (memberId=${session.member})}">
+                <div id="first" class="choice">내&nbsp;정보</div>
+            </a>
+            <a href="/myPage/default">
+                <div id="second" class="choice">내&nbsp;노트</div>
+            </a>
+        </div>
+        <div class="input-total">
             <div class="input-title">
-              <div id="state" class="input-subtitle">회원&nbsp;상태</div>
-              <div id="info" class="input-subtitle">회원정보&nbsp;수정</div>
-              <div id="out" class="input-subtitle">회원&nbsp;탈퇴</div>
+                <div id="state" class="input-subtitle">회원&nbsp;상태</div>
+                <div id="info" class="input-subtitle">회원정보&nbsp;수정</div>
+                <!--                <div id="out" class="input-subtitle">회원&nbsp;탈퇴</div>-->
             </div>
             <div class="input-box">
-              <div class="state">독자</div>
-              <div class="input">
-<<<<<<< HEAD
-                <form role="form" id="edit" th:object="${form}" th:action="@{/editInfo/{memberId}/edit (memberId=${session.member})}" action="#" method="post">
-                  <div class="changing">닉네임&nbsp;변경</div>
-                  <input class="inputbox" th:field="*{nickName}" type="text" placeholder="변경할 닉네임">
-                  <button type="submit" name="action" value="닉네임변경">수정하기</button>
-                  <div class="changing">소개글&nbsp;변경</div>
-                  <input class="inputbox" th:field="*{info}" type="text" placeholder="소개글 입력">
-                  <button type="submit" name="action" value="회원소개변경">수정하기</button>
-                  <div class="changing">비밀번호&nbsp;변경</div>
-                  <input class="inputbox" type="password" th:field="*{prePassword}" placeholder="현재 비밀번호">
-                  <input class="inputbox" type="password" th:field="*{afterPassword}" placeholder="변경할 비밀번호">
-                  <input class="inputbox" type="password" placeholder="변경할 비밀번호 확인">
-                  <button type="submit" name="action" value="비밀번호변경">수정하기</button>
+                <div class="state" th:text="${memberList.grade}"></div>
+                <div class="input">
 
-=======
-<!--                <form action="#" method="">-->
-<!--                  <div class="changing">닉네임&nbsp;변경</div>-->
-<!--                  <input id="nickname" class="inputbox" type="text" placeholder="변경할 닉네임" check_result="fail">-->
-<!--                  <div class="changing">소개글&nbsp;변경</div>-->
-<!--                  <input id="intro" class="inputbox" type="text" placeholder="소개글 입력">-->
-<!--                  <div class="changing">비밀번호&nbsp;변경</div>-->
-<!--                  <input id="currentPassword" class="inputbox" type="password" placeholder="현재 비밀번호" check_result="fail">-->
-<!--                  <input id="chagePassword" class="inputbox" type="password" placeholder="변경할 비밀번호">-->
-<!--                  <input id="checkChagePassword" class="inputbox" type="password" placeholder="변경할 비밀번호 확인">-->
->>>>>>> b16e597f03e1625b1125ae20289e92b718384ffb
-                </form>
-              </div>
-              <div class="out-button">
-                <button type="submit">회원&nbsp;탈퇴하기</button>
-              </div> 
-          </div>   
+                    <form role="form" id="edit" th:object="${form}"
+                          th:action="@{/editInfo/{memberId}/edit (memberId=${session.member})}" action="#"
+                          method="post">
+                        <div class="changing">닉네임&nbsp;변경</div>
+                        <input class="inputbox" th:field="*{nickName}" type="text" placeholder="변경할 닉네임">
+                        <!--                  <button type="submit" name="action" value="닉네임변경">수정하기</button>-->
+                        <div class="changing">소개글&nbsp;변경</div>
+                        <input class="inputbox" th:field="*{info}" type="text" placeholder="소개글 입력">
+                        <!--                  <button type="submit" name="action" value="회원소개변경">수정하기</button>-->
+                        <div class="changing">비밀번호&nbsp;변경</div>
+                        <input class="inputbox" type="password" th:field="*{prePassword}" placeholder="현재 비밀번호">
+                        <input class="inputbox" type="password" th:field="*{afterPassword}" placeholder="변경할 비밀번호">
+                        <input class="inputbox" type="password" placeholder="변경할 비밀번호 확인">
+                    </form>
+
+                    <!--                <form action="#" method="">-->
+                    <!--                  <div class="changing">닉네임&nbsp;변경</div>-->
+                    <!--                  <input id="nickname" class="inputbox" type="text" placeholder="변경할 닉네임" check_result="fail">-->
+                    <!--                  <div class="changing">소개글&nbsp;변경</div>-->
+                    <!--                  <input id="intro" class="inputbox" type="text" placeholder="소개글 입력">-->
+                    <!--                  <div class="changing">비밀번호&nbsp;변경</div>-->
+                    <!--                  <input id="currentPassword" class="inputbox" type="password" placeholder="현재 비밀번호" check_result="fail">-->
+                    <!--                  <input id="chagePassword" class="inputbox" type="password" placeholder="변경할 비밀번호">-->
+                    <!--                  <input id="checkChagePassword" class="inputbox" type="password" placeholder="변경할 비밀번호 확인">-->
+                    <!--                    </form>-->
+                </div>
+                <div class="out-button">
+                    <form method="POST" th:object="${memberList}"
+                          th:action="@{/editInfo/{memberId}/delete (memberId=${memberList.id})}">
+                        <button class="edit_delete_btn" type="submit" name="delete">회원&nbsp;탈퇴하기</button>
+                    </form>
+                </div>
+            </div>
         </div>
-      </div>
-      <div class="right">
-        <div class="button">
-          <div class="nickname-button">
-            <button id="nickname-check" type="submit">중복&nbsp;확인</button>
-            <script>
-              var nickname = $("#nickname").val();
-              $("#nickname-check").click(function(nickname){
-                $.post("/signUp/duplicateNickName", String(nickname), function(data){
-                  if(data){
-                    alert("사용가능한 닉네임입니다.");
-                    $("#nickname").attr("check_result", "succes");
-                  } else {
-                    alert("이미 존재하는 닉네임 입니다.");
-                  }
-                });
-              });
-            </script>
-            <button id="nicknameCorrect" type="submit" name="action" value="닉네임변경">수정하기</button>
-            <script>
-              var password = $("#currentPassword").val();
-              $("#nicknameCorrect").click(function(password){
-                $.post("/signUp/checkPassward", String(password), function(data){
-                  if(data){
-                    alert("수정되었습니다.");
-                  } else {
-                    alert("일시적 오류입니다. 다시 시도해주십시오.");
-                  }
-                });
-              });
-            </script>
-          </div>
-          <button id="introCorrect" type="submit" name="action" value="회원소개변경">수정하기</button>
-          <script>
-            var intro = $("#intro").val();
-            $("#introCorrect").click(function(intro){
-              $.post("/signUp/checkPassward", String(intro), function(data){
-                if(data){
-                  alert("수정되었습니다.");
-                } else {
-                  alert("일시적 오류입니다. 다시 시도해주십시오.");
-                }
-              });
-            });
-          </script>
-          <div class="pw-button">
-            <button id="pwCheck" type="submit">확인</button>
-            <script>
-              var password = $("#currentPassword").val();
-              $("#pw-check").click(function(password){
-                // 여긴 비밀번호 확인하는 로직 만들어야 함
-                $.post("/signUp/checkPassward", String(password), function(data){
-                  if(data){
-                    alert("확인되었습니다.");
-                    $("#currentPassword").attr("check_result", "succes");
-                  } else {
-                    alert("비밀번호를 확인해 주십시오");
-                  }
-                });
-              });
-            </script>
-            <button id="pwCorrect" type="submit" name="action" value="비밀번호변경">수정하기</button>
-            <script>
-              var chagePassword = $("#chagePassword").val();
-              $("#pwCorrect").click(function(chagePassword){
-                $.post("/signUp/checkPassward", String(chagePassword), function(data){
-                  if(data){
-                    alert("수정되었습니다.");
-                  } else {
-                    alert("일시적 오류입니다. 다시 시도해주십시오.");
-                  }
-                });
-              });
-            </script>
-          </div>
-        </div>
-      </div>
-      </div>
     </div>
-    <script src="../../static/js/myPage/myPage(info).js"></script>
-  </body>
+    <div class="right">
+        <div class="button">
+            <div class="nickname-button">
+                <button id="nickname-check" type="submit">중복&nbsp;확인</button>
+                <script>
+            var nickname = $("#nickname").val();
+                          $("#nickname-check").click(function(nickname){
+                            $.post("/signUp/duplicateNickName", String(nickname), function(data){
+                              if(data){
+                                alert("사용가능한 닉네임입니다.");
+                                $("#nickname").attr("check_result", "success");
+                              } else {
+                                alert("이미 존재하는 닉네임 입니다.");
+                              }
+                            });
+                         });
+
+
+                </script>
+                <button id="nicknameCorrect" type="submit" name="action" value="닉네임변경">수정하기</button>
+                <!--                <script>-->
+                <!--              var password = $("#currentPassword").val();-->
+                <!--              $("#nicknameCorrect").click(function(password){-->
+                <!--                $.post("/signUp/checkPassward", String(password), function(data){-->
+                <!--                  if(data){-->
+                <!--                    alert("수정되었습니다.");-->
+                <!--                  } else {-->
+                <!--                    alert("일시적 오류입니다. 다시 시도해주십시오.");-->
+                <!--                  }-->
+                <!--                });-->
+                <!--              });-->
+
+                <!--                </script>-->
+            </div>
+            <button id="introCorrect" form="edit" type="submit" name="action" value="회원소개변경">수정하기</button>
+            <div class="pw-button">
+                <!--                <script>-->
+                <!--              var password = $("#currentPassword").val();-->
+                <!--              $("#pw-check").click(function(password){-->
+                <!--                // 여긴 비밀번호 확인하는 로직 만들어야 함-->
+                <!--                $.post("/signUp/checkPassward", String(password), function(data){-->
+                <!--                  if(data){-->
+                <!--                    alert("확인되었습니다.");-->
+                <!--                    $("#currentPassword").attr("check_result", "succes");-->
+                <!--                  } else {-->
+                <!--                    alert("비밀번호를 확인해 주십시오");-->
+                <!--                  }-->
+                <!--                });-->
+                <!--              });-->
+
+                <!--                </script>-->
+                <button id="pwCorrect" form="edit" type="submit" name="action" value="비밀번호변경">수정하기</button>
+                <!--                <script>-->
+                <!--              var chagePassword = $("#chagePassword").val();-->
+                <!--              $("#pwCorrect").click(function(chagePassword){-->
+                <!--                $.post("/signUp/checkPassward", String(chagePassword), function(data){-->
+                <!--                  if(data){-->
+                <!--                    alert("수정되었습니다.");-->
+                <!--                  } else {-->
+                <!--                    alert("일시적 오류입니다. 다시 시도해주십시오.");-->
+                <!--                  }-->
+                <!--                });-->
+                <!--              });-->
+
+                <!--                </script>-->
+            </div>
+        </div>
+    </div>
+</div>
+</div>
+<script src="/js/myPage/myPage(info).js"></script>
+</body>
 </html>

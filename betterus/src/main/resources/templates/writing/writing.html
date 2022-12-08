@@ -6,38 +6,50 @@
 -->
 
 <!DOCTYPE html>
-<html lang="kor">
+<html xmlns:th="http://www.thymeleaf.org">
   <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reset-css@5.0.1/reset.min.css">
-    <link rel="stylesheet" href="../../static/css/writing/writing.css">
+    <link rel="stylesheet" href="/css/writing/writing.css">
+    <script src="https://code.jquery.com/jquery-3.6.0.js"></script>
     <title>Better Us Writing</title>
+    <script th:inline="javascript">
+       $(document).ready(function() {
+        let message = [[${msg}]];
+        if (message != null) {
+            alert(message);
+        }
+        });
+    </script>
   </head>
   <body>
     <div class="header">
       <div class="home">
-        <a href="#"><img class="home" src="../../static/img/home.png" alt=" "></a>
+        <a href="/"><img class="home" src="/img/home.png" alt=" "></a>
       </div>
       <div class="logo">
-        <img class="logo" src="../../static/img/logo_W_new.png" alt=" ">
+        <img class="logo" src="/img/logo_W_new.png" alt=" ">
       </div>
       <ul class="nav">
-        <li><a href="myPage/{articleId}/edit">저장</a></li>
+        <li><button id="save_btn" type="submit" form ="write">저장</button></li>
       </ul>
     </div>
     <div class="section">
       <div class="background-space">
         <div class="writing-space">
-          <form>
-            <input class="title" type="text" placeholder="제목을 입력해주세요">
-            <input class="subtitle" type="text" placeholder="소제목을 입력해주세요.">
-          </form>
+          <form id="write" role="form" th:object="${articleForm}" action="/write" method="post" enctype="multipart/form-data">
+            <input class="title" th:field="*{title}" type="text" placeholder="제목을 입력해주세요">
+            <input class="subtitle" th:field="*{subTitle}" type="text" placeholder="소제목을 입력해주세요.">
           <hr/>
-          <form>
-          <textarea class="content" cols="30" rows="20" placeholder="내용을 입력해주세요"></textarea>
+          <textarea class="content" th:field="*{contents}"  type="text" cols="30" rows="20" placeholder="내용을 입력해주세요"></textarea>
+            <div>
+              파일을 업로드 해주세요
+              <input class="file"  th:field="*{files}" type="file" />
+            </div>
+
           </form>
         </div>
       </div>

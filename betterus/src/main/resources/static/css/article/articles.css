@@ -164,5 +164,18 @@ img.logo {
   margin-right: 7px;
   font-size: 13px;
 }
+
+.paging{
+    padding-top: 20px;
+    margin : auto;
+    text-align: center;
+    font-size: 30px;
+}
 /*--------------------------section---------------------------- */
 
+#article_search_btn{
+    margin-bottom : 40px;
+    color: white;
+    background-color: white;
+    border: 0;
+}
