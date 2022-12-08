@@ -7,83 +7,102 @@
 
 <!DOCTYPE html>
 <html lang="kor" xmlns:th="http://www.thymeleaf.org">
-  <head>
+<head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reset-css@5.0.1/reset.min.css">
-    <link rel="stylesheet" href="../../static/css/manager/manager(info).css">
+    <link rel="stylesheet" href="/css/manager/manager(info).css">
+    <script src="https://code.jquery.com/jquery-3.6.0.js"></script>
+    <script th:inline="javascript">
+       $(document).ready(function() {
+        let message = [[${msg}]];
+        if (message != null) {
+            alert(message);
+        }
+        });
+    </script>
     <title>Better Us ManagerPage(회원정보)</title>
-  </head>
-  <body>
-    <div class="header">
-      <div class="home">
-        <a href="/"><img class="home" src="../../static/img/home.png" alt=" "></a>
-      </div>
-      <div class="logo">
-        <img class="logo" src="../../static/img/logo_B_new.png" alt=" ">
-      </div>
-      <div class="nothing"></div>
+</head>
+<body>
+<div class="header">
+    <div class="home">
+        <a href="/"><img class="home" src="/img/home.png" alt=" "></a>
     </div>
-    <div class="section">
-      <div class="left"></div>
-      <div class="center">
+    <div class="logo">
+        <img class="logo" src="/img/logo_B_new.png" alt=" ">
+    </div>
+    <div class="nothing"></div>
+</div>
+<div class="section">
+    <div class="left"></div>
+    <div class="center">
         <div class="title">
-          <a href=“/myPage/admin/memberInfo”><div id="first" class="choice">회원정보</div></a>
-          <a href="/myPage/admin/articleConfirmCheck"><div id="second" class="choice">작가&nbsp;신청&nbsp;글&nbsp;확인</div></a>
+            <a href=“/myPage/admin/memberInfo”>
+                <div id="first" class="choice">회원정보</div>
+            </a>
+            <a href="/myPage/admin/articleConfirmCheck">
+                <div id="second" class="choice">작가&nbsp;신청&nbsp;글&nbsp;확인</div>
+            </a>
         </div>
         <div class="search">
-          <div class="searching">
-            <a href="/MyPage/admin/memberInfo/search?"><img src="https://s3.ap-northeast-2.amazonaws.com/cdn.wecode.co.kr/icon/search.png"></a>
-            <form>
-              <input type="text">
-            </form>
-          </div>
-          <div class="condition">
-            <select name="search-condition" id="search-condition-select">
-              <option value="" disabled selected>검색조건</option>
-              <option value="nickname">닉네임</option>
-              <option value="email">이메일</option>
-              <option value="state">회원상태</option>
-              <option value="signupday">회원가입일</option>
-              <option value="writerday">작가신청일</option>
-            </select>
-          </div>
-          <div class="sort">
-            <select name="sort-condition" id="sort-condition-select">
-              <option value="" disabled selected>정렬</option>
-              <option value="asc">오름차순</option>
-              <option value="decs">내림차순</option>
-            </select>
-          </div>
+            <div class="searching">
+                <button type="submit" id="member_search_btn" form="search"><img
+                        src="https://s3.ap-northeast-2.amazonaws.com/cdn.wecode.co.kr/icon/search.png"></button>
+                <form id="search" method="GET" action="/myPage/admin/memberInfo/search">
+                    <input type="text" name="searchKeyword">
+                </form>
+            </div>
+<!--            <div class="condition">-->
+<!--                <select name="search-condition" id="search-condition-select">-->
+<!--                    <option value="" disabled selected>검색조건</option>-->
+<!--                    <option value="nickname">닉네임</option>-->
+<!--                    <option value="email">이메일</option>-->
+<!--                    <option value="state">회원상태</option>-->
+<!--                    <option value="signupday">회원가입일</option>-->
+<!--                    <option value="writerday">작가신청일</option>-->
+<!--                </select>-->
+<!--            </div>-->
+<!--            <div class="sort">-->
+<!--                <select name="sort-condition" id="sort-condition-select">-->
+<!--                    <option value="" disabled selected>정렬</option>-->
+<!--                    <option value="asc">오름차순</option>-->
+<!--                    <option value="decs">내림차순</option>-->
+<!--                </select>-->
+<!--            </div>-->
         </div>
         <div class="relation">
-          <div class="schema">
-            <div class="nickname">닉네임</div>
-            <div class="email">이메일</div>
-            <div class="state">회원상태</div>
-            <div class="signupday">회원가입일</div>
-            <div class="writerday">작가승인일</div>
-          </div>
-          <div class="instance">
-            <div class="nickname" >독자2</div>
-            <div class="email">sky339128@gmail.com</div>
-            <div class="state">독자</div>
-            <div class="signupday">2021.01.07</div>
-            <div class="writerday"></div>
-          </div>
-          <div class="instance" th:each="instacne : ${managerData}">
-            <div class="nickname" th:text="${managerData.id}"></div>
-            <div class="email" th:text="${managerData.email}"></div>
-            <div class="state" th:text="${managerData.state}"></div>
-            <div class="signupday" th:text="${managerData.signUpDay}"></div>
-            <div class="writerday" th:text="${managerData.writerDay}"></div>
-          </div>
-        </div>   
-      </div>
-      <div class="right">
-      </div>
+            <div class="schema">
+                <div class="nickname">닉네임</div>
+                <div class="email">이메일</div>
+                <div class="state">회원상태</div>
+                <div class="signupday">회원가입일</div>
+                <div class="writerday">작가승인일</div>
+            </div>
+            <div class="instance" th:each="member : ${memberList}">
+                <div class="nickname" th:text="${member.nickName}"> <!-- 클릭시 이동 -->
+                    <a th:href="@{/list/authorPage/{authorId}/default (authorId=${member.id})}"></a>
+                </div>
+                <div class="email" th:text="${member.email}">
+                    <a th:href="@{/list/authorPage/{authorId}/default (authorId=${member.id})}"></a>
+                </div>
+                <div class="state" th:text="${member.grade}"></div>
+                <div class="signupday" th:text="${member.createDate}"></div>
+                <div class="writerday" th:text="${member.authorConfirmDate}"></div>
+            </div>
+        </div>
+        <div class="paging">
+            <th:block th:each="page : ${#numbers.sequence(startPage, endPage)}">
+                <a th:if="${page != nowPage}" th:href="@{/myPage/admin/memberInfo(page= ${page-1})}"
+                   th:text="${page}"></a>
+                <strong th:if="${page == nowPage}" th:text="${page}" style="color : red"></strong>
+            </th:block>
+        </div>
     </div>
-  </body>
+    <div class="right">
+    </div>
+</div>
+
+</body>
 </html>

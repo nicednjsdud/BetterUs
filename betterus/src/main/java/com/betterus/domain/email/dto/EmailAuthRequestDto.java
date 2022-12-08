@@ -9,8 +9,10 @@
 package com.betterus.domain.email.dto;
 
 import lombok.Getter;
+import lombok.Setter;
 
 @Getter
+@Setter
 public class EmailAuthRequestDto {
 
     public String email;

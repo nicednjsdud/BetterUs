@@ -107,7 +107,6 @@ div.input {
 }
 
 .autho-caption {
-  display: none;
   text-align: center;
   margin-right: 420px;
   font-size: 15px;
@@ -117,7 +116,6 @@ div.input {
 }
 
 .autho-caption + input {
-  display: none;
   width: 500px;
   height: 30px;
   font-size: 20px;
@@ -180,12 +178,16 @@ input.inputbox {
   width: 300px;
 }
 
-.button {
+.button_area {
   text-align: left;
 }
 
-.email-button>button {
+.email-button{
   margin-top: 177px;
+}
+
+.email-button>button {
+
   width: 100px;
   height: 50px;
   font-size: 18px;
@@ -195,8 +197,12 @@ input.inputbox {
   background-color: rgb(170, 170, 170);
 }
 
+.nickname-button{
+    margin-top: 170px;
+}
+
 .nickname-button>button {
-  margin-top: 75px;
+
   width: 100px;
   height: 50px;
   font-size: 18px;

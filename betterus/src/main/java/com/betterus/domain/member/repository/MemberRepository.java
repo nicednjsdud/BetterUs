@@ -30,9 +30,9 @@ public interface MemberRepository extends JpaRepository<Member, Long>,MemberRepo
 
     Member findByPassword(Long memberId);
 
-    @Query(value = "select m from Member m  where m.grade = :grade")
-    Page<MemberDto> findAuthorByGrade(@Param("grade") Grade grade, Pageable pageable);
+    Page<Member> findAuthorByGrade(Grade grade, Pageable pageable);
 
-    Page<Member> findSearchListByNickNameContaining(String keyword, Pageable pageable);
+    Page<Member> findSearchListByNickNameContaining(String NickName, Pageable pageable);
 
+    Page<Member> findAuthorByGradeAndNickNameContaining(Grade author, String NickName, Pageable pageable);
 }

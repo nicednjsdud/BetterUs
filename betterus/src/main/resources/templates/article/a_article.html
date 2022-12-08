@@ -6,89 +6,83 @@
 -->
 
 <!DOCTYPE html>
-<html lang="kor">
-  <head>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reset-css@5.0.1/reset.min.css">
-    <link rel="stylesheet" href="../../static/css/article/a_article.css">
+    <link rel="stylesheet" href="/css/article/a_article.css">
     <title>Better Us A article</title>
-  </head>
-  <body>
-    <div class="header">
-      <div class="sidebars">
+</head>
+<body>
+<div class="header">
+    <div class="sidebars">
         <input id="menuicon" type="checkbox"/>
         <label for="menuicon">
-          <img class="menu" src="../../static/img/menu_B.png" alt=" ">
+            <img class="menu" src="/img/menu_B.png" alt=" ">
         </label>
         <div class="sidebar">
-          <ul class="submenu">
-            <li><a href="/myPage/default">마이&nbsp;페이지</a></li>
-            <li><a href="/list/author">작가&nbsp;둘러보기</a></li>
-            <li><a href="/list/article">에세이&nbsp;둘러보기</a></li>
-          </ul>
-        </div>   
-      </div>  
-      <!-- <div class="home">
-        <a href="#"><img class="home" src="../..//static/img/home.png" alt=" "></a>
-      </div> -->
-      <div class="logo">
-        <img class="logo" src="../../static/img/logo_B_new.png" alt=" ">
-      </div>
-      <ul class="nav">
-        <li><a href="#">수정</a></li>
-        <li><a href="#">삭제</a></li>
-      </ul>
+            <ul class="submenu">
+                <li><a th:if="${session.admin != true}" href="/myPage/default">마이&nbsp;페이지</a></li>
+                <li><a href="/list/author">작가&nbsp;둘러보기</a></li>
+                <li><a href="/list/article">에세이&nbsp;둘러보기</a></li>
+            </ul>
+        </div>
     </div>
-    <div class="section">
-      <div class="banner">
+    <!-- <div class="home">
+      <a href="#"><img class="home" src="../..//static/img/home.png" alt=" "></a>
+    </div> -->
+    <div class="logo">
+        <img class="logo" src="/img/logo_B_new.png" alt=" ">
+    </div>
+    <ul class="nav" th:if="${session.member == article.memberId}">
+        <form method="GET" th:action="@{/myPage/{articleId}/edit (articleId=${article.id})}">
+            <li><button class="edit_delete_btn" type="submit" name="submit">수정</button></li>
+        </form>
+        <form method="POST" th:action="@{/myPage/{articleId}/delete (articleId=${article.id})}">
+            <li><button class="edit_delete_btn" type="submit" name="submit">삭제</button></li>
+        </form>
+    </ul>
+</div>
+<div class="section">
+    <div class="banner">
         <div class="nothing"></div>
         <div class="something">
-          <div class="title">2022 SW 마이스터고 연합 토크콘서트 강연후기</div>
-          <div class="day">2022.06.12</div>
+            <div class="title" th:text="${article.title}"></div>
+            <div class="day" th:text="${article.createDate}"></div>
         </div>
         <div class="nothing"></div>
-      </div>
-      <div class="content">
-          <div class="nothing"></div>
-          <span class="article">
-            <br><br><b>What is Lorem Ipsum?</b><br><br>
+    </div>
+    <div class="content">
+        <div class="nothing"></div>
+        <span class="article">
+            <h1><span th:text="${article.subTitle}"></span></h1> <!-- 글씨 크기 수정-->
+          <div th:text="${article.contents}">
 
-Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.
+          </div>
 
-Why do we use it?
-It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using 'Content here, content here', making it look like readable English. Many desktop publishing packages and web page editors now use Lorem Ipsum as their default model text, and a search for 'lorem ipsum' will uncover many web sites still in their infancy. Various versions have evolved over the years, sometimes by accident, sometimes on purpose (injected humour and the like).
-
-
-<br><br>Where does it come from?<br><br>
-Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a piece of classical Latin literature from 45 BC, making it over 2000 years old. Richard McClintock, a Latin professor at Hampden-Sydney College in Virginia, looked up one of the more obscure Latin words, consectetur, from a Lorem Ipsum passage, and going through the cites of the word in classical literature, discovered the undoubtable source. Lorem Ipsum comes from sections 1.10.32 and 1.10.33 of "de Finibus Bonorum et Malorum" (The Extremes of Good and Evil) by Cicero, written in 45 BC. This book is a treatise on the theory of ethics, very popular during the Renaissance. The first line of Lorem Ipsum, "Lorem ipsum dolor sit amet..", comes from a line in section 1.10.32.
-
-The standard chunk of Lorem Ipsum used since the 1500s is reproduced below for those interested. Sections 1.10.32 and 1.10.33 from "de Finibus Bonorum et Malorum" by Cicero are also reproduced in their exact original form, accompanied by English versions from the 1914 translation by H. Rackham.
-
-<br><br>Where can I get some?<br><br>
-There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form, by injected humour, or randomised words which don't look even slightly believable. If you are going to use a passage of Lorem Ipsum, you need to be sure there isn't anything embarrassing hidden in the middle of text. All the Lorem Ipsum generators on the Internet tend to repeat predefined chunks as necessary, making this the first true generator on the Internet. It uses a dictionary of over 200 Latin words, combined with a handful of model sentence structures, to generate Lorem Ipsum which looks reasonable. The generated Lorem Ipsum is therefore always free from repetition, injected humour, or non-characteristic words etc.
          </span>
         <div class="nothing"></div>
-      </div>
-      <div class="footer">
+    </div>
+    <div class="footer">
         <div class="nothing"></div>
         <div class="writer">
-          <div class="w-nothing"></div>
-          <div class="writer-box">
-            <div class="img">
-              <a href="/list/infoPage/default"><img src="../../static/img/note_s.jpg"></a>
+            <div class="w-nothing"></div>
+            <div class="writer-box">
+                <div class="img">
+                    <a href="/list/infoPage/default"><img src="/img/note_s.jpg"></a>
+                </div>
+                <div class="intro">
+                    <div class="id" th:text="${article.nickName}"></div>
+                    <div class="who">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</div>
+                </div>
             </div>
-            <div class="intro">
-              <div class="id">Lorem ipsum</div>
-              <div class="who">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</div>
-            </div>
-          </div>
-          <div class="w-nothing"></div>
+            <div class="w-nothing"></div>
         </div>
         <div class="nothing"></div>
-      </div>
     </div>
-  </body>
+</div>
+</body>
 </html>

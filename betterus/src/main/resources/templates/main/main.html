@@ -14,6 +14,15 @@
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reset-css@5.0.1/reset.min.css">
     <link rel="stylesheet" href="/css/main/main.css?ver=1">
+    <script src="https://code.jquery.com/jquery-3.6.0.js"></script>
+    <script th:inline="javascript">
+       $(document).ready(function() {
+        let message = [[${msg}]];
+        if (message != null) {
+            alert(message);
+        }
+        });
+    </script>
     <title>Better Us Main</title>
   </head>
   <body>
@@ -25,7 +34,7 @@
         </label>
         <div class="sidebar">
           <ul class="submenu">
-            <li><a href="/myPage/default">마이&nbsp;페이지</a></li>
+            <li><a th:if="${session.admin != true}" href="/myPage/default">마이&nbsp;페이지</a></li>
             <li><a href="/list/author">작가&nbsp;둘러보기</a></li>
             <li><a href="/list/article">에세이&nbsp;둘러보기</a></li>
           </ul>
@@ -41,10 +50,13 @@
       </ul>
       <ul th:if="${session.isLogOn == true}" class="nav">
         <li><a href="/logout">로그아웃</a></li>
-        <li><a href="#" th:href="@{/editInfo/{memberId}/edit (memberId=${session.member})}">마이페이지</a></li>
+        <li><a th:if="${session.admin != true}" href="#" th:href="@{/editInfo/{memberId}/edit (memberId=${session.member})}">마이페이지</a></li>
+        <li><a th:if="${session.admin == true}" href="/myPage/admin/memberInfo">회원&nbsp;정보</a></li>
+        <li><a th:if="${session.admin == true}" href="/myPage/admin/articleConfirmCheck">작가&nbsp;신청&nbsp;글</a></li>
       </ul>
     </div>
     <div class="terms">글을 쓰며 더 나은 <big>'나'</big>로<br/><br/>글을 나누며 더 나은 <big>'우리'</big>로</div>
-    <a href="/"><div class="welcome">어서오세요!</div></a>
+    <a th:if="${session.admin != true}" href="/"><div class="welcome">어서오세요!</div></a>
+    <a th:if="${session.admin == true}" href="/"><div class="welcome">관리자님 안녕하세요!</div></a>
   </body>
 </html>

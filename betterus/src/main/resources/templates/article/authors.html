@@ -1,0 +1,65 @@
+<!--
+* 작성자 곽수경
+* 작성 일자: 10.22
+* 수정 일자: 11.10
+* 기능: 전체 글 화면
+-->
+
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reset-css@5.0.1/reset.min.css">
+  <link rel="stylesheet" href="/css/article/articles.css">
+  <title>Better Us Articles</title>
+</head>
+<body>
+<div class="header">
+  <div class="home">
+    <a href="/"><img class="home" src="/img/home.png" alt=" "></a>
+  </div>
+  <div class="logo">
+    <img class="logo" src="/img/logo_B_new.png" alt=" ">
+  </div>
+  <div class="nothing"></div>
+</div>
+<div class="section">
+  <div class="articles">
+    <div class="searching">
+      <button id="article_search_btn" type="submit" form="search" ><img src="https://s3.ap-northeast-2.amazonaws.com/cdn.wecode.co.kr/icon/search.png"></button>
+      <form id="search" method="GET" action="/list/author/search">
+        <input type="text" name="searchKeyword">
+      </form>
+    </div>
+    <div class="article" th:each="author : ${authorList}">
+      <div class="notimage">
+        <div class="letter">
+          <input type="hidden" th:value="${author.id}"/>
+          <div class="title" th:text="${author.nickName}" th:onclick="|location.href='@{/list/authorPage/{authorId}/default (authorId=${author.id})}'|"></div>
+          <div class="content" th:text="${author.user_info}"></div>
+        </div>
+        <div class="else">
+          <div class="review">구독자 &nbsp;&nbsp;</div>
+          <div class="numOf" th:text="${author.gudok_count}"></div>
+          <div class="like">관심작가 &nbsp;&nbsp;</div>
+          <div class="numOf" th:text="${author.gudokForCount}"></div>
+        </div>
+      </div>
+      <div class="image">
+        <img src="/img/just.png">
+      </div>
+    </div>
+    <div class="paging">
+      <th:block  th:each="page : ${#numbers.sequence(startPage, endPage)}">
+        <a th:if="${page != nowPage}" th:href="@{/list/article(page= ${page-1})}" th:text="${page}"></a>
+        <strong th:if="${page == nowPage}" th:text="${page}" style="color : red"></strong>
+      </th:block>
+    </div>
+  </div>
+
+</div>
+</body>
+</html>

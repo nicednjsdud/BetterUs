@@ -10,26 +10,28 @@ package com.betterus.domain.article.repository;
 
 import com.betterus.domain.article.domain.Article;
 import com.betterus.model.ArticleStatus;
-import com.betterus.model.Grade;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
-import org.springframework.data.repository.query.Param;
 
 import java.util.List;
 
 public interface ArticleRepository extends JpaRepository<Article, Long> {
 
-    @Query("select a from Article a")
-    Page<Article> findByArticleStatus(ArticleStatus status, Pageable pageable);
+    Page<Article> findSearchListByTitleContaining(String keyword, Pageable pageable);
+
+    Page<Article> findByStatus(ArticleStatus status, Pageable pageable);
 
 
     List<Article> findByMemberId(Long id);
+
     Article findArticleById(Long id);
 
-    Page<Article> findSearchListByTitleContaining(ArticleStatus status,String keyword, Pageable pageable);
+    Page<Article> findSearchListByStatusAndTitleContaining(ArticleStatus status, String title, Pageable pageable);
 
-    @Query("select a from Article a")
-    Page<Article> findConfirmArticleByArticleStatus(ArticleStatus status,Pageable pageable);
+    Page<Article> findConfirmArticleByStatus(ArticleStatus status, Pageable pageable);
+
+    List<Article> findByMemberId(Sort sort, Long id);
 }

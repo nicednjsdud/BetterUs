@@ -7,83 +7,88 @@
 
 <!DOCTYPE html>
 <html lang="kor" xmlns:th="http://www.thymeleaf.org">
-  <head>
+<head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reset-css@5.0.1/reset.min.css">
-    <link rel="stylesheet" href="../../static/css/manager/manager(article-check).css">
+    <link rel="stylesheet" href="/css/manager/manager(article-check).css">
     <title>Better Us ManagerPage(작가 신청 글 확인)</title>
-  </head>
-  <body>
-    <div class="header">
-      <div class="home">
-        <a href="/"><img class="home" src="../../static/img/home.png" alt=" "></a>
-      </div>
-      <div class="logo">
-        <a href="/"><img class="logo" src="../../static/img/logo_B_new.png" alt=" "></a>
-      </div>
-      <div class="nothing"></div>
+</head>
+<body>
+<div class="header">
+    <div class="home">
+        <a href="/"><img class="home" src="/img/home.png" alt=" "></a>
     </div>
-    <div class="section">
-      <div class="left"></div>
-      <div class="center">
+    <div class="logo">
+        <a href="/"><img class="logo" src="/img/logo_B_new.png" alt=" "></a>
+    </div>
+    <div class="nothing"></div>
+</div>
+<div class="section">
+    <div class="left"></div>
+    <div class="center">
         <div class="title">
-          <a href="/myPage/admin/memberInfo"><div id="first" class="choice">회원정보</div></a>
-          <a href="/myPage/admin/articleConfirmCheck"><div id="second" class="choice">작가&nbsp;신청&nbsp;글&nbsp;확인</div></a>
+            <a href="/myPage/admin/memberInfo">
+                <div id="first" class="choice">회원정보</div>
+            </a>
+            <a href="/myPage/admin/articleConfirmCheck">
+                <div id="second" class="choice">작가&nbsp;신청&nbsp;글&nbsp;확인</div>
+            </a>
         </div>
         <div class="search">
-          <div class="searching">
-            <a href="/MyPage/admin/memberInfo/search?"><img src="https://s3.ap-northeast-2.amazonaws.com/cdn.wecode.co.kr/icon/search.png"></a>
-            <form>
-              <input type="text">
-            </form>
-          </div>
-          <div class="condition">
-            <select name="search-condition" id="search-condition-select">
-              <option value="" disabled selected>검색조건</option>
-              <option value="nickname">닉네임</option>
-              <option value="email">이메일</option>
-              <option value="signupday">회원가입일</option>
-              <option value="writerday">작가신청일</option>
-            </select>
-          </div>
-          <div class="sort">
-            <select name="sort-condition" id="sort-condition-select">
-              <option value="" disabled selected>정렬</option>
-              <option value="asc">오름차순</option>
-              <option value="decs">내림차순</option>
-            </select>
-          </div>
+            <div class="searching">
+                <button id="member_search_btn" type="submit" form="search"><img
+                        src="https://s3.ap-northeast-2.amazonaws.com/cdn.wecode.co.kr/icon/search.png"></button>
+                <form id="search" method="GET" action="/myPage/admin/article/search">
+                    <input type="text" name="searchKeyword">
+                </form>
+            </div>
+<!--            <div class="condition">-->
+<!--                <select name="search-condition" id="search-condition-select">-->
+<!--                    <option value="" disabled selected>검색조건</option>-->
+<!--                    <option value="nickname">닉네임</option>-->
+<!--                    <option value="email">이메일</option>-->
+<!--                    <option value="signupday">회원가입일</option>-->
+<!--                    <option value="writerday">작가신청일</option>-->
+<!--                </select>-->
+<!--            </div>-->
+<!--            <div class="sort">-->
+<!--                <select name="sort-condition" id="sort-condition-select">-->
+<!--                    <option value="" disabled selected>정렬</option>-->
+<!--                    <option value="asc">오름차순</option>-->
+<!--                    <option value="decs">내림차순</option>-->
+<!--                </select>-->
+<!--            </div>-->
         </div>
         <div class="relation">
-          <div class="schema">
-            <div class="article-title">제목</div>
-            <div class="nickname">닉네임</div>
-            <div class="email">이메일</div>
-            <div class="state">회원상태</div>
-            <div class="application-day">작가신청일</div>
-          </div>
-          <div class="instance">
-            <div class="article-title">그들은 보는 그들의 품었기 새가 이것이다. 그들에게 우리 있을 있으며, 발휘하기 있다.</div>
-            <div class="nickname">독자2</div>
-            <div class="email">sky339128@gmail.com</div>
-            <div class="state">작가 신청 대기</div>
-            <div class="application-day">2021.01.07</div>   
-          </div>
-          <div class="instance" th:each="instance2 : ${instance2List}">
-            <div class="article-title" th:text="${instance2.title}"></div>
-            <div class="nickname" th:text="${instance2.nickname}"></div>
-            <div class="email" th:text="$[instance2.email}"></div>
-            <div class="state" th:text="${instance2.state}"></div>
-            <div class="application-day" th:text="${instance2.application-day}"></div>   
-          </div>
-        </div>   
-      </div>
-      <div class="right">
-        
-      </div>
+            <div class="schema">
+                <div class="article-title">제목</div>
+                <div class="nickname">닉네임</div>
+                <div class="email">이메일</div>
+                <div class="state">회원상태</div>
+                <div class="application-day">작가신청일</div>
+            </div>
+            <div class="instance" th:each="article : ${articleList}">
+                <div class="article-title" th:text="${article.title}" th:onclick="|location.href='@{/myPage/admin/articleConfirmCheck/article/{articleId} (articleId=${article.id})}'|"></div>
+                <div class="nickname" th:text="${article.nickName}"></div>
+                <div class="email" th:text="${article.email}"></div>
+                <div class="state" th:text="${article.status}"></div>
+                <div class="application-day" th:text="${article.authorConfirmDate}"></div>
+            </div>
+        </div>
+        <div class="paging">
+            <th:block th:each="page : ${#numbers.sequence(startPage, endPage)}">
+                <a th:if="${page != nowPage}" th:href="@{/myPage/admin/articleConfirmCheck (page= ${page-1})}"
+                   th:text="${page}"></a>
+                <strong th:if="${page == nowPage}" th:text="${page}" style="color : red"></strong>
+            </th:block>
+        </div>
     </div>
-  </body>
+    <div class="right">
+
+    </div>
+</div>
+</body>
 </html>

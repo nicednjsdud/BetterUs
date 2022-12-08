@@ -1,5 +1,6 @@
 package com.betterus.domain.mypage.service;
 
+import com.betterus.domain.article.domain.Article;
 import com.betterus.domain.article.dto.ArticleDto;
 import com.betterus.domain.member.domain.Member;
 import com.betterus.domain.member.dto.MemberDto;
@@ -26,4 +27,6 @@ public interface MyPageService {
     int authorPass(Long memberId);
 
     int authorFail(Long memberId);
+
+    Page<ArticleDto> findSearchArticleList(String keyword, Pageable pageable);
 }

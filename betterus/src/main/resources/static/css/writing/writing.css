@@ -155,4 +155,13 @@ textarea::-webkit-scrollbar {
 .content::placeholder{
   color: rgba(255,255,255,0.4);
 }
+
+#save_btn{
+    border: 0;
+    font-size : 1.4em;
+    background-color: rgba(189,175,161);
+    color: black;
+    margin-right : 30px;
+    margin-top:10px;
+}
 /*-------------------------- section---------------------------- */

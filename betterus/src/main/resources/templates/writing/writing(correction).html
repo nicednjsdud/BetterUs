@@ -6,42 +6,52 @@
 -->
 
 <!DOCTYPE html>
-<html lang="kor">
-  <head>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reset-css@5.0.1/reset.min.css">
-    <link rel="stylesheet" href="../../static/css/writing/writing(correction).css">
+    <link rel="stylesheet" href="/css/writing/writing(correction).css">
+    <script src="https://code.jquery.com/jquery-3.6.0.js"></script>
     <title>Better Us Writing(correction)</title>
-  </head>
-  <body>
-    <div class="header">
-      <div class="home">
-        <a href="#"><img class="home" src="../../static/img/home.png" alt=" "></a>
-      </div>
-      <div class="logo">
-        <img class="logo" src="../../static/img/logo_W_new.png" alt=" ">
-      </div>
-      <ul class="nav">
-        <li><a href="myPage/{articleId}/delete">수정</a></li>
-        <li><a href="myPage/{articleId}/edit">삭제</a></li>
-      </ul>
+</head>
+<body>
+<div class="header">
+    <div class="home">
+        <a href="#"><img class="home" src="/img/home.png" alt=" "></a>
     </div>
-    <div class="section">
-      <div class="background-space">
+    <div class="logo">
+        <img class="logo" src="/img/logo_W_new.png" alt=" ">
+    </div>
+    <ul class="nav">
+        <li>
+            <button class="edit_delete_btn" type="submit" form="edit">수정</button>
+        </li>
+        <li>
+            <form method="POST" th:object="${article}"
+                  th:action="@{/myPage/{articleId}/delete (articleId=${article.id})}">
+                <button class="edit_delete_btn" type="submit" name="submit">삭제</button>
+            </form>
+        </li>
+    </ul>
+</div>
+<div class="section">
+    <div class="background-space">
         <div class="writing-space">
-          <form>
-            <input class="title" type="text" placeholder="제목을 입력해주세요">
-            <input class="subtitle" type="text" placeholder="소제목을 입력해주세요.">
-          </form>
-          <hr/>
-          <form>
-          <textarea class="content" cols="30" rows="20" placeholder="내용을 입력해주세요"></textarea>
-          </form>
+            <form id="edit" th:object="${article}" th:action="@{/myPage/{articleId}/edit (articleId=${article.id})}"
+                  method="POST">
+                <input class="title" type="text" th:value="${article.title}" th:field="*{title}"
+                       placeholder="제목을 입력해주세요">
+                <input class="subtitle" type="text" th:value="${article.subTitle}" th:field="*{subTitle}"
+                       placeholder="소제목을 입력해주세요.">
+                <hr/>
+                <textarea class="content" cols="30" rows="20" th:text="${article.contents}" th:field="*{contents}"
+                          placeholder="내용을 입력해주세요"></textarea>
+            </form>
         </div>
-      </div>
     </div>
-  </body>
+</div>
+</body>
 </html>
