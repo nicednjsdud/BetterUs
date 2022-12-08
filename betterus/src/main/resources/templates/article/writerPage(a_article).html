@@ -1,0 +1,81 @@
+<!--
+  * 작성자 곽수경
+* 작성 일자: 11.03
+* 수정 일자:
+* 기능: 글 1개 화면
+-->
+
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reset-css@5.0.1/reset.min.css">
+    <link rel="stylesheet" href="/css/article/a_article.css">
+    <title>Better Us A article</title>
+</head>
+<body>
+<div class="header">
+    <div class="sidebars">
+        <input id="menuicon" type="checkbox"/>
+        <label for="menuicon">
+            <img class="menu" src="/img/menu_B.png" alt=" ">
+        </label>
+        <div class="sidebar">
+            <ul class="submenu">
+                <li><a th:if="${session.admin != true}" href="/myPage/default">마이&nbsp;페이지</a></li>
+                <li><a href="/list/author">작가&nbsp;둘러보기</a></li>
+                <li><a href="/list/article">에세이&nbsp;둘러보기</a></li>
+            </ul>
+        </div>
+    </div>
+    <!-- <div class="home">
+      <a href="#"><img class="home" src="../..//static/img/home.png" alt=" "></a>
+    </div> -->
+    <div class="logo">
+        <a href="/"><img class="logo" src="/img/logo_B_new.png" alt=" "></a>
+    </div>
+    <ul class="nav" th:if="${session.member != article.memberId}">
+        <li><a th:if="${jjimCheck == false}" th:href="@{/jjim/{articleId}/addJjim (articleId = ${article.id})}">찜 추가</a></li>
+        <li><a th:if="${jjimCheck == true}" th:href="@{/jjim/{articleId}/deleteJjim (articleId = ${article.id})}">찜 취소</a></li>
+    </ul>
+</div>
+<div class="section">
+    <div class="banner">
+        <div class="nothing"></div>
+        <div class="something">
+            <div class="title" th:text="${article.title}"></div>
+            <div class="day" th:text="${article.createDate}"></div>
+        </div>
+        <div class="nothing"></div>
+    </div>
+    <div class="content">
+        <div class="nothing"></div>
+        <span class="article">
+          <span th:text="${article.subTitle}"></span>
+          <div th:text="${article.contents}"></div>
+        </span>
+        <div class="nothing"></div>
+    </div>
+    <div class="footer">
+        <div class="nothing"></div>
+        <div class="writer">
+            <div class="w-nothing"></div>
+            <div class="writer-box">
+                <div class="img">
+                    <a href="/list/infoPage/default"><img src="/img/note_s.jpg"></a>
+                </div>
+                <div class="intro">
+                    <div class="id" th:text="${article.nickName}"></div>
+                    <div class="who" th:text="${article.user_info}"></div>
+                </div>
+            </div>
+            <div class="w-nothing"></div>
+        </div>
+        <div class="nothing"></div>
+    </div>
+</div>
+</body>
+</html>

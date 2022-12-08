@@ -1,5 +1,6 @@
 package com.betterus.domain.article.service;
 
+import com.betterus.domain.article.domain.Article;
 import com.betterus.domain.article.dto.ArticleDto;
 import com.betterus.domain.article.dto.ArticleForm;
 import com.betterus.domain.member.domain.Member;
@@ -25,4 +26,8 @@ public interface ArticleService {
     Page<ArticleDto> findSearchArticleList(String keyword, Pageable pageable);
 
     int saveArticle(ArticleForm articleForm, Member member, List<MultipartFile> files) throws Exception;
+
+    Article findAuthrByArticleId(Long articleId);
+
+    ArticleDto findArticleByArticleId(Long articleId);
 }

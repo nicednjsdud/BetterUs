@@ -15,6 +15,7 @@ import com.betterus.domain.article.dto.ImageDto;
 import com.betterus.domain.article.service.ArticleService;
 import com.betterus.domain.article.service.ImageService;
 import com.betterus.domain.gudok.service.GudokService;
+import com.betterus.domain.jjim.service.JjimService;
 import com.betterus.domain.member.domain.Member;
 import com.betterus.domain.member.dto.MemberDto;
 import com.betterus.domain.member.service.MemberService;
@@ -45,6 +46,8 @@ public class ArticleController {
     private final ImageService imageService;
 
     private final MemberService memberService;
+
+    private final JjimService jjimService;
 
 
     /**
@@ -106,16 +109,18 @@ public class ArticleController {
         String msg = "";
         HttpSession session = request.getSession();
         Object member = session.getAttribute("member");
-        if (member != null) {
-
-//            List<ImageDto> imageDtos = imageService.findByArticleId(articleId);
+        Long sessionMemberId = (Long) member;
+        if (sessionMemberId != null) {
+            Boolean jjimCheck = jjimService.findJjimTure(articleId,sessionMemberId);
             ArticleDto findArticle = articleService.findArticle(articleId);
             model.addAttribute("article", findArticle);
-            return "article/a_article";
+            model.addAttribute("jjimCheck",jjimCheck);
+            if(!sessionMemberId.equals(findArticle.getMemberId())) return "article/writerPage(a_article)";
+            else return "article/a_article";
         } else {
             msg = "회원만 보기가 가능합니다.";
             model.addAttribute("msg", msg);
-            return "main/main";
+            return "redirect:/";
         }
     }
 
@@ -172,9 +177,8 @@ public class ArticleController {
      */
     @GetMapping("myPage/{articleId}/edit")
     public String updateArticleForm(@PathVariable("articleId") Long articleId, Model model) {
-        ArticleDto article = articleService.findArticle(articleId);
-
-        ArticleForm articleForm = new ArticleForm(article.getId(), article.getTitle(), article.getSubTitle(), article.getContents(), null);
+        ArticleDto article = articleService.findArticleByArticleId(articleId);
+        ArticleForm articleForm = new ArticleForm(article.getId(), article.getTitle(), article.getSubTitle(), article.getContents(), article.getImageFullPath(),null);
         model.addAttribute("article", articleForm);
         return "writing/writing(correction)";
     }
@@ -191,42 +195,17 @@ public class ArticleController {
         Long sessionMemberId = (Long) member;
         Member findMember = memberService.findMemberById(sessionMemberId);
         // DB에 저장되어있는 파일 불러오기
-        List<Image> dbImgList = imageService.findAllByArticle(articleForm.getId());
+        Image dbImg = imageService.finddbImgByArticleId(articleForm.getId());
         // 전달되어온 파일들
         List<MultipartFile> multipartFileList = articleForm.getFiles();
         // 새롭게 전달되어온 파일들의 목록을 저장할 List 선언
         List<MultipartFile> addFileList = new ArrayList<>();
         if (member != null) {
-            if (CollectionUtils.isEmpty(multipartFileList)) {
-                // 전달되어온 파일이 없으면
-                for (Image dbImage : dbImgList) {
-                    imageService.deleteImage(dbImage.getId());
-                }
-            } else {
-                // 파일이 하나 이상 존재하면
-                List<String> dbOriginNameList = new ArrayList<>();
-
-                // DB의 파일 원본명 추출
-                for (Image dbImage : dbImgList) {
-                    // file id로 DB에 저장된 파일 정보 얻어오기
-                    Image findImage = imageService.findByImageId(dbImage.getId());
-                    // DB의 파일 원본명 얻어오기
-                    String dbOrigFileName = findImage.getOrigFileName();
-                    // 서버에 저장된 파일들 중 전달되어온 파일이 존재하지 않는다면
-                    if (!multipartFileList.contains(dbOrigFileName))
-                        // 파일 삭제
-                        imageService.deleteImage(dbImage.getId());
-                        // 그것도 아니라면
-                    else dbOriginNameList.add(dbOrigFileName);  // DB에 저장할 파일 목록에 추가
-                }
+            if (!CollectionUtils.isEmpty(multipartFileList)) {
+                // 전달되어온 파일이 있으면
+                if(dbImg != null) imageService.deleteImage(dbImg);
                 for (MultipartFile multipartFile : multipartFileList) {
-                    // 전달되어온 파일 하나씩 검사
-                    // 파일의 원본명 얻기
-                    String multipartFileOrigName = multipartFile.getOriginalFilename();
-                    if (!dbOriginNameList.contains(multipartFileOrigName)) {
-                        // DB에 없는 파일이라면
-                        addFileList.add(multipartFile); // DB에 저장할 파일 목록에 추가
-                    }
+                    addFileList.add(multipartFile); // DB에 저장할 파일 목록에 추가
                 }
             }
             int result = articleService.updateArticle(articleId, articleForm, addFileList);

@@ -8,10 +8,12 @@ import java.util.List;
 public interface ImageService {
     List<Image> findAllByArticle(Long articleId);
 
-    void deleteImage(Long id);
-
     Image findByImageId(Long id);
 
+    ImageDto findByArticleId(Long articleId);
 
-//    List<ImageDto> findByArticleId(Long articleId);
+
+    Image finddbImgByArticleId(Long id);
+
+    void deleteImage(Image dbImg);
 }

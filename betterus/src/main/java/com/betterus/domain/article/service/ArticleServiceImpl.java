@@ -4,6 +4,7 @@ import com.betterus.domain.article.domain.Article;
 import com.betterus.domain.article.domain.Image;
 import com.betterus.domain.article.dto.ArticleDto;
 import com.betterus.domain.article.dto.ArticleForm;
+import com.betterus.domain.article.dto.ImageDto;
 import com.betterus.domain.article.repository.ArticleRepository;
 import com.betterus.domain.article.repository.ImageRepository;
 import com.betterus.domain.member.domain.Member;
@@ -47,7 +48,7 @@ public class ArticleServiceImpl implements ArticleService {
         if (memberMyPage.isPresent()) {
             MyPage myPage = memberMyPage.get();
             if (member.getGrade().equals(Grade.USER)) {
-                Article article = new Article(articleForm.getTitle(), articleForm.getSubTitle(), articleForm.getContents(), ArticleStatus.WAIT, member, myPage);
+                Article article = new Article(articleForm.getTitle(), articleForm.getSubTitle(), articleForm.getContents(), ArticleStatus.SAVE, member, myPage);
                 savedArticle = articleRepository.save(article);
                 List<Image> imgList = fileHandler.parseFileInfo(savedArticle, files);
                 if (!imgList.isEmpty()) {
@@ -73,13 +74,34 @@ public class ArticleServiceImpl implements ArticleService {
     }
 
     @Override
+    public Article findAuthrByArticleId(Long articleId) {
+        Article article = articleRepository.findArticleById(articleId);
+        return article;
+    }
+
+    @Override
+    public ArticleDto findArticleByArticleId(Long articleId) {
+        Article findArticle = articleRepository.findArticleById(articleId);
+        String createDate = findArticle.getCreateDate().format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+        Image image = imageRepository.findByArticle(findArticle);
+        String originName = null;
+        if (image != null) originName = image.getOrigFileName();
+        ArticleDto articleDto = new ArticleDto(findArticle.getId(), findArticle.getMember().getId(),
+                findArticle.getTitle(), findArticle.getSubTitle(), findArticle.getContents(),
+                findArticle.getReviewCount(), findArticle.getJjimCount(), findArticle.getMember().getNickName(),findArticle.getMember().getUser_info(),createDate,originName);
+        return articleDto;
+    }
+
+    @Override
     public ArticleDto findArticle(Long articleId) {
         Article findArticle = articleRepository.findArticleById(articleId);
         String createDate = findArticle.getCreateDate().format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
-        List<Image> findImage = findArticle.getImage();
+        Image image = imageRepository.findByArticle(findArticle);
+        String path = null;
+        if (image != null) path = image.getFullPath().substring(25);
         ArticleDto articleDto = new ArticleDto(findArticle.getId(), findArticle.getMember().getId(),
                 findArticle.getTitle(), findArticle.getSubTitle(), findArticle.getContents(),
-                findArticle.getReviewCount(), findArticle.getJjimCount(), findArticle.getMember().getNickName(), createDate);
+                findArticle.getReviewCount(), findArticle.getJjimCount(), findArticle.getMember().getNickName(),findArticle.getMember().getUser_info(),createDate,path);
         return articleDto;
     }
 

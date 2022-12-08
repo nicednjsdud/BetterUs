@@ -16,6 +16,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.persistence.*;
 
@@ -58,6 +59,7 @@ public class ArticleDto {
 
     private String imageFullPath;
 
+    private List<MultipartFile> multipartFiles;
 
 
     /**
@@ -91,7 +93,7 @@ public class ArticleDto {
      * 관리자 페이지 article 한개 보이기 용
      */
 
-    public ArticleDto(Long id,Long memberId, String title, String subTitle, String contents, String nickName, String createDate, String user_info) {
+    public ArticleDto(Long id, Long memberId, String title, String subTitle, String contents, String nickName, String createDate, String user_info) {
         this.id = id;
         this.memberId = memberId;
         this.title = title;
@@ -103,10 +105,9 @@ public class ArticleDto {
     }
 
     /**
-     *
-     *  article 상세 보기 (1개) 폼
+     * article 상세 보기 (1개) 폼
      */
-    public ArticleDto(Long id,Long memberId, String title, String subTitle, String contents, Long reviewCount, Long jjimCount, String nickName, String createDate) {
+    public ArticleDto(Long id, Long memberId, String title, String subTitle, String contents, Long reviewCount, Long jjimCount, String nickName, String userInfo, String createDate, String fullPath) {
         this.id = id;
         this.title = title;
         this.subTitle = subTitle;
@@ -114,7 +115,20 @@ public class ArticleDto {
         this.reviewCount = reviewCount;
         this.jjimCount = jjimCount;
         this.nickName = nickName;
-        this.createDate  = createDate;
+        this.createDate = createDate;
         this.memberId = memberId;
+        this.user_info = userInfo;
+        this.imageFullPath = fullPath;
+    }
+
+    /**
+     * article 수정 폼용
+     */
+    public ArticleDto(Long id, String title, String subTitle, String contents, List<MultipartFile> multipartFiles) {
+        this.id = id;
+        this.title = title;
+        this.subTitle = subTitle;
+        this.contents = contents;
+        this.multipartFiles = multipartFiles;
     }
 }

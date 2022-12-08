@@ -35,7 +35,7 @@
       <a href="#"><img class="home" src="../..//static/img/home.png" alt=" "></a>
     </div> -->
     <div class="logo">
-        <img class="logo" src="/img/logo_B_new.png" alt=" ">
+        <a href="/"><img class="logo" src="/img/logo_B_new.png" alt=" "></a>
     </div>
     <ul class="nav" th:if="${session.member == article.memberId}">
         <form method="GET" th:action="@{/myPage/{articleId}/edit (articleId=${article.id})}">
@@ -76,7 +76,7 @@
                 </div>
                 <div class="intro">
                     <div class="id" th:text="${article.nickName}"></div>
-                    <div class="who">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</div>
+                    <div class="who" th:text="${article.user_info}"></div>
                 </div>
             </div>
             <div class="w-nothing"></div>

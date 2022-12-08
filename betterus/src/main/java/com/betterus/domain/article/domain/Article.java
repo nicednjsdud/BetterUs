@@ -6,18 +6,22 @@
  */
 package com.betterus.domain.article.domain;
 
+import com.betterus.domain.jjim.domain.Jjim;
 import com.betterus.domain.member.domain.Member;
 import com.betterus.domain.articleseries.domain.ArticleSeries;
 import com.betterus.domain.mypage.domain.MyPage;
 import com.betterus.model.ArticleStatus;
 import com.betterus.model.BaseTimeEntity;
+import com.betterus.model.Grade;
 import lombok.*;
 import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.annotations.DynamicInsert;
 
 import javax.persistence.*;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
 import static javax.persistence.FetchType.LAZY;
@@ -57,6 +61,9 @@ public class Article extends BaseTimeEntity {
     @ManyToOne(fetch = LAZY)
     @JoinColumn(name = "articleSeriesId")
     private ArticleSeries articleSeries;
+
+    @OneToMany(mappedBy = "article",cascade = CascadeType.REMOVE)
+    private List<Jjim> jjims = new ArrayList<>();
 
     @ManyToOne(fetch = LAZY)
     @JoinColumn(name = "myPageId")
@@ -112,9 +119,9 @@ public class Article extends BaseTimeEntity {
      *  리뷰 카운트 증가 or 삭제
      */
     public void changeReviewCount(Long reviewCount,String msg){
-        if(msg == "리뷰추가") this.reviewCount += reviewCount;
+        if(msg == "리뷰추가") this.reviewCount += 1L;
         else if(msg == "리뷰삭제"){
-            if(this.reviewCount !=0L)this.reviewCount -= reviewCount;
+            if(this.reviewCount !=0L)this.reviewCount -= 1L;
             else this.reviewCount = 0L;
         }
     }

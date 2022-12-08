@@ -5,12 +5,14 @@ import com.betterus.domain.article.dto.ImageDto;
 import com.betterus.domain.article.repository.ImageRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
 @AllArgsConstructor
+@Transactional(readOnly = true)
 public class ImageServiceImpl implements ImageService{
 
     private final ImageRepository imageRepository;
@@ -21,18 +23,25 @@ public class ImageServiceImpl implements ImageService{
     }
 
     @Override
-    public void deleteImage(Long id) {
-       imageRepository.deleteImageById(id);
-    }
-
-    @Override
     public Image findByImageId(Long id) {
         return imageRepository.findByImageId(id);
     }
 
-//    @Override
-//    public List<ImageDto> findByArticleId(Long articleId) {
-//        List<Image> imageList = imageRepository.findAllByArticle(articleId);
-//        return imageList.stream().map(ImageDto::new).collect(Collectors.toList());
-//    }
+    @Override
+    public ImageDto findByArticleId(Long articleId) {
+        Image findImage = imageRepository.findByArticleId(articleId);
+        ImageDto image = new ImageDto(findImage.getOrigFileName(),findImage.getFullPath(),findImage.getFileSize());
+        return image;
+    }
+    @Override
+    public Image finddbImgByArticleId(Long id) {
+        Image findImage = imageRepository.findByArticleId(id);
+        return findImage;
+    }
+
+    @Override
+    @Transactional
+    public void deleteImage(Image dbImg) {
+        imageRepository.delete(dbImg);
+    }
 }

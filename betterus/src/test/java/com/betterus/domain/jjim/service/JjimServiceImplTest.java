@@ -65,7 +65,7 @@ class JjimServiceImplTest {
         em.flush();
         em.clear();
         // when
-        int result = jjimService.addJjim(saveMember2, id);
+        int result = jjimService.addJjim(saveMember2.getId(), id);
         Article findArticle = articleRepository.findArticleById(id);
 
         // then
@@ -93,7 +93,7 @@ class JjimServiceImplTest {
         em.flush();
         em.clear();
         // when
-        jjimService.deleteJjim(saveMember2,id);
+        jjimService.deleteJjim(saveMember2.getId(),id);
         // then
         Jjim findJjim = jjimRepository.findByArticleIdAndMemberId(id, userId);
         assertThat(findJjim).isNull();

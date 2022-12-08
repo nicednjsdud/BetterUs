@@ -34,4 +34,5 @@ public interface ArticleRepository extends JpaRepository<Article, Long> {
     Page<Article> findConfirmArticleByStatus(ArticleStatus status, Pageable pageable);
 
     List<Article> findByMemberId(Sort sort, Long id);
+
 }

@@ -16,6 +16,7 @@ span {
 }
 
 a {
+  color: black;
   font-family: 'Pretendard';
   text-decoration: none;
 }
@@ -55,8 +56,19 @@ img.logo {
 }
 
 .nothing {
-  width: 33.3vw;
-  /* background-color: yellow; */
+   width: 33.3vw;
+   display: flex;
+   justify-content: flex-end;
+   /* calc(1920px - 1500px - 100px); */
+   font-family: 'Pretendard';
+   font-size: 20px;
+   /* background-color: yellow; */
+   line-height: 60px;
+
+}
+li{
+    list-style:none;
+    margin-right:30px;
 }
 /*--------------------------header---------------------------- */
 
