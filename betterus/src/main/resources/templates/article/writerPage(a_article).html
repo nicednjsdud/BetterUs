@@ -1,7 +1,7 @@
-<!-- 
+<!--
   * 작성자 곽수경
 * 작성 일자: 11.03
-* 수정 일자: 
+* 수정 일자:
 * 기능: 글 1개 화면
 -->
 
@@ -37,13 +37,9 @@
     <div class="logo">
         <a href="/"><img class="logo" src="/img/logo_B_new.png" alt=" "></a>
     </div>
-    <ul class="nav" th:if="${session.member == article.memberId}">
-        <form method="GET" th:action="@{/myPage/{articleId}/edit (articleId=${article.id})}">
-            <li><button class="edit_delete_btn" type="submit" name="submit">수정</button></li>
-        </form>
-        <form method="POST" th:action="@{/myPage/{articleId}/delete (articleId=${article.id})}">
-            <li><button class="edit_delete_btn" type="submit" name="submit">삭제</button></li>
-        </form>
+    <ul class="nav" th:if="${session.member != article.memberId}">
+        <li><a th:if="${jjimCheck == false}" th:href="@{/jjim/{articleId}/addJjim (articleId = ${article.id})}">찜 추가</a></li>
+        <li><a th:if="${jjimCheck == true}" th:href="@{/jjim/{articleId}/deleteJjim (articleId = ${article.id})}">찜 취소</a></li>
     </ul>
 </div>
 <div class="section">
@@ -58,12 +54,9 @@
     <div class="content">
         <div class="nothing"></div>
         <span class="article">
-            <h1><span th:text="${article.subTitle}"></span></h1> <!-- 글씨 크기 수정-->
-          <div th:text="${article.contents}">
-
-          </div>
-
-         </span>
+          <span th:text="${article.subTitle}"></span>
+          <div th:text="${article.contents}"></div>
+        </span>
         <div class="nothing"></div>
     </div>
     <div class="footer">

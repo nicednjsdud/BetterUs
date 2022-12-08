@@ -7,6 +7,9 @@
 
 package com.betterus.domain.jjim.controller;
 
+import com.betterus.domain.article.domain.Article;
+import com.betterus.domain.article.repository.ArticleRepository;
+import com.betterus.domain.article.service.ArticleService;
 import com.betterus.domain.gudok.service.GudokService;
 import com.betterus.domain.jjim.service.JjimService;
 import com.betterus.domain.member.domain.Member;
@@ -26,23 +29,28 @@ public class JjimController {
 
     private final JjimService jjimService;
 
+    private final ArticleService articleService;
+
 
     /**
      * ajax 요청으로 들어온 찜 추가
      */
-    @PostMapping("/addJjim/{articleId}")
+    @GetMapping("/jjim/{articleId}/addJjim")
     public String addGudok(@PathVariable("articleId") Long articleId, Model model, HttpServletRequest request) {
 
         String msg = "";
         HttpSession session = request.getSession();
-        Member member = (Member) session.getAttribute("member");
-        if (member != null) {
-            int result = jjimService.addJjim(member, articleId);
+        Object memberSession = session.getAttribute("member");
+        Long memberSessionId = (Long) memberSession;
+        if (memberSessionId != null) {
+            int result = jjimService.addJjim(memberSessionId, articleId);
+            Article article = articleService.findAuthrByArticleId(articleId);
             // 작가 상세정보 페이지
             if (result == 1) msg = "찜 추가가 완료되었습니다.";
             else msg = "이미 찜 추가하셨습니다.";
             model.addAttribute("msg", msg);
-            return "article/a_article";
+            String url = "list/article/"+article.getId();
+            return "redirect:/"+url;
         } else {
             msg = "회원만 찜이 가능합니다.";
             model.addAttribute("msg", msg);
@@ -53,18 +61,21 @@ public class JjimController {
     /**
      * ajax 요청으로 들어온 찜 삭제
      */
-    @PostMapping("/deleteJjim/{articleId}")
+    @GetMapping("/jjim/{articleId}/deleteJjim")
     public String deleteJjim(@PathVariable("articleId") Long articleId, Model model, HttpServletRequest request) {
         String msg = "";
         HttpSession session = request.getSession();
-        Member member = (Member) session.getAttribute("member");
-        if (member != null) {
-            int result = jjimService.deleteJjim(member, articleId);
+        Object memberSession = session.getAttribute("member");
+        Long memberSessionId = (Long) memberSession;
+        if (memberSessionId != null) {
+            int result = jjimService.deleteJjim(memberSessionId, articleId);
+            Article article = articleService.findAuthrByArticleId(articleId);
             // 작가 상세정보 페이지
             if (result == 1) msg = "찜 삭제가 완료되었습니다.";
             else msg = "오류가 발생하였습니다.";
             model.addAttribute("msg", msg);
-            return "redirect: 화면 구현 x";
+            String url = "list/article/"+article.getId();
+            return "redirect:/"+url;
         } else {
             msg = "회원만 삭제가 가능합니다.";
             model.addAttribute("msg", msg);

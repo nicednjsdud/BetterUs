@@ -27,5 +27,6 @@ public class ArticleForm {
     private String title;
     private String subTitle;
     private String contents;
+    private String fileOrginPath;
     private List<MultipartFile> files;
 }

@@ -10,6 +10,7 @@ import com.betterus.domain.article.domain.Article;
 import com.betterus.domain.member.domain.Member;
 import com.betterus.model.BaseTimeEntity;
 import lombok.AccessLevel;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -20,6 +21,7 @@ import static javax.persistence.FetchType.LAZY;
 @Entity
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
+@AllArgsConstructor
 public class Jjim extends BaseTimeEntity {
 
     @Id

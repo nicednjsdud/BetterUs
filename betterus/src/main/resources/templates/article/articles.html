@@ -38,7 +38,9 @@
             <div class="notimage">
                 <div class="letter">
                     <input type="hidden" th:value="${article.id}"/>
-                    <div class="title" th:text="${article.title}"></div>
+                    <a style="cursor:pointer;" th:href="@{/list/article/{articleId} (articleId=${article.id})}">
+                        <div class="title" th:text="${article.title}"></div>
+                    </a>
                     <div class="content" th:text="${article.contents}"></div>
                 </div>
                 <div class="else">
@@ -48,10 +50,12 @@
                     <div class="numOf" th:text="${article.jjimCount}"></div>
                 </div>
             </div>
+            <a style="cursor:pointer;" th:href="@{/list/article/{articleId} (articleId=${article.id})}">
             <div class="image">
                 <img th:if="${article.imageFullPath != null}" th:src="@{${article.imageFullPath}}">
                 <img th:if="${article.imageFullPath == null}" src="/img/just.png">
             </div>
+            </a>
         </div>
         <div class="paging">
             <th:block  th:each="page : ${#numbers.sequence(startPage, endPage)}">

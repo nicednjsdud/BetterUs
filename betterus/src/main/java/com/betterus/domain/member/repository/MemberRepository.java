@@ -35,4 +35,5 @@ public interface MemberRepository extends JpaRepository<Member, Long>,MemberRepo
     Page<Member> findSearchListByNickNameContaining(String NickName, Pageable pageable);
 
     Page<Member> findAuthorByGradeAndNickNameContaining(Grade author, String NickName, Pageable pageable);
+
 }

@@ -14,6 +14,7 @@ import com.betterus.domain.member.dto.MemberDto;
 import com.betterus.domain.member.repository.MemberRepository;
 import com.betterus.domain.member.service.MemberService;
 import com.betterus.domain.mypage.service.MyPageService;
+import com.betterus.model.ArticleStatus;
 import com.betterus.model.Grade;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -57,9 +58,15 @@ public class MyPageController {
         if (member != null) {
             Map<Object, Object> myPage = myPageService.findMyPageDefault(sessionMemberId);
             List<ArticleDto> articleDtoList = (List<ArticleDto>) myPage.get("articleDtoList");
+            ArticleDto articleDto = articleDtoList.get(0);
+            if(articleDto.getStatus() == ArticleStatus.WAIT){
+                model.addAttribute("applicationCheck",true);
+            }
             MemberDto memberDto = (MemberDto) myPage.get("memberDto");
+            int count = (int) myPage.get("articleCount");
             model.addAttribute("articleDtoList", articleDtoList);
             model.addAttribute("memberDto", memberDto);
+            model.addAttribute("articleCount", count);
             return "myPage/myPage(library)";
         } else {
             String msg = "회원만 접근이 가능합니다.";
@@ -77,7 +84,7 @@ public class MyPageController {
         Object member = session.getAttribute("member");
         Long sessionMemberId = (Long) member;
         Object admin = session.getAttribute("admin");
-        if (sessionMemberId != null && admin !=null) {
+        if (sessionMemberId != null && admin != null) {
             Page<MemberDto> memberList = myPageService.findAdminPageDefault(pageable);
             int nowPage = memberList.getPageable().getPageNumber() + 1;
             int startPage = Math.max(nowPage - 4, 1);
@@ -116,9 +123,9 @@ public class MyPageController {
     @GetMapping("/myPage/admin/articleConfirmCheck")
     public String myPageAdminConfirmCheck(@PageableDefault(size = 10, page = 0, sort = "createDate", direction = Sort.Direction.DESC) Pageable pageable, Model model, HttpServletRequest request) {
         HttpSession session = request.getSession();
-        Object member =session.getAttribute("member");
+        Object member = session.getAttribute("member");
         Object admin = session.getAttribute("admin");
-        if (member != null && admin !=null) {
+        if (member != null && admin != null) {
             Page<ArticleDto> articleList = myPageService.findAdminPageConfirmArticle(pageable);
             int nowPage = articleList.getPageable().getPageNumber() + 1;
             int startPage = Math.max(nowPage - 4, 1);
@@ -134,15 +141,16 @@ public class MyPageController {
             return "main/main";
         }
     }
+
     /**
      * 마이페이지 (관리자) 회원정보 서칭 리스트 (list - 최신순)
      */
     @GetMapping("/myPage/admin/article/search")
-    public String articleListSearch(HttpServletRequest request,@RequestParam("searchKeyword") String keyword, @PageableDefault(size = 10, page = 0, sort = "createDate", direction = Sort.Direction.DESC) Pageable pageable, Model model) {
+    public String articleListSearch(HttpServletRequest request, @RequestParam("searchKeyword") String keyword, @PageableDefault(size = 10, page = 0, sort = "createDate", direction = Sort.Direction.DESC) Pageable pageable, Model model) {
         HttpSession session = request.getSession();
-        Object member =session.getAttribute("member");
+        Object member = session.getAttribute("member");
         Object admin = session.getAttribute("admin");
-        if (member != null && admin !=null) {
+        if (member != null && admin != null) {
             Page<ArticleDto> searchArticleList = myPageService.findSearchArticleList(keyword, pageable);
             int nowPage = searchArticleList.getPageable().getPageNumber() + 1;
             int startPage = Math.max(nowPage - 4, 1);
@@ -152,13 +160,12 @@ public class MyPageController {
             model.addAttribute("startPage", startPage);
             model.addAttribute("endPage", endPage);
             return "manager/manager(article-check)";
-        }else{
+        } else {
             String msg = "관리자만 접근이 가능합니다.";
             model.addAttribute("msg", msg);
             return "main/main";
         }
     }
-
 
 
     /**
@@ -212,14 +219,29 @@ public class MyPageController {
         Long sessionMemberId = (Long) member;
         String msg = "";
         if (sessionMemberId != null) {
-            Map<Object, Object> myPage = myPageService.findMyPageDefault(sessionMemberId);
-            boolean check = gudokService.findGudokCheck(authorId,sessionMemberId);
-            List<ArticleDto> articleDtoList = (List<ArticleDto>) myPage.get("articleDtoList");
-            MemberDto memberDto = (MemberDto) myPage.get("memberDto");
-            model.addAttribute("articleDtoList", articleDtoList);
-            model.addAttribute("memberDto", memberDto);
-            model.addAttribute("gudokCheck",check);
-            return "myPage/myPage(library)";
+            boolean check = gudokService.findGudokCheck(authorId, sessionMemberId);
+            // 내페이지로 이동
+            if (sessionMemberId.equals(authorId)) {
+                Map<Object, Object> myPage = myPageService.findMyPageDefault(sessionMemberId);
+                List<ArticleDto> articleDtoList = (List<ArticleDto>) myPage.get("articleDtoList");
+                MemberDto memberDto = (MemberDto) myPage.get("memberDto");
+                int count = (int) myPage.get("articlcCount");
+                model.addAttribute("articleDtoList", articleDtoList);
+                model.addAttribute("memberDto", memberDto);
+                model.addAttribute("gudokCheck", check);
+                model.addAttribute("articleCount",count);
+                return "myPage/myPage(library)";
+            }
+            // 작가 페이지로 이동
+            else {
+                Map<Object, Object> myPage = myPageService.findMyPageDefault(authorId);
+                List<ArticleDto> articleDtoList = (List<ArticleDto>) myPage.get("articleDtoList");
+                MemberDto memberDto = (MemberDto) myPage.get("memberDto");
+                model.addAttribute("articleDtoList", articleDtoList);
+                model.addAttribute("memberDto", memberDto);
+                model.addAttribute("gudokCheck", check);
+                return "article/writerPage(article)";
+            }
         } else {
             msg = "회원만 보기가 가능합니다.";
             model.addAttribute("msg", msg);
@@ -234,9 +256,9 @@ public class MyPageController {
     public String authorApplication(Model model, HttpServletRequest request) {
         String msg = "";
         HttpSession session = request.getSession();
-        Member member = (Member) session.getAttribute("member");
-        if (member != null) {
-            Long sessionMemberId = member.getId();
+        Object member = session.getAttribute("member");
+        Long sessionMemberId = (Long) member;
+        if (sessionMemberId != null) {
             int result = myPageService.applicationInfo(sessionMemberId);
 
             if (result == 1) msg = "작가 신청이 완료되었습니다.";
@@ -248,7 +270,7 @@ public class MyPageController {
         } else {
             msg = "회원만 신청이 가능합니다.";
             model.addAttribute("msg", msg);
-            return "main/main";
+            return "redirect:/";
         }
     }
 }

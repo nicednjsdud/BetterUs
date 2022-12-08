@@ -42,7 +42,7 @@ class GudokServiceImplTest {
         memberRepository.save(member2);
 
         // when
-        int result = gudokService.addGudok(member, member2.getId());
+        int result = gudokService.addGudok(member.getId(), member2.getId());
 
         // then
         assertThat(result).isEqualTo(1);
@@ -60,8 +60,8 @@ class GudokServiceImplTest {
         memberRepository.save(member2);
 
         // when
-        int result = gudokService.addGudok(member, member2.getId());
-        int result2 = gudokService.addGudok(member, member2.getId());
+        int result = gudokService.addGudok(member.getId(), member2.getId());
+        int result2 = gudokService.addGudok(member.getId(), member2.getId());
 
         // then
         assertThat(result2).isEqualTo(2);

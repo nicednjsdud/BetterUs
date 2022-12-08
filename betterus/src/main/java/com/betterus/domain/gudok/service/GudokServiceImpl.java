@@ -22,10 +22,10 @@ public class GudokServiceImpl implements GudokService {
 
     @Override
     @Transactional
-    public int addGudok(Member member, Long authorId) {
-        Gudok gudok = gudokRepository.findGudokTure(authorId, member.getId());
+    public int addGudok(Long memberId, Long authorId) {
+        Gudok gudok = gudokRepository.findGudokTure(authorId, memberId);
         if (gudok == null) {
-            Optional<Member> findMember = memberRepository.findById(member.getId());
+            Optional<Member> findMember = memberRepository.findById(memberId);
             Optional<Member> findAuthor = memberRepository.findById(authorId);
             if (findMember.isPresent() && findAuthor.isPresent()) {
                 Member trueMember = findMember.get();
@@ -44,13 +44,13 @@ public class GudokServiceImpl implements GudokService {
     }
 
     @Override
-    public int deleteGudok(Member member, Long authorId) {
-        Gudok gudok = gudokRepository.findGudokTure(authorId, member.getId());
+    @Transactional
+    public int deleteGudok(Long memberId, Long authorId) {
+        Gudok gudok = gudokRepository.findGudokTure(authorId, memberId);
         if (gudok != null) {
             gudokRepository.delete(gudok);
-            Gudok gudokCheck = gudokRepository.findGudokTure(authorId, member.getId());
             Optional<Member> findAuthor = memberRepository.findById(authorId);
-            if(gudokCheck == null && findAuthor.isPresent()){
+            if(findAuthor.isPresent()){
                 Member trueAuthor = findAuthor.get();
                 trueAuthor.changeGudokCount(trueAuthor.getGudok_count(),"구독삭제");
                 return 1;

@@ -1,4 +1,4 @@
-<!-- 
+<!--
 * 작성자 곽수경
 * 작성 일자: 11.10
 * 수정 일자
@@ -34,9 +34,8 @@
         <a href="/"><img class="logo" src="/img/logo_B_new.png" alt=" "></a>
     </div>
     <ul class="nav">
+        <li><a th:if="${articleCount} >= 1 and ${applicationCheck} != true" th:href="@{/list/myPage/authorApplication}">작가 신청</a></li>
         <li><a th:if="${session.member == memberDto.id}" href="/write">글쓰기</a></li>
-        <li><a th:if="${session.member != memberDto.id and gudokCheck == false}" href="/write">구독 추가</a></li>
-        <li><a th:if="${session.member != memberDto.id and gudokCheck == true}" href="/write">구독 취소</a></li>
     </ul>
 </div>
 <div class="section">
@@ -53,7 +52,7 @@
             <div class="intro-left">
                 <div class="name" th:text="${memberDto.nickName}"></div>
                 <div class="intro" th:if="${memberDto.user_info != null}" th:text="${memberDto.user_info}"></div>
-                <div class="intro" th:if="${memberDto.user_info == null}">아직 자기소개 작성을 하지않았습니다. 수정해주세요.</div>
+                <div class="intro" th:if="${memberDto.user_info == null}">아직 자기소개 작성을 하지않았습니다.</div>
                 <span class="people">구독자</span><span class="people-num" th:text="${memberDto.gudok_count}"></span>
                 <span class="people">관심작가</span><span class="people-num" th:text="${memberDto.gudokForCount}"></span>
             </div>
@@ -77,7 +76,7 @@
                 </div>
             </div>
             <div class="image">
-                <img src="/img/just.png">
+                <img th:if="${article.imageFullPath != null}" th:src="@{${article.imageFullPath}}">
             </div>
         </div>
     </div>

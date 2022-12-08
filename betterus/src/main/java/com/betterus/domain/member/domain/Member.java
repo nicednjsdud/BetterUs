@@ -125,9 +125,9 @@ public class Member extends BaseTimeEntity {
      * 구독 카운트 변경
      */
     public void changeGudokCount(Long gudok_count,String msg){
-        if(msg == "구독추가") this.gudok_count += gudok_count;
+        if(msg == "구독추가") this.gudok_count += 1;
         else if(msg == "구독삭제"){
-            if(this.gudok_count !=0L)this.gudok_count -= gudok_count;
+            if(this.gudok_count !=0L)this.gudok_count -= 1;
             else this.gudok_count = 0L;
         }
     }
@@ -136,9 +136,9 @@ public class Member extends BaseTimeEntity {
      * 관심작가 카운트 변경
      */
     public void changeGudokForCount(Long gudokForCount,String msg){
-        if(msg == "구독추가") this.gudokForCount += gudokForCount;
+        if(msg == "구독추가") this.gudokForCount += 1;
         else if(msg == "구독삭제"){
-            if(this.gudokForCount !=0L)this.gudokForCount -= gudokForCount;
+            if(this.gudokForCount !=0L)this.gudokForCount -= 1;
             else this.gudokForCount = 0L;
         }
     }
@@ -152,5 +152,12 @@ public class Member extends BaseTimeEntity {
         String strToday = sdf.format(c1.getTime());
         this.authorConfirmDate = strToday;
         this.grade = grade;
+    }
+
+    public void changeConfirmDate(){
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        Calendar c1 = Calendar.getInstance();
+        String strToday = sdf.format(c1.getTime());
+        this.authorConfirmDate = strToday;
     }
 }

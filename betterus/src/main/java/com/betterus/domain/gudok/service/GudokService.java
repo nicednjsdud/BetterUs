@@ -3,9 +3,9 @@ package com.betterus.domain.gudok.service;
 import com.betterus.domain.member.domain.Member;
 
 public interface GudokService {
-    int addGudok(Member member, Long articleId);
+    int addGudok(Long memberId, Long articleId);
 
-    int deleteGudok(Member member, Long authorId);
+    int deleteGudok(Long memberId, Long authorId);
 
     boolean findGudokCheck(Long authorId, Long sessionMemberId);
 }

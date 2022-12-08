@@ -57,7 +57,8 @@ public class MemberDto {
      * 회원 정보 마이페이지 용
      */
 
-    public MemberDto(String nickName,Long gudok_count ,Long gudokForCount,String user_info) {
+    public MemberDto(Long id,String nickName,Long gudok_count ,Long gudokForCount,String user_info) {
+        this.id = id;
         this.nickName = nickName;
         this.gudok_count = gudok_count;
         this.gudokForCount = gudokForCount;
