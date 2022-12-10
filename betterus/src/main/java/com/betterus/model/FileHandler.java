@@ -64,10 +64,12 @@ public class FileHandler {
                 if (ObjectUtils.isEmpty(contentType)) {
                     break;
                 } else {  // 확장자가 jpeg, png인 파일들만 받아서 처리
-                    if (contentType.contains("image/jpeg"))
+                    if (contentType.contains("image/jpg"))
                         originalFileExtension = ".jpg";
                     else if (contentType.contains("image/png"))
                         originalFileExtension = ".png";
+                    else if (contentType.contains("image/jpeg"))
+                        originalFileExtension = ".jpeg";
                     else  // 다른 확장자일 경우 처리 x
                         break;
                 }
