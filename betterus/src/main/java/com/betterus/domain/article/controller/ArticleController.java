@@ -195,7 +195,7 @@ public class ArticleController {
         Long sessionMemberId = (Long) member;
         Member findMember = memberService.findMemberById(sessionMemberId);
         // DB에 저장되어있는 파일 불러오기
-        Image dbImg = imageService.finddbImgByArticleId(articleForm.getId());
+        Image dbImg = imageService.finddbImgByArticleId(articleId);
         // 전달되어온 파일들
         List<MultipartFile> multipartFileList = articleForm.getFiles();
         // 새롭게 전달되어온 파일들의 목록을 저장할 List 선언
