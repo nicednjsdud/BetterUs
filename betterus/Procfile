@@ -2,3 +2,5 @@ web: java -jar Betterus-ebextensions-1.jar
 commands:
   set_time_zone:
     command: ln -f -s /usr/share/zoneinfo/Asia/Seoul /etc/localtime
+    
+-Dserver.port=5000
