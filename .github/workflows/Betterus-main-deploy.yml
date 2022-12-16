@@ -3,7 +3,7 @@ name: Betterus-main-to-beanstalk
 on:
   push:
     branched:
-      - main # action 트리거 브랜치
+      - master # action 트리거 브랜치
   workflow_dispatch: # 수동 실행 옵션 (생략)
 jobs:
   build:
