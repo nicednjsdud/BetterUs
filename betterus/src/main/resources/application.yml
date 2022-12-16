@@ -17,7 +17,7 @@ spring:
     host: smtp.naver.com #smtp 서버 주소
     port: 465 # 메일 인증서버 포트
     username: nicednjsdud@naver.com #네이버 아이디
-    password: dnjsdud12! #네이버 비밀번호
+    password: dnjsdud123! #네이버 비밀번호
     properties:
       mail:
         smtp:
