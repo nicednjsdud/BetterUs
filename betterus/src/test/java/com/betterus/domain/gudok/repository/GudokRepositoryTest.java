@@ -35,10 +35,11 @@ class GudokRepositoryTest {
 
     @Test
     @DisplayName("구독 추가 및 찾기")
+//    @Rollback(value = false)
     void gudokAddCheck(){
         // given
         Member member = new Member("MemberA", "123123", "nicednjsdud@gmail.com", Grade.USER);
-        Member member2 = new Member("Author", "12312323", "nicednjsdud23@gmail.com", Grade.ADMIN);
+        Member member2 = new Member("Admin", "123123", "admin@gmail.com", Grade.ADMIN);
         memberRepository.save(member);
 
         memberRepository.save(member2);
