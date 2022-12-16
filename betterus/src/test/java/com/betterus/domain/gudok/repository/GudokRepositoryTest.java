@@ -35,21 +35,21 @@ class GudokRepositoryTest {
 
     @Test
     @DisplayName("구독 추가 및 찾기")
-    @Rollback(value = false)
     void gudokAddCheck(){
         // given
-//        Member member = new Member("MemberA", "123123", "nicednjsdud@gmail.com", Grade.USER);
+        Member member = new Member("MemberA", "123123", "nicednjsdud@gmail.com", Grade.USER);
         Member member2 = new Member("Author", "12312323", "nicednjsdud23@gmail.com", Grade.ADMIN);
-//        memberRepository.save(member);
+        memberRepository.save(member);
+
         memberRepository.save(member2);
 
-//        // when
-//        gudokRepository.save(new Gudok(member2.getId(),member));
-//        Gudok gudokTure = gudokRepository.findGudokTure(member2.getId(),member.getId());
-//
-//        // then
-//        assertThat(gudokTure.getAuthorId()).isEqualTo(member2.getId());
-//        assertThat(gudokTure.getMember().getId()).isEqualTo(member.getId());
+        // when
+        gudokRepository.save(new Gudok(member2.getId(),member));
+        Gudok gudokTure = gudokRepository.findGudokTure(member2.getId(),member.getId());
+
+        // then
+        assertThat(gudokTure.getAuthorId()).isEqualTo(member2.getId());
+        assertThat(gudokTure.getMember().getId()).isEqualTo(member.getId());
     }
 
     @Test
