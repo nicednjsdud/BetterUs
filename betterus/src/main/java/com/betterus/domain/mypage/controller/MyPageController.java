@@ -58,9 +58,11 @@ public class MyPageController {
         if (member != null) {
             Map<Object, Object> myPage = myPageService.findMyPageDefault(sessionMemberId);
             List<ArticleDto> articleDtoList = (List<ArticleDto>) myPage.get("articleDtoList");
-            ArticleDto articleDto = articleDtoList.get(0);
-            if(articleDto.getStatus() == ArticleStatus.WAIT){
-                model.addAttribute("applicationCheck",true);
+            if(!articleDtoList.isEmpty()) {
+                ArticleDto articleDto = articleDtoList.get(0);
+                if (articleDto.getStatus() == ArticleStatus.WAIT) {
+                    model.addAttribute("applicationCheck", true);
+                }
             }
             MemberDto memberDto = (MemberDto) myPage.get("memberDto");
             int count = (int) myPage.get("articleCount");

@@ -4,6 +4,10 @@
   글을 나누며 더 나은 ‘우리'로 누구든지 작가가 될 수 있으며  
   여러 사람들과 자신의 글을 공유합니다.
 
+## 사이트 주소
+
+https://betterus.site
+
 ## 📍 개발 환경
 
 - Spring Boot 2.7.4, JPA, HTML5, CSS3, jQuery, JavaScript, thymeleaf
