@@ -71,7 +71,7 @@ public class ArticleController {
         } else {
             msg = "회원만 리스트 접근이 가능합니다.";
             model.addAttribute("msg", msg);
-            return "direct:/";
+            return "main/main";
         }
     }
 

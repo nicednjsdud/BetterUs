@@ -73,7 +73,7 @@ public class MyPageController {
         } else {
             String msg = "회원만 접근이 가능합니다.";
             model.addAttribute("msg", msg);
-            return "redirect:/";
+            return "main/main";
         }
     }
 
