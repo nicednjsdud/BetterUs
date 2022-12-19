@@ -52,8 +52,8 @@
             </div>
             <a style="cursor:pointer;" th:href="@{/list/article/{articleId} (articleId=${article.id})}">
             <div class="image">
-                <img th:if="${article.imageFullPath != null}" th:src="@{${article.imageFullPath}}">
-                <img th:if="${article.imageFullPath == null}" src="/img/just.png">
+<!--                <img th:if="${article.imageFullPath != null}" th:src="@{${article.imageFullPath}}">-->
+                <img src="/img/just.png">
             </div>
             </a>
         </div>
