@@ -250,4 +250,7 @@ public class ArticleController {
             return "redirect:/";
         }
     }
+
+    @ResponseBody
+    @GetMapping("/images/{filename}")
 }
