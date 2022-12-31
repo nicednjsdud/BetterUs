@@ -110,7 +110,7 @@ public class MemberController {
         if (result == 1) {
             msg = "회원가입이 완료되었습니다.";
         } else {
-            msg = "회원가입에 실패하였습니다. 다시 시도해주세요.";
+            msg = "중복된 회원 or 인증번호가 일치하지 않습니다.\n 다시 시도해주세요.";
         }
         model.addAttribute("msg", msg);
         return "main/main";
