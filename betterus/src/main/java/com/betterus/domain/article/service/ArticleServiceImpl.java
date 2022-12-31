@@ -140,7 +140,7 @@ public class ArticleServiceImpl implements ArticleService {
         Page<Article> findArticles = articleRepository.findByStatus(ArticleStatus.APPROVAL, pageable);
         Page<ArticleDto> articleDtos = findArticles.map(article ->
                 new ArticleDto(article.getId(), article.getTitle(), article.getSubTitle(),
-                        article.getContents(), article.getStatus(), article.getReviewCount(), article.getJjimCount(),null));
+                        article.getContents(), article.getStatus(), article.getReviewCount(), article.getJjimCount(),article.getImage().get(0).getFullPath()));
         return articleDtos;
     }
 
