@@ -1,9 +1,18 @@
 spring:
   datasource:
-    url: jdbc:mysql://localhost:3306/localhost?createDatabaseIfNotExist=true&useUnicode&characterEncoding=UTF-8
+    url: jdbc:mysql://betterus-db.cnomvwmqhkiv.ap-northeast-2.rds.amazonaws.com:3306/betterus
     username: root
     password: 12345678
     driver-class-name: com.mysql.cj.jdbc.Driver
+
+  profiles:
+    active: prod
+
+  devtools:
+    livereload:
+      enabled: true
+    freemarker:
+      cache: false
 
   jpa:
     hibernate:
@@ -41,10 +50,12 @@ logging:
     org.hibernate.SQL: debug
     org.hibernate.type: trace
 
-thymeleaf:
-  prefix=classpath: templates/
-  suffix: .html
-  check-template-location: true
-  cache: false
-  mvc:
-    static-path-pattern: "/static/**"
+#thymeleaf:
+#  prefix=classpath: templates/
+#  suffix: .html
+#  check-template-location: true
+#  cache: false
+#  mvc:
+#    static-path-pattern: "/static/**"
+server:
+  port : 5000
