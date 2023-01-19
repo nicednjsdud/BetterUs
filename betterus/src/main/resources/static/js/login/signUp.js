@@ -8,7 +8,7 @@ console.log(emailInput.getAttribute( 'check_result' ));
  
 
 let emailRegExp = /^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*.[a-zA-Z]{2,3}$/i;
-let passwordRegExp =/^.*(?=^.{8,15}$)(?=.*\d)(?=.*[a-zA-Z])(?=.*[!@#$%^&+=]).*$/;
+let passwordRegExp =/^.*(?=^.{8,15}$)(?=.*\d)(?=.*[a-zA-Z])(?=.*[!@#$%^&+=~]).*$/;
 
 
 
@@ -22,7 +22,7 @@ function loginLink(event){
 
   let isValid_pwCond=passwordRegExp.test(pwInput.value);
   if(!isValid_pwCond){
-    alert("문자, 숫자, 특수문자를 포함하여 8~15자리로 설정해주세요.");
+    alert("소문자, 숫자, 특수문자를 포함하여 8~15자리로 설정해주세요. \n 특수문자 ! @ # $ % ^ & + = ~ ");
     return;
   } 
   

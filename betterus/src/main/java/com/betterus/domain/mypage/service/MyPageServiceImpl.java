@@ -55,7 +55,7 @@ public class MyPageServiceImpl implements MyPageService {
             for (Article article : findArticle) {
                 Image image = imageRepository.findByArticle(article);
                 String path = null;
-                if (image != null) path = image.getFullPath().substring(25);
+                if (image != null) path = image.getFullPath();
                 ArticleDto articleDto =
                         new ArticleDto(article.getId(), article.getTitle(), article.getSubTitle(), article.getContents(),
                                 article.getStatus(), article.getReviewCount(), article.getJjimCount(), path);
