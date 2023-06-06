@@ -1,62 +1,149 @@
-<!--
-  * 작성자 곽수경
-* 작성 일자: 10.22
-* 수정 일자: 10.29
-* 기능: 메인 화면
--->
-
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html lang="en">
   <head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reset-css@5.0.1/reset.min.css">
-    <link rel="stylesheet" href="/css/main/main.css?ver=1">
-    <script src="https://code.jquery.com/jquery-3.6.0.js"></script>
-    <script th:inline="javascript">
-       $(document).ready(function() {
-        let message = [[${msg}]];
-        if (message != null) {
-            alert(message);
-        }
-        });
-    </script>
-    <title>Better Us Main</title>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>mainPage</title>
+    <link rel="stylesheet" href="../../static/css/main/main.css" />
+    <link rel="stylesheet" href="../../static/css/main/reset.css" />
+    <script defer src="../../static/js/main/slide.js"></script>
+    <script defer src="../../static/js/main/sidebar.js"></script>
+    <script defer src="../../static/js/main/keywords.js"></script>
+    <script defer src="../../static/js/main/writers.js"></script>
+    <script
+      src="https://kit.fontawesome.com/d8cf2a0e08.js"
+      crossorigin="anonymous"
+    ></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400&family=Nanum+Gothic&family=Nanum+Myeongjo:wght@400;700&family=Quintessential&display=swap"
+      rel="stylesheet"
+    />
   </head>
   <body>
-    <div class="header">
-      <div class="sidebars">
-        <input id="menuicon" type="checkbox"/>
-        <label for="menuicon">
-          <img class="menu" src="/img/menu.png" alt=" ">
-        </label>
-        <div class="sidebar">
-          <ul class="submenu">
-            <li><a th:if="${session.admin != true}" href="/myPage/default">마이&nbsp;페이지</a></li>
-            <li><a href="/list/author">작가&nbsp;둘러보기</a></li>
-            <li><a href="/list/article">에세이&nbsp;둘러보기</a></li>
-          </ul>
+    <div class="container">
+      <main class="side-bar" style="left: -260px">
+        <div class="side-bar-top">
+          <span><img src="./img/betterUsCircleLogo.png" alt="logo" /></span>
+          <p>
+            The Story of
+            <br />
+            Being Better
+          </p>
+          <div>Start Better US</div>
         </div>
-      </div>
-      <div class="logo">
-        <a href="/"><img class="logo" src="/img/logo_W_new.png" alt=" "></a>
-      </div>
+        <div class="side-bar-bottom">
+          <ul>
+            <li class="currentPage">better US Home</li>
+            <li>better US Now</li>
+            <li>better US Library</li>
+          </ul>
+          <div class="side-bar-user-guide">계정을 잊어버리셨습니까?</div>
+        </div>
+      </main>
+      <header class="header">
+        <div class="header__top">
+          <div class="header__content">
+            <div class="header__content-left">
+              <i class="fa-solid fa-bars fa-xl"></i>
+              <img src="../../static/img/betterUsLogo.png" alt="logo" />
+            </div>
+            <div class="header__content-right">
+              <p>시작하기</p>
+              <i class="fa-solid fa-magnifying-glass fa-xl"></i>
+            </div>
+          </div>
+        </div>
+      </header>
+      <main class="main">
+        <article class="article__intro">
+          <h3>
+            성장하는 우리, better Us<span
+              ><img src="../../static/img/betterUsCircleLogo.png"
+            /></span>
+          </h3>
 
-      <ul th:if="${session.isLogOn != true}" class="nav">
-        <li><a href="/login">로그인</a></li>
-        <li><a href="/signUp">회원가입</a></li>
-      </ul>
-      <ul th:if="${session.isLogOn == true}" class="nav">
-        <li><a href="/logout">로그아웃</a></li>
-        <li><a th:if="${session.admin != true}" href="#" th:href="@{/editInfo/{memberId}/edit (memberId=${session.member})}">마이페이지</a></li>
-        <li><a th:if="${session.admin == true}" href="/myPage/admin/memberInfo">회원&nbsp;정보</a></li>
-        <li><a th:if="${session.admin == true}" href="/myPage/admin/articleConfirmCheck">작가&nbsp;신청&nbsp;글</a></li>
-      </ul>
+          <p>
+            <span>하루하루 나아지는 우리, better Us에서 함께 성장하세요.</span>
+            <span>기록하세요.</span>
+            <span>매 순간을 의미있는 시간으로 만들기 위해</span>
+          </p>
+        </article>
+        <article class="editor__pic">
+          <div class="wrap_slide">
+            <ul class="slides">
+              <li style="background-color: #a0ddff">
+                <div></div>
+              </li>
+              <li style="background-color: #758ecd">
+                <div></div>
+              </li>
+              <li style="background-color: #c1cefe">
+                <div></div>
+              </li>
+              <li style="background-color: #7189ff">
+                <div></div>
+              </li>
+              <li style="background-color: #624cab">
+                <div></div>
+              </li>
+            </ul>
+          </div>
+          <div class="wrap_slide__index">
+            <div value="0" class="emphasis">01</div>
+            <div value="1">02</div>
+            <div value="2">03</div>
+            <div value="3">04</div>
+            <div value="4">05</div>
+          </div>
+          <div class="slide__btns">
+            <div class="slide__btn slide__btn-left slide__btn-disappear">
+              <i class="fa-solid fa-arrow-left"></i>
+            </div>
+            <div class="slide__btn slide__btn-right">
+              <i class="fa-solid fa-arrow-right"></i>
+            </div>
+          </div>
+        </article>
+        <article class="keywords">
+          <h3 class="keywords_title">BETTERUS KEYWORDS</h3>
+          <p class="keywords_intro">키워드로 분류된 다양한 글 모음</p>
+          <div class="keyword_space">
+            <div class="keyword_big-box"></div>
+          </div>
+        </article>
+        <article class="writers">
+          <h3 class="writers_title">BETTERUS WRITERS</h3>
+          <p class="writers_intro">브런치 추천 작가</p>
+          <div class="writers-categories">
+            <div class="writers-category current-category">경제적 자유</div>
+            <div class="writers-category">자기계발</div>
+            <div class="writers-category">행복</div>
+          </div>
+          <div class="writer-profile-boxes">
+            <div class="writer-profile-box current-box"></div>
+            <div class="writer-profile-box"></div>
+            <div class="writer-profile-box"></div>
+          </div>
+          <div class="writer_space">
+            <div class="writer_big-box"></div>
+          </div>
+        </article>
+      </main>
+      <footer class="footer">
+        <div class="inner_footer">
+          <div class="footer-info">
+            <div class="writing">
+              <img src="../../static/img/betterUsCircleLogo.png" alt="logo" />
+              <p>The Story of<br />Being Better</p>
+            </div>
+            <div class="policy"></div>
+          </div>
+          <div class="footer-corp"></div>
+        </div>
+      </footer>
     </div>
-    <div class="terms">글을 쓰며 더 나은 <big>'나'</big>로<br/><br/>글을 나누며 더 나은 <big>'우리'</big>로</div>
-    <a th:if="${session.admin != true}" href="/"><div class="welcome">어서오세요!</div></a>
-    <a th:if="${session.admin == true}" href="/"><div class="welcome">관리자님 안녕하세요!</div></a>
   </body>
 </html>
