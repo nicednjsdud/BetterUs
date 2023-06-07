@@ -1,9 +1,13 @@
 spring:
   datasource:
-    url: jdbc:mysql://betterus-db.cnomvwmqhkiv.ap-northeast-2.rds.amazonaws.com:3306/betterus
-    username: root
-    password: 12345678
-    driver-class-name: com.mysql.cj.jdbc.Driver
+#    url: jdbc:mysql://betterus-db.cnomvwmqhkiv.ap-northeast-2.rds.amazonaws.com:3306/betterus
+#    username: root
+#    password: 12345678
+#    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:h2:tcp://localhost/~/test2
+    username: sas
+    password: 12
+    driver-class-name: org.h2.Driver
 
   profiles:
     active: prod
@@ -16,7 +20,7 @@ spring:
 
   jpa:
     hibernate:
-      ddl-auto: none
+      ddl-auto: create-drop
     properties:
       hibernate:
         #          show_sql: true
@@ -50,12 +54,12 @@ logging:
     org.hibernate.SQL: debug
     org.hibernate.type: trace
 
-#thymeleaf:
-#  prefix=classpath: templates/
-#  suffix: .html
-#  check-template-location: true
-#  cache: false
-#  mvc:
-#    static-path-pattern: "/static/**"
+thymeleaf:
+  prefix: classpath:/templates/
+  suffix: .html
+  check-template-location: true
+  cache: false
+  mvc:
+    static-path-pattern: /static/**
 server:
-  port : 5000
+  port : 8080
