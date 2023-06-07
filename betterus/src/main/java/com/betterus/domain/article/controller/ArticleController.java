@@ -251,6 +251,6 @@ public class ArticleController {
         }
     }
 
-    @ResponseBody
-    @GetMapping("/images/{filename}")
+//    @ResponseBody
+//    @GetMapping("/images/{filename}")
 }
