@@ -10,7 +10,7 @@ spring:
     driver-class-name: org.h2.Driver
 
   profiles:
-    active: prod
+    active: local
 
   devtools:
     livereload:
