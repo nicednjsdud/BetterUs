@@ -62,16 +62,16 @@ public class MemberServiceImpl implements MemberService {
     @Override
     @Transactional
     public int joinMember(Member member, String authCode) {
-        Member duplicateEmail = memberRepository.findByEmail(member.getEmail());
+//        Member duplicateEmail = memberRepository.findByEmail(member.getEmail());
         Email findEmail = emailRepository.findByEmail(member.getEmail());
 
-        if (duplicateEmail == null && findEmail.getAuthCode().equals(authCode)) {
+//        if (duplicateEmail == null && findEmail.getAuthCode().equals(authCode)) {
             Member joinMember = memberRepository.save(member);
             // 마이페이지 생성
             MyPage myPage = new MyPage(member);
             myPageRepository.save(myPage);
             return 1;
-        } else return 0;
+//        } else return 0;
     }
 
     /**
