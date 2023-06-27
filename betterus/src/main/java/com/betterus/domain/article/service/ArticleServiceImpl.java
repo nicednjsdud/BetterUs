@@ -93,6 +93,16 @@ public class ArticleServiceImpl implements ArticleService {
     }
 
     @Override
+    public List<ArticleDto> findArticleReCommandList() {
+        return articleRepository.recommandList();
+    }
+
+    @Override
+    public List<ArticleDto> newList() {
+        return articleRepository.newList();
+    }
+
+    @Override
     public ArticleDto findArticle(Long articleId) {
         Article findArticle = articleRepository.findArticleById(articleId);
         String createDate = findArticle.getCreateDate().format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));

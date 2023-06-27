@@ -32,4 +32,6 @@ public interface ArticleService {
     ArticleDto findArticleByArticleId(Long articleId);
 
     List<ArticleDto> findArticleReCommandList();
+
+    List<ArticleDto> newList();
 }

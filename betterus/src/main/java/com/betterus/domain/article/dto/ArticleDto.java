@@ -12,6 +12,7 @@ import com.betterus.domain.articleseries.domain.ArticleSeries;
 import com.betterus.domain.member.domain.Member;
 import com.betterus.model.ArticleStatus;
 import com.betterus.model.Grade;
+import com.querydsl.core.annotations.QueryProjection;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -65,6 +66,7 @@ public class ArticleDto {
     /**
      * 리스트 페이징 용
      */
+    @QueryProjection
     public ArticleDto(Long id, String title, String subTitle, String contents, ArticleStatus status, Long reviewCount, Long jjimCount, String imageFullPath) {
         this.id = id;
         this.title = title;
@@ -74,6 +76,21 @@ public class ArticleDto {
         this.reviewCount = reviewCount;
         this.jjimCount = jjimCount;
         this.imageFullPath = imageFullPath;
+    }
+    /**
+     * 메인 페이지 용
+     */
+    @QueryProjection
+    public ArticleDto(Long id, String title, String subTitle, String contents, ArticleStatus status, Long reviewCount, Long jjimCount, String imageFullPath,String nickName) {
+        this.id = id;
+        this.title = title;
+        this.subTitle = subTitle;
+        this.contents = contents;
+        this.status = status;
+        this.reviewCount = reviewCount;
+        this.jjimCount = jjimCount;
+        this.imageFullPath = imageFullPath;
+        this.nickName = nickName;
     }
 
     /**

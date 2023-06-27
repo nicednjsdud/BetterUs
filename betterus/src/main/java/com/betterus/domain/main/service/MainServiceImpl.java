@@ -16,7 +16,11 @@ public class MainServiceImpl implements MainService{
 
     @Override
     public Map<String, Object> mainPageList() {
+        Map<String,Object> mainList = new HashMap<>();
         List<ArticleDto> articleList = articleService.findArticleReCommandList();
-        return null;
+        List<ArticleDto> newList = articleService.newList();
+        mainList.put("articleList",articleList);
+        mainList.put("newList",newList);
+        return mainList;
     }
 }
