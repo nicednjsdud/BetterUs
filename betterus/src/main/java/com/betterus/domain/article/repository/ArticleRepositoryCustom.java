@@ -7,4 +7,6 @@ import java.util.List;
 public interface ArticleRepositoryCustom {
 
     List<ArticleDto> recommandList();
+
+    List<ArticleDto> newList();
 }
