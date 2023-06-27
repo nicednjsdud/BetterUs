@@ -9,6 +9,7 @@
 package com.betterus.domain.article.repository;
 
 import com.betterus.domain.article.domain.Article;
+import com.betterus.domain.article.dto.ArticleDto;
 import com.betterus.model.ArticleStatus;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
