@@ -30,4 +30,6 @@ public interface ArticleService {
     Article findAuthrByArticleId(Long articleId);
 
     ArticleDto findArticleByArticleId(Long articleId);
+
+    List<ArticleDto> findArticleReCommandList();
 }
