@@ -19,7 +19,7 @@ import org.springframework.data.jpa.repository.Query;
 
 import java.util.List;
 
-public interface ArticleRepository extends JpaRepository<Article, Long> {
+public interface ArticleRepository extends JpaRepository<Article, Long> ,ArticleRepositoryCustom{
 
     Page<Article> findSearchListByTitleContaining(String keyword, Pageable pageable);
 
