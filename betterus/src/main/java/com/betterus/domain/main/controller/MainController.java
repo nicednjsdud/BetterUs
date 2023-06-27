@@ -28,6 +28,7 @@ public class MainController {
     @RequestMapping("/")
     public String main(Model model){
         Map<String,Object> mainPageList = mainService.mainPageList();
+        model.addAttribute("mainPageList",mainPageList);
         return "main/main";
     }
 
