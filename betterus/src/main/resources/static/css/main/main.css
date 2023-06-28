@@ -214,10 +214,12 @@ body {
   color: #959595;
 }
 .slide__btn-left.recmmnded-articles-btn {
+  z-index: 2;
   top: 250px;
   left: 50px;
 }
 .slide__btn-right.recmmnded-articles-btn {
+  z-index: 2;
   top: 300px;
   right: 50px;
 }
