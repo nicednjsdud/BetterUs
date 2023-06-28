@@ -5,11 +5,14 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>mainPage</title>
+
     <link rel="stylesheet" href="../../static/css/main/main.css" />
     <link rel="stylesheet" href="../../static/css/main/reset.css" />
     <link rel="stylesheet" href="../../static/css/main/editorPic.css" />
     <link rel="stylesheet" href="../../static/css/main/writers.css" />
+    <link rel="stylesheet" href="../../static/css/main/options.css" />
     <script defer src="../../static/js/main/slide.js"></script>
+    <script defer src="../../static/js/main/options.js"></script>
     <script defer src="../../static/js/main/sidebar.js"></script>
     <script defer src="../../static/js/main/keywords.js"></script>
     <script defer src="../../static/js/main/writers.js"></script>
@@ -52,6 +55,102 @@
             <li>better US Library</li>
           </ul>
           <div class="side-bar-user-guide">계정을 잊어버리셨습니까?</div>
+        </div>
+      </main>
+      <main class="start" style="display: none">
+        <div class="start-container">
+          <div class="start-content start-left">
+            <div class="start-logo">
+              <a class="home" href="/">
+                <img
+                  src="../../static/img/betterUsCircleLogo.png"
+                  alt="betterUs"
+                />
+              </a>
+            </div>
+          </div>
+          <div class="start-content start-right">
+            <div class="start-exit">
+              <i class="fa-solid fa-x fa-xl"></i>
+            </div>
+            <div class="start-login">
+              <strong class="start-txt">betterUs 시작하기</strong>
+              <div class="startBtn email-login">이메일로 로그인</div>
+            </div>
+            <div class="start-search">
+              <span class="search-txt">내 betterUs 계정 찾기</span>
+              <div class="startBtn id-seach">
+                내 betterUs 이메일 계정을 모르겠어요
+              </div>
+              <div class="startBtn ps-search">
+                내 betterUs 비밀번호를 모르겠어요
+              </div>
+              <span class="login-help">로그인 관련 상세 도움말</span>
+            </div>
+          </div>
+        </div>
+      </main>
+      <main class="search" style="display: none">
+        <div class="header__content-left">
+          <i class="fa-solid fa-bars fa-xl"></i>
+          <img src="../../static/img/betterUsLogo.png" alt="logo" />
+        </div>
+        <div class="search-exit">
+          <i class="fa-solid fa-x fa-xl"></i>
+        </div>
+        <div class="search-container">
+          <div class="search-form">
+            <input type="text" class="search-line" placeholder="검색어를 입력해 주세요."></input>
+          </div>
+          <div class="search-content">
+            <h3 class="subheading_title">나를 키우는 힘, 작가들의 <blue>자기계발</blue> 이야기</h3>
+            <div class="writers-categories">
+              <div class="writers-category">강사</div>
+              <div class="writers-category">출간작가</div>
+              <div class="writers-category">성공</div>
+            </div>
+             <div class="search-writers">
+              <div class="writer">
+                <img src="../../static/img/writer-profile.jpg" alt="" />
+                <div class="wrtier-name">방곰</div>
+                <div class="wrtier-txt">
+                  둘이 만나 지구 한바퀴. 영국에서 태어나...
+                </div>
+              </div>
+              <div class="writer">
+                <img src="../../static/img/writer-profile.jpg" alt="" />
+                <div class="wrtier-name">방곰</div>
+                <div class="wrtier-txt">
+                  둘이 만나 지구 한바퀴. 영국에서 태어나 도미니카공화국에서
+                  잘나...
+                </div>
+              </div>
+              <div class="writer">
+                <img src="../../static/img/writer-profile.jpg" alt="" />
+                <div class="wrtier-name">방곰</div>
+                <div class="wrtier-txt">
+                  둘이 만나 지구 한바퀴. 영국에서 태어나 도미니...
+                </div>
+              </div>
+              <div class="writer">
+                <img src="../../static/img/writer-profile.jpg" alt="" />
+                <div class="wrtier-name">방곰</div>
+                <div class="wrtier-txt">
+                  둘이 만나 지구 한바퀴. 영국에서 태어나 도미니카공화국...
+                </div>
+              </div>
+              <div class="writer">
+                <img src="../../static/img/writer-profile.jpg" alt="" />
+                <div class="wrtier-name">방곰</div>
+
+                <div class="wrtier-txt">
+                  둘이 만나 지구 한바퀴. 영국에서 태어나 도미니카공화국에서
+                  ...
+                </div>
+              </div> 
+            </div>
+            
+          </div>
         </div>
       </main>
       <header class="header">
@@ -339,7 +438,6 @@
                     둘이 만나 지구 한바퀴. 영국에서 태어나 도미니카공화국에서
                     잘나 짝꿍과 함께 살고있는 방랑곰
                   </div>
-                  22222
                   <div class="writer-categories">
                     <div class="writer-category">여행</div>
                     <div class="writer-category">에세이</div>

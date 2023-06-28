@@ -1,0 +1,268 @@
+.side-bar {
+  display: flex;
+  flex-direction: column;
+  position: fixed;
+  top: 0;
+  width: 260px;
+  height: 100%;
+  border-right: 1px solid #ccc;
+  z-index: 100;
+  background-color: white;
+  transition: all 0.5s;
+}
+
+.side-bar-top {
+  width: 100%;
+  height: 239px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background-color: #f8f8f8;
+  border-bottom: 1px solid #ccc;
+}
+.side-bar-top img {
+  margin: 40px 0 12px;
+}
+.side-bar-top p {
+  font-size: 14px;
+  line-height: 20px;
+  letter-spacing: 1px;
+  font-family: "Quintessential", cursive;
+}
+.side-bar-top div {
+  margin-top: 20px;
+  padding: 5px 15px;
+  border: 1px solid #758ecd;
+  color: #758ecd;
+  border-radius: 20px;
+  cursor: pointer;
+}
+.side-bar-bottom {
+  width: 100%;
+  height: 442px;
+  overflow-y: auto;
+  padding-top: 28px;
+  background-color: white;
+  text-align: center;
+  position: relative;
+}
+.side-bar-bottom ul {
+  font-family: "Montserrat", sans-serif;
+  font-size: 13px;
+}
+.side-bar-bottom li {
+  padding: 12.5px 0;
+  cursor: pointer;
+}
+.side-bar-bottom li:hover {
+  color: #758ecd;
+}
+.currentPage {
+  color: #758ecd;
+  text-decoration: underline;
+  text-underline-offset: 8px;
+}
+.side-bar-user-guide {
+  height: 50px;
+  width: 100%;
+  color: #888;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  font-size: 11px;
+  margin: 40px 0 20px;
+  font-family: "Montserrat", sans-serif;
+  position: absolute;
+  bottom: 0;
+}
+
+/* 시작하기 버튼 모달 */
+.start {
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.3);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 98;
+}
+
+.start-container {
+  display: flex;
+  width: 1000px;
+  height: 615px;
+  background-color: white;
+  z-index: 99;
+  border-radius: 17px;
+}
+.start-content {
+  height: 100%w;
+  width: 50%;
+}
+.start-left {
+  border-radius: 17px 0 0 17px;
+  position: relative;
+}
+.start-right {
+  border-radius: 0 17px 17px 0;
+  background-color: #f8f8f8;
+  position: relative;
+  padding: 94px 47px 72px;
+}
+.start-login {
+  border-bottom: 1px solid #e7e7e7;
+  padding-bottom: 49px;
+}
+.start-txt {
+  display: block;
+  font-family: auto;
+  font-size: 22px;
+  font-weight: normal;
+  line-height: 22px;
+  margin-bottom: 18px;
+}
+.startBtn {
+  background-color: #fff;
+  border-radius: 5px;
+  box-sizing: border-box;
+  color: #333;
+  display: block;
+  font-family: auto;
+  font-size: 16px;
+  height: 60px;
+  line-height: 61px;
+  margin-top: 14px;
+  text-align: center;
+  text-decoration: none;
+  width: 100%;
+  cursor: pointer;
+}
+.email-login {
+  background-color: #8aaae5;
+  color: white;
+}
+.start-search {
+  padding: 40px 0;
+}
+.search-txt {
+  display: block;
+  font-family: auto;
+  font-size: 15px;
+  font-weight: normal;
+}
+.login-help {
+  color: #6c6c6c;
+  display: block;
+  font-family: auto;
+  font-size: 14px;
+  margin-top: 57px;
+  text-align: center;
+  text-decoration: underline;
+  cursor: pointer;
+}
+.start-exit {
+  position: absolute;
+  top: 30px;
+  right: 30px;
+  color: rgba(0, 0, 0, 0.7);
+  cursor: pointer;
+}
+.start-logo {
+  left: 62px;
+  position: absolute;
+  top: 83px;
+}
+
+/* 검색 버튼 모달 */
+.search {
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  background-color: white;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 98;
+}
+.search .header__content-left {
+  position: absolute;
+  top: 30px;
+  left: 30px;
+}
+.search-exit {
+  position: absolute;
+  top: 30px;
+  right: 30px;
+  color: rgba(0, 0, 0, 0.7);
+  cursor: pointer;
+}
+.search-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+  font-family: "Noto Sans Light", sans-serif;
+  height: 100%;
+  width: 100%;
+}
+.search-line {
+  color: #333;
+  font-size: 30px;
+  letter-spacing: -1px;
+  outline: none;
+  width: 940px;
+  border: none;
+  border-bottom: 1.5px solid #333;
+  line-height: 1.5;
+}
+.search-line::placeholder {
+  color: rgba(0, 0, 0, 0.3);
+  font-weight: 300;
+}
+.search-content {
+  text-align: center;
+  width: 940px;
+  height: 300px;
+}
+.search-content .writers-categories {
+  margin: 20px auto 45px;
+}
+.search-content .writers-category {
+  color: #758ecd;
+
+  border: 1px solid #758ecd;
+}
+.search .subheading_title {
+  margin: 75px auto 20px;
+  font-family: "Noto Sans Light", sans-serif;
+  font-size: 25px;
+  letter-spacing: 0;
+  font-weight: 300;
+}
+
+.search-writers {
+  display: flex;
+  flex-wrap: nowrap;
+}
+
+.search-writers .writer {
+  width: 180px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: 0 10px;
+}
+
+.search-writers .writer .wrtier-name {
+  padding: 5px;
+  font-size: 15px;
+  font-weight: 300;
+  font-family: "Noto Sans Light", sans-serif;
+}
+.search-writers .writer .wrtier-txt {
+  margin-top: 5px;
+}
+blue {
+  color: #758ecd;
+}

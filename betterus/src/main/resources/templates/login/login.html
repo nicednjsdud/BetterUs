@@ -10,59 +10,85 @@
 
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="/css/login/login.css?ver=1">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reset-css@5.0.1/reset.min.css">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="../../static/css/login/login.css?ver=1" />
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/reset-css@5.0.1/reset.min.css"
+    />
     <script src="https://code.jquery.com/jquery-3.6.0.js"></script>
     <script th:inline="javascript">
-       $(document).ready(function() {
-        let message = [[${msg}]];
-        if (message != null) {
-            alert(message);
-        }
-        });
-
-
+      $(document).ready(function() {
+       let message = [[${msg}]];
+       if (message != null) {
+           alert(message);
+       }
+       });
     </script>
     <title>Better Us Login</title>
-</head>
-<body>
-<div class="header">
-    <div class="home">
-        <a href="/"><img class="home" src="/img/home.png" alt=" "></a>
-    </div>
-    <div class="logo">
-        <a href="/"><img class="logo" src="/img/logo_B_new.png" alt=" "></a>
-    </div>
-    <div class="nothing"></div>
-</div>
-<div class="section">
-    <div class="title">로그인</div>
-    <div class="input">
-        <form role="form" id="login" th:object="${loginForm}" action="/login/confirm" method="post">
-            <label th:for="email">
-                <div class="email-caption">이메일</div>
-            </label>
-            <input id="email-inputbox" th:field="*{email}" class="inputbox" type="text"/>
-            <label th:for="password">
-                <div class="pw-caption">비밀번호</div>
-            </label>
-            <input id="pw-inputbox" th:field="*{password}" class="inputbox" type="password">
+  </head>
+  <body>
+    <div class="container">
+      <div class="header-logo">
+        <a href="/"
+          ><img class="logo" src="../../static/img/betterUsLogo.png" alt=" "
+        /></a>
+      </div>
+      <article class="section">
+        <div class="input">
+          <form
+            role="form"
+            id="login"
+            th:object="${loginForm}"
+            action="/login/confirm"
+            method="post"
+          >
+            <label th:for="email"> </label>
+            <input
+              id="email-inputbox"
+              th:field="*{email}"
+              class="inputbox"
+              type="text"
+              placeholder="이메일"
+            />
+            <label th:for="password"> </label>
+            <input
+              id="pw-inputbox"
+              th:field="*{password}"
+              class="inputbox"
+              type="password"
+              placeholder="비밀번호"
+            />
             <div>
-                <button class="login" type="submit">로그인</button>
+              <button class="login-id" type="submit">로그인</button>
             </div>
-        </form>
+            <span class="line">
+              <span class="line_txt">또는</span>
+            </span>
+            <div>
+              <button class="login-email" type="submit">계정으로 로그인</button>
+            </div>
+          </form>
+        </div>
+        <ul class="else">
+          <div class="signup">
+            <li><a href="/signUp">회원가입</a></li>
+          </div>
+          <div class="forget">
+            <li><a href="/login/findPassword">아이디&nbsp;찾기</a></li>
+            <li>&nbsp;|&nbsp;</li>
+            <li><a href="/login/findPassword">비밀번호&nbsp;찾기</a></li>
+          </div>
+        </ul>
+      </article>
     </div>
-    <ul class="else">
-        <li><a href="/login/findPassword">비밀번호&nbsp;찾기</a></li>
-        <li>&nbsp;|&nbsp;</li>
-        <li><a href="/signUp">회원가입</a></li>
-    </ul>
-</div>
-<script src="/js/login/login.js"></script>
-</body>
+    <script src="/js/login/login.js"></script>
+  </body>
 </html>
