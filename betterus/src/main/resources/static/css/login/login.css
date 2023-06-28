@@ -70,14 +70,20 @@ input.inputbox {
   border: 0;
   font-size: 18px;
   line-height: 25px;
-  color: #191919;
-  border-bottom: 1px solid #191919;
+  color: rgba(0, 0, 0, 0.7);
+  border-bottom: 1px solid rgba(0, 0, 0, 0.2);
   box-sizing: border-box;
-  margin-bottom: 5px;
+  margin-bottom: 10px;
   font-family: -apple-system, Roboto, NotoSans, AppleSDGothicNeo, Malgun Gothic,
     맑은 고딕, 돋움, dotum, sans-serif;
 }
-
+input.inputbox::placeholder {
+  color: rgba(0, 0, 0, 0.2);
+}
+input.inputbox:focus {
+  outline: none;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.7);
+}
 button {
   display: block;
   width: 100%;
