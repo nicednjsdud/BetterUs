@@ -1,6 +1,7 @@
 const sideBar = document.querySelector(".side-bar");
-const bar = document.querySelector(".header__top i");
-const body = document.querySelector("body");
+const bar = document.querySelectorAll(".header__content-left i");
+
+console.log(bar);
 
 function showSideBar() {
   sideBar.setAttribute("style", "left: 0");
@@ -13,5 +14,8 @@ function hideSideBar(e) {
   }
 }
 
-bar.addEventListener("click", showSideBar);
+bar.forEach((item) => {
+  item.addEventListener("click", showSideBar);
+});
+// bar.addEventListener("click", showSideBar);
 window.addEventListener("click", hideSideBar);
