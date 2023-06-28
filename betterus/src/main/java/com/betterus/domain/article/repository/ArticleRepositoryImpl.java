@@ -44,13 +44,13 @@ public class ArticleRepositoryImpl implements ArticleRepositoryCustom{
                         )
                 )
                 .from(article)
-                .leftJoin(image.article, article)
-                .leftJoin(article.member.articles, article)
+                .leftJoin(article.image,image)
+                .leftJoin(article.member, member)
                 .where(
                         member.grade.eq(Grade.AUTHOR),
                         article.status.eq(ArticleStatus.APPROVAL)
                 )
-                .offset(30)
+                .limit(13)
                 .orderBy(article.jjimCount.desc())
                 .fetch();
 
