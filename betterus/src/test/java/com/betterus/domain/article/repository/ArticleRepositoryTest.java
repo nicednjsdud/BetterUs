@@ -1,6 +1,8 @@
 package com.betterus.domain.article.repository;
 
 import com.betterus.domain.article.domain.Article;
+import com.betterus.domain.article.domain.Image;
+import com.betterus.domain.article.dto.ArticleDto;
 import com.betterus.domain.member.domain.Member;
 import com.betterus.domain.member.repository.MemberRepository;
 import com.betterus.model.ArticleStatus;
@@ -39,6 +41,9 @@ class ArticleRepositoryTest {
 
     @Autowired
     MemberRepository memberRepository;
+
+    @Autowired
+    ImageRepository imageRepository;
 
 
     @Test
@@ -101,7 +106,7 @@ class ArticleRepositoryTest {
             for (int i = 0; i < 13; i++) {
                 articleRepository.save(new Article("Test" + i, "test" + i, "테스트" + i, ArticleStatus.APPROVAL, findMember));
             }
-            PageRequest pageRequest = PageRequest.of(0,10,Sort.by(Sort.DEFAULT_DIRECTION,"createDate"));
+            PageRequest pageRequest = PageRequest.of(0, 10, Sort.by(Sort.DEFAULT_DIRECTION, "createDate"));
             Page<Article> findArticles = articleRepository.findByStatus(ArticleStatus.APPROVAL, pageRequest);
 
             assertThat(findArticles.getSize()).isEqualTo(10);
@@ -125,7 +130,7 @@ class ArticleRepositoryTest {
             for (int i = 0; i < 13; i++) {
                 articleRepository.save(new Article("Test" + i, "test" + i, "테스트" + i, ArticleStatus.WAIT, findMember));
             }
-            PageRequest pageRequest = PageRequest.of(0,10,Sort.by(Sort.DEFAULT_DIRECTION,"member.authorConfirmDate"));
+            PageRequest pageRequest = PageRequest.of(0, 10, Sort.by(Sort.DEFAULT_DIRECTION, "member.authorConfirmDate"));
             Page<Article> findArticles = articleRepository.findConfirmArticleByStatus(ArticleStatus.WAIT, pageRequest);
 
             assertThat(findArticles.getSize()).isEqualTo(10);
@@ -135,5 +140,30 @@ class ArticleRepositoryTest {
             assertThat(findArticles.isFirst()).isTrue();
             assertThat(findArticles.hasNext()).isTrue();
         }
+    }
+
+    @Test
+    @DisplayName("추천 글 불러오기")
+    public void recommandList() {
+        Member User = new Member("User", "123123", "nicednjsdud12@gmail.com", Grade.AUTHOR);
+        Member savedMember = memberRepository.save(User);
+        Optional<Member> findMembers = memberRepository.findById(savedMember.getId());
+        if (findMembers.isPresent()) {
+            Member findMember = findMembers.get();
+            for (int i = 0; i < 13; i++) {
+                Article savedArticle = articleRepository.save(new Article("Test" + i, "test" + i, "테스트" + i, ArticleStatus.APPROVAL, findMember));
+                Image savedImage = imageRepository.save(new Image("Image" + i, "Image" + i, 1L));
+                savedImage.setArticle(savedArticle);
+                for(int j = 0; j < i+2;j++){
+                    savedArticle.changeJjimCount("찜추가");
+                }
+            }
+        }
+        List<ArticleDto> findArticles = articleRepository.recommandList();
+        for (ArticleDto findArticle : findArticles) {
+            System.out.println(findArticle.getId());
+        }
+        assertThat(findArticles.size()).isEqualTo(13);
+        assertThat(findArticles.get(0).getTitle()).isEqualTo("Test12");
     }
 }
