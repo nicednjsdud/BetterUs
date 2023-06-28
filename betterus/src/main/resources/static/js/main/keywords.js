@@ -36,5 +36,3 @@ for (let i = 0; i < keywords.length; i++) {
               </a>`;
 }
 keywordsBox.innerHTML = keyword;
-
-console.log(keywordsBox);
