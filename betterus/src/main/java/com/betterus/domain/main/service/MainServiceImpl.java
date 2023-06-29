@@ -18,9 +18,9 @@ public class MainServiceImpl implements MainService{
     public Map<String, Object> mainPageList() {
         Map<String,Object> mainList = new HashMap<>();
         List<ArticleDto> articleList = articleService.findArticleReCommandList();
-        List<ArticleDto> newList = articleService.newList();
+        List<ArticleDto> gudokList = articleService.gudokList();
         mainList.put("articleList",articleList);
-        mainList.put("newList",newList);
+        mainList.put("gudokList",gudokList);
         return mainList;
     }
 }
