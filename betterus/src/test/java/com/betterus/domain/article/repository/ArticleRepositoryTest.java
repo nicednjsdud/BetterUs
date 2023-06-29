@@ -154,7 +154,7 @@ class ArticleRepositoryTest {
                 Article savedArticle = articleRepository.save(new Article("Test" + i, "test" + i, "테스트" + i, ArticleStatus.APPROVAL, findMember));
                 Image savedImage = imageRepository.save(new Image("Image" + i, "Image" + i, 1L));
                 savedImage.setArticle(savedArticle);
-                for(int j = 0; j < i+2;j++){
+                for (int j = 0; j < i + 2; j++) {
                     savedArticle.changeJjimCount("찜추가");
                 }
             }
@@ -165,5 +165,32 @@ class ArticleRepositoryTest {
         }
         assertThat(findArticles.size()).isEqualTo(13);
         assertThat(findArticles.get(0).getTitle()).isEqualTo("Test12");
+    }
+
+    @Test
+    @DisplayName("구독 순 글 불러오기")
+    public void gudokList() {
+        for (int k = 0; k < 13; k++) {
+            Member User = new Member("User" + k, "123123", "nicednjsdud12@gmail.com", Grade.AUTHOR);
+            Member savedUser = memberRepository.save(User);
+            for(int i = 0; i<k+1;i++){
+                savedUser.changeGudokCount((long)i,"구독추가");
+            }
+
+        }
+        List<Member> findMembers = memberRepository.findAll();
+        if (findMembers.size() != 0) {
+            for (Member findMember : findMembers) {
+                for (int i = 0; i < 4; i++) {
+                    Article savedArticle = articleRepository.save(new Article("Test" + i, "test" + i, "테스트" + i, ArticleStatus.APPROVAL, findMember));
+                    Image savedImage = imageRepository.save(new Image("Image" + i, "Image" + i, 1L));
+                    savedImage.setArticle(savedArticle);
+                }
+            }
+        }
+
+        List<ArticleDto> findArticles = articleRepository.gudokList();
+        assertThat(findArticles.get(0).getNickName()).isEqualTo("User12");
+        assertThat(findArticles.size()).isEqualTo(30);
     }
 }
