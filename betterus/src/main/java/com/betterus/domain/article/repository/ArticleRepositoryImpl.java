@@ -58,8 +58,8 @@ public class ArticleRepositoryImpl implements ArticleRepositoryCustom{
     }
 
     @Override
-    public List<ArticleDto> newList() {
-        List<ArticleDto> newList = queryFactory
+    public List<ArticleDto> gudokList() {
+        List<ArticleDto> gudokList = queryFactory
                 .select(
                         new QArticleDto(
                                 article.id.as("articleId"),
@@ -74,17 +74,17 @@ public class ArticleRepositoryImpl implements ArticleRepositoryCustom{
                         )
                 )
                 .from(article)
-                .leftJoin(image.article, article)
-                .leftJoin(article.member.articles, article)
+                .leftJoin(article.image, image)
+                .leftJoin(article.member, member)
                 .where(
                         member.grade.eq(Grade.AUTHOR),
                         article.status.eq(ArticleStatus.APPROVAL)
                 )
-                .offset(30)
-                .orderBy(article.createDate.desc())
+                .limit(30)
+                .orderBy(member.gudok_count.desc())
                 .fetch();
 
-        return newList;
+        return gudokList;
     }
 
 }

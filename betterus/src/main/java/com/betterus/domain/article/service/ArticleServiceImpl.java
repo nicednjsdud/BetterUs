@@ -98,8 +98,8 @@ public class ArticleServiceImpl implements ArticleService {
     }
 
     @Override
-    public List<ArticleDto> newList() {
-        return articleRepository.newList();
+    public List<ArticleDto> gudokList() {
+        return articleRepository.gudokList();
     }
 
     @Override

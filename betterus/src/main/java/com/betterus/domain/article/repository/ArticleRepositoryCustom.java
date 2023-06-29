@@ -8,5 +8,5 @@ public interface ArticleRepositoryCustom {
 
     List<ArticleDto> recommandList();
 
-    List<ArticleDto> newList();
+    List<ArticleDto> gudokList();
 }

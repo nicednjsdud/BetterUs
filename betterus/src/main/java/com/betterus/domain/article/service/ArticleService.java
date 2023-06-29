@@ -33,5 +33,5 @@ public interface ArticleService {
 
     List<ArticleDto> findArticleReCommandList();
 
-    List<ArticleDto> newList();
+    List<ArticleDto> gudokList();
 }
