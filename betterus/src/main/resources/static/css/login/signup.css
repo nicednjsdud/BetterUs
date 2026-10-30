@@ -1,217 +1,180 @@
- /* 
-* 작성자 곽수경
-* 작성 일자: 11.01
-* 수정 일자: 
-* 기능: 회원가입 화면 css  
-*/
+/* =========================================================
+   회원가입 화면 (M000000005)
+   좌: 브랜드 패널(배경 이미지) · 우: 가입 폼 패널
+   ========================================================= */
 
-* {
-  font-family: 'Pretendard';
-  /* font-family: 'Noto Sans KR', sans-serif; */
-}
-
-body {
-  /* background-image: url('../img/login_bg_new.jpg'); */
-  width: 100vw;
-  height: 1000px;
-}
-
-span {
-  font-family: 'Pretendard';
-}
-
-a {
-  font-family: 'Pretendard';
-  text-decoration: none;
-  color: black;
-}
-
-/*-------------------------- header ---------------------------- */
-.header {
-  display: flex;
-  height: 60px;
-  border-bottom: 1px solid rgb(103, 103, 103);
-  margin-bottom: 30px;
-}
-
-.home{
-  width: 33.3vw;
-  /* background-color: red; */
-}
-
-img.home {
-  margin-top: 10px;
-  margin-left: 10px;
-  width: 40px;
-  height: 40px;
-}
-
-.logo {
-  text-align: center;
-  width: 33.4vw;
-  /* background-color: orange; */
-}
-
-img.logo {
-  width: 150px;
-  height: 50px;
-}
-
-.nothing {
-  width: 33.3vw;
-  /* background-color: yellow; */
-}
-/*-------------------------- header---------------------------- */
-/*-------------------------- section---------------------------- */
-
-.section {
-  /* width: 100vw; */
-  height: 90vh;
-  display: flex;
-  justify-content: center;
-  /* flex-direction: column; */
-  /* text-align: center; */
-}
-/*-------------------------- section(left)---------------------------- */
-.left {
-  width: 300px;
-}
-/*-------------------------- section(left)---------------------------- */
-
-/*-------------------------- section(center)---------------------------- */
-.center {
-  width: 600px;
-  height: 90vh;
+.signup-page {
   display: flex;
   flex-direction: column;
-  /* justify-content: center; */
-  text-align: center;
+  min-height: 100vh;
 }
 
-.title {
-  font-size: 50px;
-  margin-top: 50px;
-  /* margin-bottom: 50px; */
+.signup-layout {
+  flex: 1;
+  display: flex;
+  align-items: stretch;
 }
 
-div.input {
-  font-size: 30px;
+/* 좌: 브랜드 패널 */
+.signup-brand {
+  position: relative;
+  flex: 1;
+  background-image: url("/img/auth-login-bg.jpg");
+  background-size: cover;
+  background-position: center;
 }
 
-.email-caption {
-  text-align: center;
-  margin-right: 435px;
-  font-size: 25px;
-  margin-top: 40px;
-  margin-bottom: 10px;
+.signup-brand__overlay {
+  position: absolute;
+  inset: 0;
+  background-image: linear-gradient(
+    to bottom,
+    rgba(15, 17, 21, 0.55) 0%,
+    rgba(15, 17, 21, 0.2) 60%,
+    rgba(15, 17, 21, 0.05) 100%
+  );
 }
 
-.autho-caption {
-  text-align: center;
-  margin-right: 420px;
-  font-size: 15px;
-  font-weight: 550;
-  margin-top: 20px;
-  margin-bottom: 10px;
+.signup-brand__inner {
+  position: sticky;
+  top: 0;
+  padding: var(--ez-space-72) var(--ez-space-48);
+  max-width: 420px;
+  color: #ffffff;
 }
 
-.autho-caption + input {
-  width: 500px;
-  height: 30px;
-  font-size: 20px;
-  border-radius: 10px;
+.signup-brand__logo {
+  font-family: var(--ez-font-serif);
+  font-size: var(--ez-fs-30);
+  font-weight: 800;
 }
 
-.nickname {
-  text-align: center;
-  margin-right: 435px;
-  font-size: 25px;
-  margin-top: 40px;
-  margin-bottom: 10px;
+.signup-brand__slogan {
+  margin-top: var(--ez-space-24);
+  font-size: var(--ez-fs-20);
+  line-height: 1.7;
 }
 
-.pw-caption {
-  text-align: center;
-  margin-right: 410px;
-  font-size: 25px;
-  margin-top: 40px;
-  margin-bottom: 10px;
+.signup-brand__hint {
+  margin-top: var(--ez-space-16);
+  font-size: var(--ez-fs-14);
+  opacity: 0.85;
+  line-height: 1.6;
 }
 
-.pwcheck-caption {
-  text-align: center;
-  margin-right: 360px;
-  font-size: 25px;
-  margin-top: 40px;
-  margin-bottom: 10px;
+/* 우: 폼 패널 */
+.signup-panel {
+  flex: 0 0 520px;
+  padding: var(--ez-space-72) var(--ez-space-48) var(--ez-space-48);
 }
 
-
-input.inputbox {
-  width: 500px;
-  height: 45px;
-  font-size: 30px;
-  border-radius: 10px;
+.signup-panel__title {
+  font-size: var(--ez-fs-40);
+  margin: 0 0 var(--ez-space-8);
 }
 
-
-
-.login-button {
-  margin-top: 80px;
-  margin-bottom: 200px;
+.signup-panel__sub {
+  margin: 0 0 var(--ez-space-24);
+  color: var(--ez-text-muted);
+  font-size: var(--ez-fs-14);
 }
 
-.login-button>button {
-  width: 500px;
-  height: 50px;
-  font-size: 30px;
-  border-radius: 10px;
-  color: white;
-  border-color: transparent;
-  background-color: rgb(170, 170, 170);
+.strength {
+  display: flex;
+  gap: 6px;
+  margin-top: 8px;
 }
-/*-------------------------- section(center)---------------------------- */
-/*-------------------------- section(right)---------------------------- */
-.right  {
+
+.strength span {
+  height: 4px;
+  flex: 1;
+  border-radius: 2px;
+  background-color: var(--ez-border);
+}
+
+.strength[data-level="1"] span:nth-child(1) {
+  background-color: var(--ez-accent);
+}
+
+.strength[data-level="2"] span:nth-child(-n + 2) {
+  background-color: var(--ez-primary);
+}
+
+.strength[data-level="3"] span {
+  background-color: var(--ez-primary-strong);
+}
+
+.terms {
+  margin: var(--ez-space-16) 0 var(--ez-space-24);
+  padding: var(--ez-space-16);
+  border: 1px solid var(--ez-border);
+  border-radius: var(--ez-radius-input);
+}
+
+.terms__all {
+  padding-bottom: var(--ez-space-12);
+  border-bottom: 1px solid var(--ez-border);
+  margin-bottom: var(--ez-space-12);
+  font-weight: 600;
+}
+
+.terms__item {
+  display: flex;
+  align-items: center;
+  gap: var(--ez-space-8);
+  margin-bottom: var(--ez-space-8);
+  font-size: var(--ez-fs-14);
+  color: var(--ez-text-muted);
+}
+
+.terms__item label {
+  display: flex;
+  align-items: center;
+  gap: var(--ez-space-8);
+  cursor: pointer;
+}
+
+.signup-submit {
+  width: 100%;
+  height: 52px;
+}
+
+.signup-actions {
   display: flex;
   flex-direction: column;
-  width: 300px;
+  gap: var(--ez-space-12);
+  align-items: center;
 }
 
-.button_area {
-  text-align: left;
+.dev-hint {
+  margin-top: var(--ez-space-8);
+  font-size: var(--ez-fs-12);
+  color: var(--ez-text-muted);
 }
 
-.email-button{
-  margin-top: 177px;
+/* 좁은 화면 */
+@media (max-width: 1024px) {
+  .signup-layout {
+    flex-direction: column;
+  }
+
+  .signup-brand {
+    flex: none;
+    height: 240px;
+    background-position: center 30%;
+  }
+
+  .signup-brand__inner {
+    position: static;
+    padding: var(--ez-space-32) var(--ez-space-24);
+  }
+
+  .signup-brand__hint {
+    display: none;
+  }
+
+  .signup-panel {
+    flex: 1;
+    padding: var(--ez-space-32) var(--ez-space-24);
+  }
 }
-
-.email-button>button {
-
-  width: 100px;
-  height: 50px;
-  font-size: 18px;
-  border-radius: 10px;
-  color: white;
-  border-color: transparent;
-  background-color: rgb(170, 170, 170);
-}
-
-.nickname-button{
-    margin-top: 170px;
-}
-
-.nickname-button>button {
-
-  width: 100px;
-  height: 50px;
-  font-size: 18px;
-  border-radius: 10px;
-  color: white;
-  border-color: transparent;
-  background-color: rgb(170, 170, 170);
-}
-
-
-
-/*-------------------------- section(right)---------------------------- */

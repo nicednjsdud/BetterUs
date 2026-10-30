@@ -1,94 +1,87 @@
-<!-- 
-  * 작성자 곽수경
-* 작성 일자: 10.22
-* 수정 일자
-* 기능: 로그인 화면
-
-이메일 검증 O 패스워드 검증 필요
-
--->
-
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org" lang="ko">
   <head>
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR&display=swap"
-      rel="stylesheet"
-    />
-    <link rel="stylesheet" href="../../static/css/login/login.css?ver=1" />
-    <link
-      rel="stylesheet"
-      href="https://cdn.jsdelivr.net/npm/reset-css@5.0.1/reset.min.css"
-    />
-    <script src="https://code.jquery.com/jquery-3.6.0.js"></script>
-    <script th:inline="javascript">
-      $(document).ready(function() {
-       let message = [[${msg}]];
-       if (message != null) {
-           alert(message);
-       }
-       });
-    </script>
-    <title>Better Us Login</title>
+    <title>로그인 · Better Us</title>
+    <link rel="stylesheet" th:href="@{/css/common/tokens.css}" />
+    <link rel="stylesheet" th:href="@{/css/login/login.css}" />
   </head>
-  <body>
-    <div class="container">
-      <div class="header-logo">
-        <a href="/"
-          ><img class="logo" src="../../static/img/betterUsLogo.png" alt=" "
-        /></a>
-      </div>
-      <article class="section">
-        <div class="input">
-          <form
-            role="form"
-            id="login"
-            th:object="${loginForm}"
-            action="/login/confirm"
-            method="post"
-          >
-            <label th:for="email"> </label>
+  <body class="auth-page">
+    <!-- 공통 머리글 -->
+    <div th:replace="~{fragments/layout :: header}"></div>
+
+    <main class="auth-shell">
+      <div class="auth-shell__overlay"></div>
+
+      <section class="auth-card" aria-labelledby="login-title">
+        <h1 id="login-title" class="auth-card__title ez-serif">로그인</h1>
+        <p class="auth-card__subtitle">글을 쓰며 더 나은 ‘나’로</p>
+
+        <!-- 회원가입 완료 안내 -->
+        <p class="ez-note" th:if="${param.signup}" role="status">
+          회원가입이 완료되었습니다. 로그인해 주세요.
+        </p>
+
+        <!-- 서버 검증 실패 안내 -->
+        <p
+          class="ez-error auth-card__error"
+          th:if="${msg}"
+          th:text="${msg}"
+          role="alert"
+        ></p>
+
+        <form
+          id="login"
+          th:object="${loginForm}"
+          th:action="@{/login/confirm}"
+          method="post"
+          novalidate
+        >
+          <div class="ez-field">
+            <label for="email" class="auth-card__label">이메일 (로그인 아이디)</label>
             <input
-              id="email-inputbox"
+              id="email"
+              type="email"
+              class="ez-input"
+              th:classappend="${msg != null} ? 'is-invalid' : ''"
               th:field="*{email}"
-              class="inputbox"
-              type="text"
-              placeholder="이메일"
+              placeholder="name@example.com"
+              autocomplete="username"
+              required
             />
-            <label th:for="password"> </label>
+          </div>
+
+          <div class="ez-field">
+            <label for="password" class="auth-card__label">비밀번호</label>
             <input
-              id="pw-inputbox"
-              th:field="*{password}"
-              class="inputbox"
+              id="password"
               type="password"
-              placeholder="비밀번호"
+              class="ez-input"
+              th:classappend="${msg != null} ? 'is-invalid' : ''"
+              th:field="*{password}"
+              autocomplete="current-password"
+              required
             />
-            <div>
-              <button class="login-id" type="submit">로그인</button>
-            </div>
-            <span class="line">
-              <span class="line_txt">또는</span>
-            </span>
-            <div>
-              <button class="login-email" type="submit">계정으로 로그인</button>
-            </div>
-          </form>
+          </div>
+
+          <button class="ez-btn ez-btn--primary auth-card__submit" type="submit">
+            로그인
+          </button>
+        </form>
+
+        <div class="auth-card__links">
+          <a th:href="@{/signUp}">회원가입</a>
+          <span class="auth-card__divider" aria-hidden="true">·</span>
+          <a th:href="@{/login/findPassword}">닉네임·비밀번호 찾기</a>
         </div>
-        <ul class="else">
-          <div class="signup">
-            <li><a href="/signUp">회원가입</a></li>
-          </div>
-          <div class="forget">
-            <li><a href="/login/findPassword">아이디&nbsp;찾기</a></li>
-            <li>&nbsp;|&nbsp;</li>
-            <li><a href="/login/findPassword">비밀번호&nbsp;찾기</a></li>
-          </div>
-        </ul>
-      </article>
-    </div>
-    <script src="/js/login/login.js"></script>
+      </section>
+    </main>
+
+    <!-- 공통 바닥글 -->
+    <div th:replace="~{fragments/layout :: footer}"></div>
+
+    <script th:src="@{/js/login/login.js}"></script>
   </body>
 </html>

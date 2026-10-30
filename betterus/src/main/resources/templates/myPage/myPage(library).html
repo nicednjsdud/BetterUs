@@ -1,86 +1,156 @@
-<!--
-* 작성자 곽수경
-* 작성 일자: 11.10
-* 수정 일자
-* 기능: 마이페이지(서재 수정)
--->
-
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reset-css@5.0.1/reset.min.css">
-    <link rel="stylesheet" href="/css/myPage/myPage(library).css">
-    <script src="https://code.jquery.com/jquery-3.6.0.js"></script>
-    <title>Better Us My Library</title>
-    <script th:inline="javascript">
-       $(document).ready(function() {
-        let message = [[${msg}]];
-        if (message != null) {
-            alert(message);
+<html xmlns:th="http://www.thymeleaf.org" lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>내 서재 · Better Us</title>
+    <link rel="stylesheet" th:href="@{/css/common/tokens.css}" />
+    <link rel="stylesheet" th:href="@{/css/member/member.css}" />
+  </head>
+  <body class="member-page">
+    <div th:replace="~{fragments/layout :: header}"></div>
+
+    <div class="member-layout">
+      <aside th:replace="~{fragments/layout :: memberNav('library')}"></aside>
+
+      <main class="member-main" th:with="grade=${member != null and member.grade != null ? member.grade.name() : ''}">
+        <p class="ez-note" th:if="${msg}" th:text="${msg}" role="status"></p>
+
+        <h1 class="member-page-title ez-serif">내 서재</h1>
+        <p class="member-page-desc">내가 쓴 글과 성장 지표를 한눈에 봅니다.</p>
+
+        <!-- 회원 요약 카드 -->
+        <section class="summary-card">
+          <div class="summary-profile">
+            <div class="summary-avatar" th:text="${#strings.substring(memberDto.nickName,0,1)}">B</div>
+            <div>
+              <h2 class="summary-nickname" th:text="${memberDto.nickName}">닉네임</h2>
+              <span class="ez-badge" th:switch="${grade}">
+                <th:block th:case="'AUTHOR'">작가</th:block>
+                <th:block th:case="'ADMIN'">관리자</th:block>
+                <th:block th:case="*">일반회원</th:block>
+              </span>
+              <p class="summary-info" th:if="${memberDto.user_info}" th:text="${memberDto.user_info}"></p>
+            </div>
+          </div>
+          <div class="summary-metrics">
+            <div class="metric">
+              <span class="metric__value" th:text="${articleCount}">0</span>
+              <span class="metric__label">작성 글</span>
+              <span class="metric__hint" th:if="${articleCount >= 3}">작가 신청 가능</span>
+              <span class="metric__hint" th:unless="${articleCount >= 3}">3편 이상 필요</span>
+            </div>
+            <div class="metric">
+              <span class="metric__value" th:text="${memberDto.gudok_count}">0</span>
+              <span class="metric__label">구독자</span>
+            </div>
+            <div class="metric">
+              <span class="metric__value" th:text="${memberDto.gudokForCount}">0</span>
+              <span class="metric__label">구독한 작가</span>
+            </div>
+          </div>
+        </section>
+
+        <!-- 작가 신청 상태 -->
+        <section class="status-strip">
+          <div>
+            <div class="status-strip__progress"
+                 th:classappend="${articleCount >= 3} ? 'is-ready' : ''"
+                 th:text="'작성 글 ' + ${articleCount} + ' / 3편'">작성 글 0 / 3편</div>
+            <div class="status-strip__text"
+                 th:if="${grade == 'USER' and applicationCheck == true}">작가 신청이 접수되었어요. 심사 결과를 기다려 주세요.</div>
+            <div class="status-strip__text"
+                 th:if="${grade == 'USER' and applicationCheck != true and articleCount >= 3}">작가 신청 후 관리자 심사를 거쳐 작가가 됩니다.</div>
+            <div class="status-strip__text"
+                 th:if="${grade == 'USER' and applicationCheck != true and articleCount < 3}">글을 3편 이상 작성하면 작가 신청을 할 수 있어요.</div>
+            <div class="status-strip__text" th:if="${grade == 'AUTHOR'}">이미 작가 등급입니다.</div>
+            <div class="status-strip__text" th:if="${grade == 'ADMIN'}">관리자 계정입니다.</div>
+          </div>
+
+          <div>
+            <!-- 심사 중 -->
+            <span class="ez-badge" th:if="${grade == 'USER' and applicationCheck == true}">작가 신청 심사 중</span>
+
+            <!-- 이미 작가 -->
+            <a class="ez-btn ez-btn--ghost" th:if="${grade == 'AUTHOR'}"
+               th:href="@{'/list/authorPage/' + ${member.id} + '/default'}">작가 페이지로 이동</a>
+
+            <!-- 신청 가능 -->
+            <button type="button" class="ez-btn ez-btn--primary"
+                    th:if="${grade == 'USER' and applicationCheck != true and articleCount >= 3}"
+                    id="openApplyModal">작가 신청</button>
+
+            <!-- 신청 불가 -->
+            <button type="button" class="ez-btn ez-btn--ghost" disabled
+                    th:if="${grade == 'USER' and applicationCheck != true and articleCount < 3}"
+                    title="글을 3편 이상 작성하면 신청할 수 있어요.">작가 신청</button>
+          </div>
+        </section>
+
+        <!-- 내가 쓴 글 -->
+        <div class="section-heading">
+          <h2 class="ez-serif">내가 쓴 글</h2>
+          <span class="count" th:text="'전체 ' + ${articleCount} + '편'">전체 0편</span>
+        </div>
+
+        <div class="empty-state" th:if="${articleDtoList == null or #lists.isEmpty(articleDtoList)}">
+          <img th:src="@{/img/empty-library.jpg}" alt="" />
+          <p>아직 쓴 글이 없어요. 첫 글을 써 보세요.</p>
+          <a class="ez-btn ez-btn--primary" th:href="@{/write}">글 쓰기</a>
+        </div>
+
+        <div class="article-list" th:unless="${articleDtoList == null or #lists.isEmpty(articleDtoList)}">
+          <div class="article-row" th:each="article : ${articleDtoList}">
+            <div class="article-row__main">
+              <a th:href="@{'/list/article/' + ${article.id}}">
+                <p class="article-row__title">
+                  <span class="ez-badge"
+                        th:if="${article.status != null and article.status.name() == 'WAIT'}">심사 중</span>
+                  <span th:text="${article.title}">제목</span>
+                </p>
+                <p class="article-row__sub" th:text="${article.subTitle}">부제</p>
+              </a>
+            </div>
+            <div class="article-row__metrics">
+              <span th:text="'리뷰 ' + ${article.reviewCount}">리뷰 0</span>
+              <span th:text="'찜 ' + ${article.jjimCount}">찜 0</span>
+            </div>
+            <div class="article-row__date" th:text="${article.createDate}">2026-01-01</div>
+            <a class="ez-btn ez-btn--text" th:href="@{'/myPage/' + ${article.id} + '/edit'}">수정</a>
+          </div>
+        </div>
+
+        <!-- 작가 신청 확인 모달 -->
+        <div id="applyModal" class="apply-modal">
+          <div class="apply-modal__card">
+            <h3 class="apply-modal__title">작가 신청</h3>
+            <p class="apply-modal__text">작가 신청을 접수할까요? 관리자 심사 후 등급이 바뀝니다.</p>
+            <div class="apply-modal__actions">
+              <button type="button" class="ez-btn ez-btn--ghost" id="cancelApply">취소</button>
+              <form th:action="@{/list/myPage/authorApplication}" method="post" style="margin:0">
+                <button type="submit" class="ez-btn ez-btn--primary" id="confirmApply">신청</button>
+              </form>
+            </div>
+          </div>
+        </div>
+      </main>
+    </div>
+
+    <div th:replace="~{fragments/layout :: footer}"></div>
+
+    <script>
+      (function () {
+        var modal = document.getElementById("applyModal");
+        var openBtn = document.getElementById("openApplyModal");
+        var cancelBtn = document.getElementById("cancelApply");
+        function open() { modal.classList.add("is-open"); document.body.style.overflow = "hidden"; }
+        function close() { modal.classList.remove("is-open"); document.body.style.overflow = ""; }
+        if (openBtn && modal) openBtn.addEventListener("click", open);
+        if (cancelBtn && modal) cancelBtn.addEventListener("click", close);
+        if (modal) {
+          modal.addEventListener("click", function (e) { if (e.target === modal) close(); });
         }
-        });
+      })();
     </script>
-</head>
-<body>
-<div class="header">
-    <div class="home">
-        <a href="/"><img class="home" src="/img/home.png" alt=" "></a>
-    </div>
-    <div class="logo">
-        <a href="/"><img class="logo" src="/img/logo_B_new.png" alt=" "></a>
-    </div>
-    <ul class="nav">
-        <li><a th:if="${articleCount} >= 1 and ${applicationCheck} != true" th:href="@{/list/myPage/authorApplication}">작가 신청</a></li>
-        <li><a th:if="${session.member == memberDto.id}" href="/write">글쓰기</a></li>
-    </ul>
-</div>
-<div class="section">
-    <div class="section-box">
-        <div class="twoTitle">
-            <a href="#" th:href="@{/editInfo/{memberId}/edit (memberId=${session.member})}">
-                <div id="first" class="choice">내&nbsp;정보</div>
-            </a>
-            <a href="/myPage/default">
-                <div id="second" class="choice">내&nbsp;노트</div>
-            </a>
-        </div>
-        <div class="writer-intro">
-            <div class="intro-left">
-                <div class="name" th:text="${memberDto.nickName}"></div>
-                <div class="intro" th:if="${memberDto.user_info != null}" th:text="${memberDto.user_info}"></div>
-                <div class="intro" th:if="${memberDto.user_info == null}">아직 자기소개 작성을 하지않았습니다.</div>
-                <span class="people">구독자</span><span class="people-num" th:text="${memberDto.gudok_count}"></span>
-                <span class="people">관심작가</span><span class="people-num" th:text="${memberDto.gudokForCount}"></span>
-            </div>
-            <div class="intro-right">
-                <img src="/img/profile.png"/>
-            </div>
-        </div>
-        <div class="article" th:each="article : ${articleDtoList}">
-            <div class="notimage">
-                <div class="letter">
-                    <a th:href="@{/list/article/{articleId} (articleId=${article.id})}">
-                        <div class="title" th:text="${article.title}"></div>
-                    </a>
-                    <div class="content" th:text="${article.contents}"></div>
-                </div>
-                <div class="else">
-                    <div class="review"><img class="icon" src="/img/review.png"></div>
-                    <div class="numOf" th:text="${article.reviewCount}"></div>
-                    <div class="like"><img class="icon" src="/img/like.png"></div>
-                    <div class="numOf" th:text="${article.jjimCount}"></div>
-                </div>
-            </div>
-            <div class="image">
-<!--                <img th:if="${article.imageFullPath != null}" th:src="@{${article.imageFullPath}}">-->
-                <img src="/img/just.png">
-            </div>
-        </div>
-    </div>
-</div>
-</body>
+  </body>
 </html>

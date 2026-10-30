@@ -26,7 +26,9 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -69,6 +71,8 @@ public class MyPageController {
             model.addAttribute("articleDtoList", articleDtoList);
             model.addAttribute("memberDto", memberDto);
             model.addAttribute("articleCount", count);
+            // 등급·전화 등 화면 표시에 필요한 회원 정보
+            model.addAttribute("member", memberService.findMemberById(sessionMemberId));
             return "myPage/myPage(library)";
         } else {
             String msg = "회원만 접근이 가능합니다.";
@@ -227,7 +231,7 @@ public class MyPageController {
                 Map<Object, Object> myPage = myPageService.findMyPageDefault(sessionMemberId);
                 List<ArticleDto> articleDtoList = (List<ArticleDto>) myPage.get("articleDtoList");
                 MemberDto memberDto = (MemberDto) myPage.get("memberDto");
-                int count = (int) myPage.get("articlcCount");
+                int count = (int) myPage.get("articleCount");
                 model.addAttribute("articleDtoList", articleDtoList);
                 model.addAttribute("memberDto", memberDto);
                 model.addAttribute("gudokCheck", check);
@@ -239,6 +243,15 @@ public class MyPageController {
                 Map<Object, Object> myPage = myPageService.findMyPageDefault(authorId);
                 List<ArticleDto> articleDtoList = (List<ArticleDto>) myPage.get("articleDtoList");
                 MemberDto memberDto = (MemberDto) myPage.get("memberDto");
+                // 서재(MyPage)가 없어도 회원 정보는 보여 준다.
+                if (memberDto == null) {
+                    Member author = memberService.findMemberById(authorId);
+                    if (author != null) {
+                        memberDto = new MemberDto(author.getId(), author.getNickName(),
+                                author.getUser_info(), author.getGudok_count(), author.getGudokForCount());
+                    }
+                    articleDtoList = new java.util.ArrayList<>();
+                }
                 model.addAttribute("articleDtoList", articleDtoList);
                 model.addAttribute("memberDto", memberDto);
                 model.addAttribute("gudokCheck", check);
@@ -252,27 +265,36 @@ public class MyPageController {
     }
 
     /**
-     * 작가 신청 하기 (마이페이지에서)
+     * 작가 신청 하기 (마이페이지에서) — 결과는 메인으로 되돌려 한 줄로 알린다.
      */
-    @GetMapping("/list/myPage/authorApplication")
-    public String authorApplication(Model model, HttpServletRequest request) {
-        String msg = "";
+    @PostMapping("/list/myPage/authorApplication")
+    public String authorApplication(HttpServletRequest request, RedirectAttributes redirectAttributes) {
         HttpSession session = request.getSession();
         Object member = session.getAttribute("member");
         Long sessionMemberId = (Long) member;
-        if (sessionMemberId != null) {
-            int result = myPageService.applicationInfo(sessionMemberId);
 
-            if (result == 1) msg = "작가 신청이 완료되었습니다.";
-            else if (result == -1) msg = "3개 이상 출간하셔야 합니다.";
-            else if (result == 0) msg = "오류가 발생했습니다. 다시시도해주세요.";
-
-            model.addAttribute("msg", msg);
-            return "main/main";
-        } else {
-            msg = "회원만 신청이 가능합니다.";
-            model.addAttribute("msg", msg);
+        if (sessionMemberId == null) {
+            redirectAttributes.addFlashAttribute("msg", "로그인이 필요합니다.");
             return "redirect:/";
         }
+
+        Member findMember = memberService.findMemberById(sessionMemberId);
+        if (findMember == null) {
+            redirectAttributes.addFlashAttribute("msg", "회원 정보를 찾을 수 없습니다.");
+            return "redirect:/";
+        }
+        // 이미 작가·관리자면 신청 대상이 아니다.
+        if (findMember.getGrade() != Grade.USER) {
+            redirectAttributes.addFlashAttribute("msg", "이미 작가 등급입니다.");
+            return "redirect:/";
+        }
+
+        int result = myPageService.applicationInfo(sessionMemberId);
+        String msg;
+        if (result == 1) msg = "작가 신청이 접수되었습니다. 심사 결과를 기다려 주세요.";
+        else if (result == -1) msg = "글을 3편 이상 작성한 뒤 신청할 수 있습니다.";
+        else msg = "신청 처리 중 오류가 발생했습니다. 다시 시도해 주세요.";
+        redirectAttributes.addFlashAttribute("msg", msg);
+        return "redirect:/";
     }
 }

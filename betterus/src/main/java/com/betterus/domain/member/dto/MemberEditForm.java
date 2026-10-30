@@ -1,22 +1,29 @@
 /**
  * 작성자 : 정원영
  * 작성 일자 : 2022 - 11 - 06
- * 수정 일자 :
- * 기능 : 멤버 수정 폼
+ * 수정 일자 : 2026 - 10 - 30
+ * 기능 : 회원정보 수정 폼 (닉네임·이메일·전화번호·소개글·비밀번호)
  */
 
 package com.betterus.domain.member.dto;
 
-import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 @Getter
-@AllArgsConstructor
+@Setter
+@NoArgsConstructor
 public class MemberEditForm {
 
-    private String info;
     private String nickName;
-    private String prePassword;
-    private String afterPassword;
-    private String action;
+    private String email;
+    private String phone;
+    private String info;
+
+    /** 변경할 새 비밀번호 (비우면 변경하지 않음) */
+    private String newPassword;
+
+    /** 현재 비밀번호 — 비밀번호를 바꾸거나 탈퇴할 때 본인 확인용 */
+    private String currentPassword;
 }

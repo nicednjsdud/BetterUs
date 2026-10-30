@@ -1,0 +1,493 @@
+/* =========================================================
+   회원 영역 공통 (마이페이지 서재 · 회원정보 수정) — M000000007 / M000000008
+   공통 토큰(tokens.css) 위에서 이 묶음의 배치만 정한다.
+   ========================================================= */
+
+.member-page {
+  min-height: 100vh;
+  background-color: var(--ez-bg);
+}
+
+.member-layout {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--ez-space-32);
+  max-width: 1080px;
+  margin: 0 auto;
+  padding: var(--ez-space-48) var(--ez-space-24);
+}
+
+/* 좌측 내비 */
+.member-nav {
+  flex: 0 0 240px;
+  position: sticky;
+  top: var(--ez-space-24);
+}
+
+.member-nav__title {
+  font-size: var(--ez-fs-20);
+  margin-bottom: var(--ez-space-16);
+}
+
+.member-nav__list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.member-nav__list a {
+  display: block;
+  padding: var(--ez-space-12) var(--ez-space-16);
+  border-radius: var(--ez-radius-input);
+  color: var(--ez-text-muted);
+  font-size: var(--ez-fs-16);
+  border-left: 3px solid transparent;
+  transition: color var(--ez-transition), background-color var(--ez-transition);
+}
+
+.member-nav__list a:hover {
+  color: var(--ez-primary);
+}
+
+.member-nav__list a.is-active {
+  color: var(--ez-primary);
+  background-color: var(--ez-surface-2);
+  border-left: 3px solid var(--ez-primary);
+  font-weight: 600;
+}
+
+.member-main {
+  flex: 1;
+  min-width: 0;
+}
+
+/* 페이지 제목 */
+.member-page-title {
+  font-size: var(--ez-fs-30);
+  margin: 0 0 var(--ez-space-8);
+}
+
+.member-page-desc {
+  margin: 0 0 var(--ez-space-24);
+  font-size: var(--ez-fs-14);
+  color: var(--ez-text-muted);
+}
+
+/* 회원 요약 카드 */
+.summary-card {
+  display: flex;
+  gap: var(--ez-space-32);
+  padding: var(--ez-space-24);
+  background-color: var(--ez-bg);
+  border: 1px solid var(--ez-border);
+  border-radius: var(--ez-radius-card);
+  box-shadow: var(--ez-shadow-card);
+}
+
+.summary-profile {
+  display: flex;
+  gap: var(--ez-space-16);
+  flex: 1;
+  min-width: 0;
+}
+
+.summary-avatar {
+  width: 72px;
+  height: 72px;
+  border-radius: var(--ez-radius-img);
+  background-color: var(--ez-surface-2);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--ez-font-serif);
+  font-size: var(--ez-fs-30);
+  color: var(--ez-primary);
+  flex: 0 0 auto;
+}
+
+.summary-nickname {
+  font-family: var(--ez-font-serif);
+  font-size: var(--ez-fs-24);
+  margin: 0 0 var(--ez-space-8);
+}
+
+.summary-info {
+  margin: var(--ez-space-8) 0 0;
+  font-size: var(--ez-fs-14);
+  color: var(--ez-text-muted);
+  line-height: 1.6;
+}
+
+.summary-metrics {
+  display: flex;
+  gap: var(--ez-space-32);
+  align-items: center;
+  flex: 0 0 auto;
+}
+
+.metric {
+  text-align: center;
+}
+
+.metric__value {
+  display: block;
+  font-size: var(--ez-fs-30);
+  font-weight: 700;
+}
+
+.metric__label {
+  font-size: var(--ez-fs-14);
+  color: var(--ez-text-muted);
+}
+
+.metric__hint {
+  display: block;
+  font-size: var(--ez-fs-12);
+  color: var(--ez-text-muted);
+  margin-top: 2px;
+}
+
+/* 배지·칩 */
+.ez-badge {
+  display: inline-flex;
+  align-items: center;
+  height: 24px;
+  padding: 0 var(--ez-space-12);
+  border-radius: var(--ez-radius-chip);
+  font-size: var(--ez-fs-12);
+  background-color: var(--ez-surface-2);
+  color: var(--ez-primary);
+}
+
+/* 작가 신청 상태 띠 */
+.status-strip {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--ez-space-16);
+  margin-top: var(--ez-space-24);
+  padding: var(--ez-space-16) var(--ez-space-24);
+  border: 1px solid var(--ez-border);
+  border-radius: var(--ez-radius-card);
+  background-color: var(--ez-surface);
+}
+
+.status-strip__text {
+  font-size: var(--ez-fs-14);
+  color: var(--ez-text-muted);
+}
+
+.status-strip__progress {
+  font-size: var(--ez-fs-14);
+  color: var(--ez-text-muted);
+}
+
+.status-strip__progress.is-ready {
+  color: var(--ez-primary-strong);
+  font-weight: 600;
+}
+
+/* 내가 쓴 글 목록 */
+.section-heading {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  margin: var(--ez-space-48) 0 var(--ez-space-16);
+}
+
+.section-heading h2 {
+  font-size: var(--ez-fs-24);
+  margin: 0;
+}
+
+.section-heading .count {
+  font-size: var(--ez-fs-14);
+  color: var(--ez-text-muted);
+}
+
+.article-list {
+  border-top: 1px solid var(--ez-border);
+}
+
+.article-row {
+  display: flex;
+  align-items: center;
+  gap: var(--ez-space-16);
+  min-height: 72px;
+  padding: var(--ez-space-16) var(--ez-space-8);
+  border-bottom: 1px solid var(--ez-border);
+  transition: background-color var(--ez-transition);
+}
+
+.article-row:hover {
+  background-color: var(--ez-surface);
+}
+
+.article-row__main {
+  flex: 1;
+  min-width: 0;
+}
+
+.article-row__title {
+  font-size: var(--ez-fs-20);
+  margin: 0 0 4px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.article-row__sub {
+  font-size: var(--ez-fs-16);
+  color: var(--ez-text-muted);
+  margin: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.article-row__metrics {
+  display: flex;
+  gap: var(--ez-space-16);
+  font-size: var(--ez-fs-14);
+  color: var(--ez-text-muted);
+  flex: 0 0 auto;
+}
+
+.article-row__date {
+  font-size: var(--ez-fs-14);
+  color: var(--ez-text-muted);
+  flex: 0 0 auto;
+}
+
+/* 빈 상태 */
+.empty-state {
+  text-align: center;
+  padding: var(--ez-space-48) var(--ez-space-16);
+}
+
+.empty-state img {
+  width: 240px;
+  margin: 0 auto var(--ez-space-24);
+}
+
+.empty-state p {
+  color: var(--ez-text-muted);
+  margin: 0 0 var(--ez-space-24);
+}
+
+/* 회원정보 수정 폼 */
+.form-card {
+  padding: var(--ez-space-32);
+  border: 1px solid var(--ez-border);
+  border-radius: var(--ez-radius-card);
+}
+
+.form-row {
+  display: flex;
+  gap: var(--ez-space-24);
+  align-items: flex-start;
+  margin-bottom: var(--ez-space-16);
+}
+
+.form-row > label {
+  flex: 0 0 140px;
+  padding-top: 14px;
+  font-size: var(--ez-fs-14);
+  color: var(--ez-text-muted);
+}
+
+.form-row__body {
+  flex: 1;
+  min-width: 0;
+}
+
+.form-row .ez-input,
+.form-row textarea {
+  width: 100%;
+  font-family: inherit;
+  font-size: var(--ez-fs-16);
+  color: var(--ez-text);
+  background-color: var(--ez-bg);
+  border: none;
+  border-bottom: 1px solid var(--ez-border);
+  border-radius: var(--ez-radius-input) var(--ez-radius-input) 0 0;
+  padding: var(--ez-space-12) var(--ez-space-16);
+  transition: border-color var(--ez-transition);
+}
+
+.form-row .ez-input {
+  height: 48px;
+  padding: 0 var(--ez-space-16);
+}
+
+.form-row textarea {
+  min-height: 96px;
+  resize: vertical;
+}
+
+.form-row .ez-input:focus,
+.form-row textarea:focus {
+  outline: none;
+  border-bottom: 1px solid var(--ez-primary);
+}
+
+.input-with-button {
+  display: flex;
+  gap: var(--ez-space-8);
+}
+
+.input-with-button .ez-input {
+  flex: 1;
+}
+
+.readonly-value {
+  padding-top: 14px;
+  font-size: var(--ez-fs-16);
+}
+
+.form-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: var(--ez-space-12);
+  margin-top: var(--ez-space-24);
+}
+
+/* 위험 구역 — 회원 탈퇴 */
+.danger-zone {
+  margin-top: var(--ez-space-32);
+  padding-top: var(--ez-space-32);
+  border-top: 1px solid var(--ez-border);
+}
+
+.danger-zone h3 {
+  font-size: var(--ez-fs-20);
+  margin: 0 0 var(--ez-space-8);
+}
+
+.danger-zone p {
+  margin: 0 0 var(--ez-space-16);
+  font-size: var(--ez-fs-14);
+  color: var(--ez-text-muted);
+}
+
+.danger-zone__form {
+  display: flex;
+  gap: var(--ez-space-12);
+  align-items: center;
+}
+
+.danger-zone__form .ez-input {
+  max-width: 280px;
+}
+
+/* 관리자 표 */
+.data-table {
+  width: 100%;
+  border-collapse: collapse;
+  border-top: 1px solid var(--ez-border);
+}
+
+.data-table th,
+.data-table td {
+  padding: var(--ez-space-16) var(--ez-space-12);
+  text-align: left;
+  font-size: var(--ez-fs-14);
+  border-bottom: 1px solid var(--ez-border);
+}
+
+.data-table th {
+  color: var(--ez-text-muted);
+  font-weight: 600;
+  background-color: var(--ez-surface);
+}
+
+.data-table tbody tr:hover {
+  background-color: var(--ez-surface);
+}
+
+.data-table a {
+  color: var(--ez-primary);
+}
+
+/* 작가 신청 확인 모달 — 기본은 닫힘, is-open 일 때만 보인다 */
+.apply-modal {
+  position: fixed;
+  inset: 0;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  background: rgba(20, 22, 29, 0.45);
+  z-index: 50;
+}
+
+.apply-modal.is-open {
+  display: flex;
+}
+
+.apply-modal__card {
+  width: 400px;
+  max-width: calc(100vw - 32px);
+  padding: var(--ez-space-24);
+  background-color: var(--ez-bg);
+  border-radius: var(--ez-radius-card);
+  box-shadow: var(--ez-shadow-modal);
+}
+
+.apply-modal__title {
+  font-size: var(--ez-fs-18);
+  font-weight: 600;
+  margin: 0 0 var(--ez-space-8);
+}
+
+.apply-modal__text {
+  font-size: var(--ez-fs-14);
+  color: var(--ez-text-muted);
+  margin: 0 0 var(--ez-space-24);
+}
+
+.apply-modal__actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: var(--ez-space-12);
+}
+
+/* 좁은 화면 */
+@media (max-width: 768px) {
+  .member-layout {
+    flex-direction: column;
+    padding: var(--ez-space-24) var(--ez-space-16);
+  }
+
+  .member-nav {
+    flex: none;
+    position: static;
+    width: 100%;
+  }
+
+  .member-nav__list {
+    display: flex;
+    gap: var(--ez-space-8);
+    overflow-x: auto;
+  }
+
+  .member-nav__list a {
+    white-space: nowrap;
+  }
+
+  .summary-card {
+    flex-direction: column;
+  }
+
+  .summary-metrics {
+    justify-content: space-between;
+  }
+
+  .form-row {
+    flex-direction: column;
+    gap: var(--ez-space-8);
+  }
+
+  .form-row > label {
+    padding-top: 0;
+  }
+}
