@@ -8,19 +8,19 @@
 @import url("https://fonts.googleapis.com/css2?family=Nanum+Myeongjo:wght@400;700;800&family=Montserrat:wght@300;400;600&display=swap");
 
 :root {
-  /* 팔레트 — 라이트 */
-  --ez-bg: #ffffff;
-  --ez-surface: #f6f7fb;
-  --ez-surface-2: #eceffa;
-  --ez-text: #14161d;
-  --ez-text-muted: #5b6172;
-  --ez-primary: #303f9f;
-  --ez-primary-strong: #232c6b;
-  --ez-accent: #758ecd;
-  --ez-border: #e4e7ef;
-  --ez-danger: #b3261e;
-  --ez-danger-strong: #8c1d18;
-  --ez-success: #1e7a5a;
+  /* 팔레트 — 라이트 (미색 종이·먹색 글씨·바랜 청색) */
+  --ez-bg: #fdfaf4;
+  --ez-surface: #f5efe4;
+  --ez-surface-2: #ece2d2;
+  --ez-text: #2a251f;
+  --ez-text-muted: #6d6153;
+  --ez-primary: #3f5f6e;
+  --ez-primary-strong: #2b4452;
+  --ez-accent: #b4835c;
+  --ez-border: #e2d9c9;
+  --ez-danger: #a33c2b;
+  --ez-danger-strong: #7c2a1c;
+  --ez-success: #4a7850;
 
   /* 글꼴 */
   --ez-font-sans: "Pretendard Variable", Pretendard, system-ui, -apple-system,
@@ -40,15 +40,15 @@
   --ez-fs-56: 56px;
 
   /* 둥글기 */
-  --ez-radius-input: 10px;
-  --ez-radius-card: 16px;
+  --ez-radius-input: 12px;
+  --ez-radius-card: 18px;
   --ez-radius-chip: 999px;
   --ez-radius-img: 12px;
 
   /* 그림자 — 기본은 쓰지 않고 경계선으로 구분한다 */
-  --ez-shadow-card: 0 1px 2px rgba(20, 22, 29, 0.06),
-    0 8px 24px rgba(20, 22, 29, 0.08);
-  --ez-shadow-modal: 0 24px 64px rgba(20, 22, 29, 0.18);
+  --ez-shadow-card: 0 1px 2px rgba(60, 48, 34, 0.05),
+    0 10px 30px rgba(60, 48, 34, 0.08);
+  --ez-shadow-modal: 0 24px 64px rgba(60, 48, 34, 0.2);
 
   /* 여백 단위 (4px 기준) */
   --ez-space-8: 8px;
@@ -65,34 +65,34 @@
 
 /* 팔레트 — 다크 (명시 지정 또는 시스템 설정) */
 html[data-theme="dark"] {
-  --ez-bg: #0f1115;
-  --ez-surface: #171a21;
-  --ez-surface-2: #1e222c;
-  --ez-text: #f2f3f7;
-  --ez-text-muted: #9aa1b2;
-  --ez-primary: #8ea2ff;
-  --ez-primary-strong: #aab9ff;
-  --ez-accent: #758ecd;
-  --ez-border: #262b36;
-  --ez-danger: #ff8a80;
-  --ez-danger-strong: #ff6f60;
-  --ez-success: #6fd3a8;
+  --ez-bg: #1b1815;
+  --ez-surface: #241f1a;
+  --ez-surface-2: #2e2720;
+  --ez-text: #f3ece0;
+  --ez-text-muted: #a6978a;
+  --ez-primary: #9bbccb;
+  --ez-primary-strong: #bcd7e3;
+  --ez-accent: #d2a376;
+  --ez-border: #3a3229;
+  --ez-danger: #ff9c8c;
+  --ez-danger-strong: #ffb3a6;
+  --ez-success: #8dc896;
 }
 
 @media (prefers-color-scheme: dark) {
   html:not([data-theme]) {
-    --ez-bg: #0f1115;
-    --ez-surface: #171a21;
-    --ez-surface-2: #1e222c;
-    --ez-text: #f2f3f7;
-    --ez-text-muted: #9aa1b2;
-    --ez-primary: #8ea2ff;
-    --ez-primary-strong: #aab9ff;
-    --ez-accent: #758ecd;
-    --ez-border: #262b36;
-    --ez-danger: #ff8a80;
-    --ez-danger-strong: #ff6f60;
-    --ez-success: #6fd3a8;
+    --ez-bg: #1b1815;
+    --ez-surface: #241f1a;
+    --ez-surface-2: #2e2720;
+    --ez-text: #f3ece0;
+    --ez-text-muted: #a6978a;
+    --ez-primary: #9bbccb;
+    --ez-primary-strong: #bcd7e3;
+    --ez-accent: #d2a376;
+    --ez-border: #3a3229;
+    --ez-danger: #ff9c8c;
+    --ez-danger-strong: #ffb3a6;
+    --ez-success: #8dc896;
   }
 }
 
@@ -107,8 +107,25 @@ body {
   color: var(--ez-text);
   font-family: var(--ez-font-sans);
   font-size: var(--ez-fs-16);
-  line-height: 1.6;
+  line-height: 1.75;
   -webkit-font-smoothing: antialiased;
+  /* 위쪽에서 번지는 옅은 햇빛 — 종이 느낌을 낸다 */
+  background-image: radial-gradient(
+    1200px 600px at 50% -15%,
+    rgba(180, 131, 92, 0.07),
+    transparent 65%
+  );
+  background-attachment: fixed;
+}
+
+/* 제목은 명조로 — 글 읽는 자리다운 분위기 */
+h1,
+h2,
+h3 {
+  font-family: var(--ez-font-serif);
+  font-weight: 700;
+  letter-spacing: -0.01em;
+  line-height: 1.4;
 }
 
 a {
@@ -123,6 +140,7 @@ img {
 
 .ez-serif {
   font-family: var(--ez-font-serif);
+  letter-spacing: -0.01em;
 }
 
 .ez-latin {
