@@ -9,6 +9,7 @@
 package com.betterus.domain.member.controller;
 
 
+import com.betterus.domain.email.service.EmailService;
 import com.betterus.domain.member.domain.Member;
 import com.betterus.domain.member.dto.MemberDto;
 import com.betterus.domain.member.dto.MemberEditForm;
@@ -37,6 +38,8 @@ import java.util.Map;
 public class MemberController {
 
     private final MemberService memberService;
+
+    private final EmailService emailService;
 
     private final PasswordEncoder passwordEncoder;
 
@@ -93,6 +96,7 @@ public class MemberController {
             return "redirect:/";
         }
         model.addAttribute("joinForm", new MemberJoinForm());
+        model.addAttribute("mailAuthSkip", emailService.isSkipAuth());
         return "login/signup";
     }
 
@@ -121,6 +125,7 @@ public class MemberController {
         String error = validateJoin(nickName, email, password, authCode);
         if (error != null) {
             model.addAttribute("msg", error);
+            model.addAttribute("mailAuthSkip", emailService.isSkipAuth());
             return "login/signup";
         }
 
@@ -133,11 +138,14 @@ public class MemberController {
             return "redirect:/login?signup=done";
         }
         model.addAttribute("msg", "이미 가입된 이메일이거나 닉네임입니다. 다른 값을 사용해 주세요.");
+        model.addAttribute("mailAuthSkip", emailService.isSkipAuth());
         return "login/signup";
     }
 
     private String validateJoin(String nickName, String email, String password, String authCode) {
-        if (email.isEmpty() || authCode.isEmpty() || nickName.isEmpty() || password.isEmpty()) {
+        // 인증 건너뛰기가 켜져 있으면 인증코드는 받지 않는다.
+        if (email.isEmpty() || nickName.isEmpty() || password.isEmpty()
+                || (!emailService.isSkipAuth() && authCode.isEmpty())) {
             return "모든 항목을 입력해 주세요.";
         }
         if (nickName.length() < 2 || nickName.length() > 12) {

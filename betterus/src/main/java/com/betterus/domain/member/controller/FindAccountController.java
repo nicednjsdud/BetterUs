@@ -13,6 +13,7 @@ import com.betterus.domain.email.service.EmailService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -28,7 +29,8 @@ public class FindAccountController {
     private final EmailService emailService;
 
     @GetMapping("/login/findPassword")
-    public String findPassword() {
+    public String findPassword(Model model) {
+        model.addAttribute("mailAuthSkip", emailService.isSkipAuth());
         return "login/findpassword";
     }
 

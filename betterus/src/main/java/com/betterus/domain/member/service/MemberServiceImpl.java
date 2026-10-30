@@ -10,6 +10,7 @@ package com.betterus.domain.member.service;
 
 import com.betterus.domain.email.domain.Email;
 import com.betterus.domain.email.repository.EmailRepository;
+import com.betterus.domain.email.service.EmailService;
 import com.betterus.domain.member.domain.Member;
 import com.betterus.domain.member.dto.MemberDto;
 import com.betterus.domain.member.dto.MemberEditForm;
@@ -36,6 +37,8 @@ public class MemberServiceImpl implements MemberService {
 
     private final EmailRepository emailRepository;
 
+    private final EmailService emailService;
+
     private final MyPageRepository myPageRepository;
 
     private final PasswordEncoder passwordEncoder;
@@ -57,12 +60,9 @@ public class MemberServiceImpl implements MemberService {
     @Override
     @Transactional
     public int joinMember(Member member, String authCode) {
-        // 이메일 인증코드 확인
+        // 이메일 인증코드 확인 (인증 건너뛰기 설정이 켜져 있으면 통과한다)
+        if (!emailService.verifyCode(member.getEmail(), authCode)) return 0;
         Email findEmail = emailRepository.findByEmail(member.getEmail());
-        boolean emailVerified = findEmail != null
-                && authCode != null
-                && authCode.equals(findEmail.getAuthCode());
-        if (!emailVerified) return 0;
 
         // 닉네임·이메일 중복 확인
         if (memberRepository.findByNickName(member.getNickName()) != null) return 0;
@@ -76,8 +76,8 @@ public class MemberServiceImpl implements MemberService {
         MyPage myPage = new MyPage(joinMember);
         myPageRepository.save(myPage);
 
-        // 사용한 인증코드 무효화
-        emailRepository.delete(findEmail);
+        // 사용한 인증코드 무효화 (건너뛰기 상태에서는 저장된 코드가 없을 수 있다)
+        if (findEmail != null) emailRepository.delete(findEmail);
         return 1;
     }
 

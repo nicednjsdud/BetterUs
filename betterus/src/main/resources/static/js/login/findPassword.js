@@ -3,6 +3,9 @@
    이메일 인증코드로 본인 확인 후 닉네임 조회 또는 임시 비밀번호 발급
    ========================================================= */
 (function () {
+  // 이메일 인증 건너뛰기 — 서버 설정이 켜져 있으면 인증 단계를 통과시킨다.
+  const skipMailAuth = (document.getElementById("mailAuthSkip") || {}).value === "true";
+
   const emailRegExp = /^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*\.[a-zA-Z]{2,}$/i;
 
   function setMsg(el, text, kind) {
@@ -52,7 +55,7 @@
     const submitBtn = document.getElementById(prefix + "SubmitBtn");
     const result = document.getElementById(prefix + "Result");
 
-    let verified = false;
+    let verified = skipMailAuth;
     let cooldown = null;
 
     function emailValid() {

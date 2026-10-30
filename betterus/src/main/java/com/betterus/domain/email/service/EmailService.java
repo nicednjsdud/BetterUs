@@ -13,6 +13,7 @@ import com.betterus.domain.member.domain.Member;
 import com.betterus.domain.member.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.env.Environment;
 import org.springframework.core.env.Profiles;
 import org.springframework.mail.javamail.JavaMailSender;
@@ -35,11 +36,24 @@ public class EmailService {
     /** 재발송 쿨다운(초) — 설계의 「재발송」 규칙 */
     public static final int COOLDOWN_SECONDS = 60;
 
+    /**
+     * 이메일 인증 건너뛰기 — true 면 인증코드를 메일로 보내지 않고 어떤 코드든 통과시킨다.
+     * 메일 계정 없이 화면을 확인하는 개발 환경용이며, 설정값 app.mail.auth.skip 으로 켠다.
+     * 운영에서는 반드시 false(기본값)여야 한다.
+     */
+    @Value("${app.mail.auth.skip:false}")
+    private boolean skipAuth;
+
     private final JavaMailSender emailSender;
     private final EmailRepository emailRepository;
     private final MemberRepository memberRepository;
     private final PasswordEncoder passwordEncoder;
     private final Environment environment;
+
+    /** 인증 건너뛰기가 켜져 있는지 — 화면·가입 처리에서 함께 본다. */
+    public boolean isSkipAuth() {
+        return skipAuth;
+    }
 
     private static final SecureRandom RANDOM = new SecureRandom();
     /** 이메일별 마지막 발송 시각(밀리초) — 서버 재시작 시 초기화된다(별도 컬럼 없음). */
@@ -58,7 +72,11 @@ public class EmailService {
         } else {
             emailRepository.save(new Email(email, code));
         }
-        sendMail(email, "[Better Us] 이메일 인증코드 안내", buildCodeBody(code));
+        if (skipAuth) {
+            log.info("[인증 건너뛰기] 메일을 보내지 않았다 — {} (코드 {})", email, code);
+        } else {
+            sendMail(email, "[Better Us] 이메일 인증코드 안내", buildCodeBody(code));
+        }
         LAST_SENT_AT.put(email, System.currentTimeMillis());
         return code;
     }
@@ -72,8 +90,9 @@ public class EmailService {
         return remain > 0 ? (int) remain : 0;
     }
 
-    /** 입력한 인증코드가 최신 저장값과 같은지 확인한다. */
+    /** 입력한 인증코드가 최신 저장값과 같은지 확인한다. 건너뛰기가 켜져 있으면 항상 통과. */
     public boolean verifyCode(String email, String code) {
+        if (skipAuth) return email != null && !email.trim().isEmpty();
         if (email == null || code == null) return false;
         Email findEmail = emailRepository.findByEmail(email);
         return findEmail != null && code.equals(findEmail.getAuthCode());
@@ -97,7 +116,11 @@ public class EmailService {
         if (findMember == null) return null;
         String tempPassword = randomPassword(10);
         findMember.changeMemberPassword(passwordEncoder.encode(tempPassword));
-        sendMail(email, "[Better Us] 임시 비밀번호 안내", buildTempPasswordBody(tempPassword));
+        if (skipAuth) {
+            log.info("[인증 건너뛰기] 임시 비밀번호를 메일로 보내지 않았다 — {} (임시 비밀번호 {})", email, tempPassword);
+        } else {
+            sendMail(email, "[Better Us] 임시 비밀번호 안내", buildTempPasswordBody(tempPassword));
+        }
         invalidate(email);
         return tempPassword;
     }

@@ -26,7 +26,10 @@
 
   const emailRegExp = /^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*\.[a-zA-Z]{2,}$/i;
 
-  let emailVerified = false;
+  // 이메일 인증 건너뛰기 — 서버 설정이 켜져 있으면 인증 단계를 통과시킨다.
+  const skipMailAuth = (document.getElementById("mailAuthSkip") || {}).value === "true";
+
+  let emailVerified = skipMailAuth;
   let verifiedEmail = "";
   let nickChecked = false;
   let checkedNickValue = "";
@@ -94,7 +97,7 @@
 
   // 이메일 값을 바꾸면 인증 상태를 초기화한다.
   emailInput.addEventListener("input", function () {
-    if (emailVerified && emailInput.value.trim() !== verifiedEmail) {
+    if (!skipMailAuth && emailVerified && emailInput.value.trim() !== verifiedEmail) {
       emailVerified = false;
       verifiedEmail = "";
       authCodeInput.readOnly = false;

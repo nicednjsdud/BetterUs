@@ -30,7 +30,12 @@
       <!-- 우: 가입 폼 -->
       <section class="signup-panel">
         <h1 class="signup-panel__title ez-serif">회원가입</h1>
-        <p class="signup-panel__sub">이메일 인증 후 계정을 만들 수 있어요.</p>
+        <p class="signup-panel__sub" th:unless="${mailAuthSkip}">이메일 인증 후 계정을 만들 수 있어요.</p>
+        <p class="signup-panel__sub" th:if="${mailAuthSkip}">바로 계정을 만들 수 있어요.</p>
+
+        <p class="ez-note" th:if="${mailAuthSkip}" role="status">
+          지금은 이메일 인증을 건너뛰도록 설정되어 있습니다. 인증코드 없이 바로 가입됩니다.
+        </p>
 
         <p class="ez-error" th:if="${msg}" th:text="${msg}" role="alert"></p>
 
@@ -40,6 +45,9 @@
           method="post"
           novalidate
         >
+          <!-- 화면 동작용 — 이메일 인증 건너뛰기 여부 -->
+          <input type="hidden" id="mailAuthSkip" th:value="${mailAuthSkip}" />
+
           <!-- 이메일 + 인증코드 발송 -->
           <div class="ez-field">
             <label for="email">이메일</label>
@@ -47,13 +55,13 @@
               <input id="email" name="email" type="email" class="ez-input"
                      th:value="${joinForm != null ? joinForm.email : ''}"
                      placeholder="가입할 이메일 주소" autocomplete="email" />
-              <button id="sendCodeBtn" type="button" class="ez-btn ez-btn--primary">인증코드 발송</button>
+              <button id="sendCodeBtn" type="button" class="ez-btn ez-btn--primary" th:attr="hidden=${mailAuthSkip} ? 'hidden' : null">인증코드 발송</button>
             </div>
             <div id="emailMsg" class="field-msg"></div>
           </div>
 
           <!-- 인증코드 + 확인 -->
-          <div class="ez-field">
+          <div class="ez-field" th:attr="hidden=${mailAuthSkip} ? 'hidden' : null">
             <label for="authCode">인증코드(6자리)</label>
             <div class="field-row">
               <input id="authCode" name="authCode" type="text" class="ez-input"

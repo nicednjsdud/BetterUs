@@ -73,3 +73,11 @@ server:
       # 세션을 쿠키로만 유지한다 — 주소 뒤에 세션 표시(;jsessionid=…)가 붙어
       # 로그인 후 이동한 화면이 404 가 되는 것을 막는다.
       tracking-modes: cookie
+
+# Better Us 자체 설정
+app:
+  mail:
+    auth:
+      # 이메일 인증 건너뛰기 — 켜면 인증코드를 보내지 않고 인증 단계를 통과시킨다.
+      # 메일 계정 없이 화면을 확인하는 개발 환경용. 운영에서는 반드시 false 로 둔다.
+      skip: ${MAIL_AUTH_SKIP:false}
