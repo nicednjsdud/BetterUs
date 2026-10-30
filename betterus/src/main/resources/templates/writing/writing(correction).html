@@ -1,61 +1,82 @@
-<!-- 
-  * 작성자 곽수경
-* 작성 일자: 10.29
-* 수정 일자: 
-* 기능: 글쓰기 수정 화면
--->
-
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reset-css@5.0.1/reset.min.css">
-    <link rel="stylesheet" href="/css/writing/writing(correction).css">
-    <script src="https://code.jquery.com/jquery-3.6.0.js"></script>
-    <title>Better Us Writing(correction)</title>
-</head>
-<body>
-<div class="header">
-    <div class="home">
-        <a href="#"><img class="home" src="/img/home.png" alt=" "></a>
+<html xmlns:th="http://www.thymeleaf.org" lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>글 수정 · Better Us</title>
+    <link rel="stylesheet" th:href="@{/css/common/tokens.css}" />
+    <link rel="stylesheet" th:href="@{/css/member/member.css}" />
+  </head>
+  <body class="member-page">
+    <div th:replace="~{fragments/layout :: header}"></div>
+
+    <div class="member-layout">
+      <aside th:replace="~{fragments/layout :: memberNav('write')}"></aside>
+
+      <main class="member-main">
+        <h1 class="member-page-title ez-serif">글 수정</h1>
+        <p class="member-page-desc">작성한 글을 고치거나 지울 수 있습니다.</p>
+
+        <p class="ez-error" th:if="${msg}" th:text="${msg}" role="alert"></p>
+
+        <form class="form-card" th:action="@{'/myPage/' + ${article.id} + '/edit'}" th:object="${article}"
+              method="post" enctype="multipart/form-data">
+          <div class="form-row">
+            <label for="title">제목</label>
+            <div class="form-row__body">
+              <input id="title" name="title" type="text" class="ez-input" th:value="${article.title}" required />
+            </div>
+          </div>
+
+          <div class="form-row">
+            <label for="subTitle">부제</label>
+            <div class="form-row__body">
+              <input id="subTitle" name="subTitle" type="text" class="ez-input" th:value="${article.subTitle}" />
+            </div>
+          </div>
+
+          <div class="form-row">
+            <label for="contents">본문</label>
+            <div class="form-row__body">
+              <textarea id="contents" name="contents" style="min-height:320px" th:text="${article.contents}"></textarea>
+            </div>
+          </div>
+
+          <div class="form-row">
+            <label>현재 이미지</label>
+            <div class="form-row__body">
+              <img th:if="${article.fileOrginPath != null}" th:src="@{${article.fileOrginPath}}" alt=""
+                   style="max-width:240px;border-radius:12px" />
+              <span th:if="${article.fileOrginPath == null}" style="font-size:14px;color:var(--ez-text-muted)">등록된 이미지가 없습니다.</span>
+            </div>
+          </div>
+
+          <div class="form-row">
+            <label for="files">이미지 교체</label>
+            <div class="form-row__body">
+              <input id="files" name="files" type="file" accept="image/*" multiple
+                     style="font-size:14px;color:var(--ez-text-muted)" />
+              <div class="field-msg">새 이미지를 고르면 기존 이미지를 대체합니다. (선택)</div>
+            </div>
+          </div>
+
+          <div class="form-actions">
+            <a class="ez-btn ez-btn--text" th:href="@{/myPage/default}">취소</a>
+            <button type="submit" class="ez-btn ez-btn--primary">수정 저장</button>
+          </div>
+        </form>
+
+        <section class="danger-zone">
+          <h3 class="ez-serif">글 삭제</h3>
+          <p>삭제하면 되돌릴 수 없습니다.</p>
+          <form th:action="@{'/myPage/' + ${article.id} + '/delete'}" method="post"
+                onsubmit="return confirm('이 글을 삭제할까요?');">
+            <button type="submit" class="ez-btn ez-btn--danger">글 삭제</button>
+          </form>
+        </section>
+      </main>
     </div>
-    <div class="logo">
-        <img class="logo" src="/img/logo_W_new.png" alt=" ">
-    </div>
-    <ul class="nav">
-        <li>
-            <button class="edit_delete_btn" type="submit" form="edit">수정</button>
-        </li>
-        <li>
-            <form method="POST" th:object="${article}"
-                  th:action="@{/myPage/{articleId}/delete (articleId=${article.id})}">
-                <button class="edit_delete_btn" type="submit" name="submit">삭제</button>
-            </form>
-        </li>
-    </ul>
-</div>
-<div class="section">
-    <div class="background-space">
-        <div class="writing-space">
-            <form id="edit" th:object="${article}" th:action="@{/myPage/{articleId}/edit (articleId=${article.id})}"
-                  method="POST" enctype="multipart/form-data">
-                <input class="title" type="text" th:value="${article.title}" th:field="*{title}"
-                       placeholder="제목을 입력해주세요">
-                <input class="subtitle" type="text" th:value="${article.subTitle}" th:field="*{subTitle}"
-                       placeholder="소제목을 입력해주세요.">
-                <hr/>
-                <textarea class="content" cols="30" rows="20" th:text="${article.contents}" th:field="*{contents}"
-                          placeholder="내용을 입력해주세요"></textarea>
-                <div>
-                    파일을 업로드 해주세요 &nbsp;&nbsp;&nbsp;
-                    <input class="file"  th:value="${article.fileOrginPath}" th:field="*{files}" type="file" />
-                </div>
-            </form>
-        </div>
-    </div>
-</div>
-</body>
+
+    <div th:replace="~{fragments/layout :: footer}"></div>
+  </body>
 </html>

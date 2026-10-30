@@ -159,7 +159,7 @@ public class ArticleController {
             if (result == 1) {
                 msg = "글쓰기가 완료되었습니다.";
                 model.addAttribute("msg", msg);
-                return "main/main";
+                return "redirect:/myPage/default";
             } else {
                 msg = "오류가 발생했습니다. 다시 시도해주세요.";
                 model.addAttribute("msg", msg);
@@ -212,7 +212,7 @@ public class ArticleController {
             if (result == 1) {
                 msg = "글 수정이 완료되었습니다.";
                 model.addAttribute("msg", msg);
-                return "main/main";
+                return "redirect:/myPage/default";
             } else {
                 msg = "오류가 발생했습니다. 다시 시도해주세요.";
                 model.addAttribute("msg", msg);

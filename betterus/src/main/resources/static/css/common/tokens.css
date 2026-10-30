@@ -1,0 +1,394 @@
+/* =========================================================
+   Better Us — 공통 디자인 토큰
+   컨셉: 「활자 중심의 조용한 잡지 (Quiet Editorial)」
+   강조색 한 색(인디고)만 절제해 쓴다. 값의 출처는 개발계획 Part 2.
+   ========================================================= */
+
+@import url("https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css");
+@import url("https://fonts.googleapis.com/css2?family=Nanum+Myeongjo:wght@400;700;800&family=Montserrat:wght@300;400;600&display=swap");
+
+:root {
+  /* 팔레트 — 라이트 */
+  --ez-bg: #ffffff;
+  --ez-surface: #f6f7fb;
+  --ez-surface-2: #eceffa;
+  --ez-text: #14161d;
+  --ez-text-muted: #5b6172;
+  --ez-primary: #303f9f;
+  --ez-primary-strong: #232c6b;
+  --ez-accent: #758ecd;
+  --ez-border: #e4e7ef;
+  --ez-danger: #b3261e;
+  --ez-danger-strong: #8c1d18;
+  --ez-success: #1e7a5a;
+
+  /* 글꼴 */
+  --ez-font-sans: "Pretendard Variable", Pretendard, system-ui, -apple-system,
+    "Malgun Gothic", sans-serif;
+  --ez-font-serif: "Nanum Myeongjo", serif;
+  --ez-font-latin: "Montserrat", sans-serif;
+
+  /* 글자 크기 단계 */
+  --ez-fs-12: 12px;
+  --ez-fs-14: 14px;
+  --ez-fs-16: 16px;
+  --ez-fs-18: 18px;
+  --ez-fs-20: 20px;
+  --ez-fs-24: 24px;
+  --ez-fs-30: 30px;
+  --ez-fs-40: 40px;
+  --ez-fs-56: 56px;
+
+  /* 둥글기 */
+  --ez-radius-input: 10px;
+  --ez-radius-card: 16px;
+  --ez-radius-chip: 999px;
+  --ez-radius-img: 12px;
+
+  /* 그림자 — 기본은 쓰지 않고 경계선으로 구분한다 */
+  --ez-shadow-card: 0 1px 2px rgba(20, 22, 29, 0.06),
+    0 8px 24px rgba(20, 22, 29, 0.08);
+  --ez-shadow-modal: 0 24px 64px rgba(20, 22, 29, 0.18);
+
+  /* 여백 단위 (4px 기준) */
+  --ez-space-8: 8px;
+  --ez-space-12: 12px;
+  --ez-space-16: 16px;
+  --ez-space-24: 24px;
+  --ez-space-32: 32px;
+  --ez-space-48: 48px;
+  --ez-space-72: 72px;
+  --ez-space-96: 96px;
+
+  --ez-transition: 120ms ease;
+}
+
+/* 팔레트 — 다크 (명시 지정 또는 시스템 설정) */
+html[data-theme="dark"] {
+  --ez-bg: #0f1115;
+  --ez-surface: #171a21;
+  --ez-surface-2: #1e222c;
+  --ez-text: #f2f3f7;
+  --ez-text-muted: #9aa1b2;
+  --ez-primary: #8ea2ff;
+  --ez-primary-strong: #aab9ff;
+  --ez-accent: #758ecd;
+  --ez-border: #262b36;
+  --ez-danger: #ff8a80;
+  --ez-danger-strong: #ff6f60;
+  --ez-success: #6fd3a8;
+}
+
+@media (prefers-color-scheme: dark) {
+  html:not([data-theme]) {
+    --ez-bg: #0f1115;
+    --ez-surface: #171a21;
+    --ez-surface-2: #1e222c;
+    --ez-text: #f2f3f7;
+    --ez-text-muted: #9aa1b2;
+    --ez-primary: #8ea2ff;
+    --ez-primary-strong: #aab9ff;
+    --ez-accent: #758ecd;
+    --ez-border: #262b36;
+    --ez-danger: #ff8a80;
+    --ez-danger-strong: #ff6f60;
+    --ez-success: #6fd3a8;
+  }
+}
+
+/* ---------------- 기본 요소 ---------------- */
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  background-color: var(--ez-bg);
+  color: var(--ez-text);
+  font-family: var(--ez-font-sans);
+  font-size: var(--ez-fs-16);
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+img {
+  max-width: 100%;
+  display: block;
+}
+
+.ez-serif {
+  font-family: var(--ez-font-serif);
+}
+
+.ez-latin {
+  font-family: var(--ez-font-latin);
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+/* ---------------- 폼 ---------------- */
+.ez-field {
+  margin-bottom: var(--ez-space-16);
+}
+
+.ez-field label {
+  display: block;
+  margin-bottom: var(--ez-space-8);
+  font-size: var(--ez-fs-14);
+  color: var(--ez-text-muted);
+}
+
+.ez-input {
+  width: 100%;
+  height: 48px;
+  padding: 0 var(--ez-space-16);
+  font-family: inherit;
+  font-size: var(--ez-fs-16);
+  color: var(--ez-text);
+  background-color: var(--ez-bg);
+  border: none;
+  border-bottom: 1px solid var(--ez-border);
+  border-radius: var(--ez-radius-input) var(--ez-radius-input) 0 0;
+  transition: border-color var(--ez-transition);
+}
+
+.ez-input::placeholder {
+  color: var(--ez-text-muted);
+}
+
+.ez-input:focus {
+  outline: none;
+  border-bottom: 1px solid var(--ez-primary);
+}
+
+.ez-input.is-invalid {
+  border-bottom: 1px solid var(--ez-danger);
+}
+
+.ez-error {
+  display: block;
+  margin-top: var(--ez-space-8);
+  font-size: var(--ez-fs-14);
+  color: var(--ez-danger);
+}
+
+/* 입력칸 + 옆 버튼 한 줄 */
+.field-row {
+  display: flex;
+  gap: var(--ez-space-8);
+}
+
+.field-row .ez-input {
+  flex: 1;
+  min-width: 0;
+}
+
+.field-row .ez-btn {
+  flex: 0 0 auto;
+  height: 48px;
+  white-space: nowrap;
+}
+
+/* 입력칸 아래 안내 문구 (성공/실패) */
+.field-msg {
+  min-height: 18px;
+  margin-top: 6px;
+  font-size: var(--ez-fs-12);
+  color: var(--ez-text-muted);
+}
+
+.field-msg.is-ok {
+  color: var(--ez-success);
+  font-weight: 600;
+}
+
+.field-msg.is-error {
+  color: var(--ez-danger);
+}
+
+/* ---------------- 버튼 ---------------- */
+.ez-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  height: 48px;
+  padding: 0 var(--ez-space-24);
+  font-family: inherit;
+  font-size: var(--ez-fs-16);
+  font-weight: 600;
+  border-radius: var(--ez-radius-input);
+  border: 1px solid transparent;
+  cursor: pointer;
+  transition: background-color var(--ez-transition),
+    border-color var(--ez-transition), color var(--ez-transition);
+}
+
+.ez-btn--primary {
+  background-color: var(--ez-primary);
+  color: #ffffff;
+}
+
+.ez-btn--primary:hover {
+  background-color: var(--ez-primary-strong);
+}
+
+.ez-btn--primary:disabled {
+  opacity: 0.4;
+  cursor: default;
+}
+
+.ez-btn--ghost {
+  background-color: transparent;
+  border-color: var(--ez-border);
+  color: var(--ez-text);
+  height: 40px;
+}
+
+.ez-btn--ghost:hover {
+  border-color: var(--ez-primary);
+  color: var(--ez-primary);
+}
+
+.ez-btn--text {
+  background: none;
+  border: none;
+  height: auto;
+  padding: 0;
+  color: var(--ez-text-muted);
+}
+
+.ez-btn--text:hover {
+  color: var(--ez-primary);
+}
+
+.ez-btn--danger {
+  background-color: var(--ez-danger);
+  color: #ffffff;
+}
+
+.ez-btn--danger:hover {
+  background-color: var(--ez-danger-strong);
+}
+
+/* ---------------- 페이지 번호 ---------------- */
+.pagination {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: var(--ez-space-8);
+  margin-top: var(--ez-space-32);
+}
+
+.pagination a,
+.pagination span {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 36px;
+  height: 36px;
+  padding: 0 var(--ez-space-8);
+  border-radius: var(--ez-radius-input);
+  border: 1px solid var(--ez-border);
+  font-size: var(--ez-fs-14);
+  color: var(--ez-text-muted);
+  transition: border-color var(--ez-transition), color var(--ez-transition);
+}
+
+.pagination a:hover {
+  border-color: var(--ez-primary);
+  color: var(--ez-primary);
+}
+
+.pagination .is-current {
+  background-color: var(--ez-primary);
+  border-color: var(--ez-primary);
+  color: #ffffff;
+}
+
+/* ---------------- 안내 띠 (플래시 메시지 등) ---------------- */
+.ez-note {
+  display: block;
+  margin: 0 0 var(--ez-space-16);
+  padding: var(--ez-space-12) var(--ez-space-16);
+  border-radius: var(--ez-radius-input);
+  background-color: var(--ez-surface-2);
+  border-left: 4px solid var(--ez-primary);
+  color: var(--ez-text);
+  font-size: var(--ez-fs-14);
+}
+
+/* ---------------- 공통 머리글 ---------------- */
+.ez-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--ez-space-24);
+  height: 72px;
+  padding: 0 var(--ez-space-48);
+  border-bottom: 1px solid var(--ez-border);
+  background-color: var(--ez-bg);
+}
+
+.ez-header__logo {
+  font-family: var(--ez-font-serif);
+  font-size: var(--ez-fs-24);
+  font-weight: 800;
+  color: var(--ez-text);
+}
+
+.ez-header__nav {
+  display: flex;
+  align-items: center;
+  gap: var(--ez-space-24);
+}
+
+.ez-header__nav a {
+  font-size: var(--ez-fs-14);
+  color: var(--ez-text-muted);
+  transition: color var(--ez-transition);
+}
+
+.ez-header__nav a:hover,
+.ez-header__nav a.is-current {
+  color: var(--ez-primary);
+}
+
+.ez-header__auth {
+  display: flex;
+  align-items: center;
+  gap: var(--ez-space-16);
+}
+
+/* ---------------- 공통 바닥글 ---------------- */
+.ez-footer {
+  padding: var(--ez-space-48);
+  border-top: 1px solid var(--ez-border);
+  background-color: var(--ez-surface);
+  color: var(--ez-text-muted);
+  font-size: var(--ez-fs-14);
+}
+
+.ez-footer__inner {
+  max-width: 1080px;
+  margin: 0 auto;
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--ez-space-16);
+  justify-content: space-between;
+}
+
+@media (max-width: 768px) {
+  .ez-header {
+    height: 60px;
+    padding: 0 var(--ez-space-16);
+  }
+
+  .ez-header__nav {
+    display: none;
+  }
+}

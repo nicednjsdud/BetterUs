@@ -34,6 +34,8 @@ dependencies {
 	implementation 'org.springframework.boot:spring-boot-devtools'
 	implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
 	implementation 'org.springframework.boot:spring-boot-starter-validation'
+	// 비밀번호 해시(BCrypt) — Spring Security 전체 없이 암호 모듈만 사용
+	implementation 'org.springframework.security:spring-security-crypto:5.7.3'
 	//querydsl 추가
 	implementation "com.querydsl:querydsl-jpa:${queryDslVersion}"
 	implementation 'junit:junit:4.13.1'

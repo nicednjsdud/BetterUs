@@ -1,146 +1,104 @@
-/* 
-* 작성자 곽수경
-* 작성 일자: 10.22
-* 수정 일자: 10.29
-* 기능: 로그인 화면 css  
-*/
+/* =========================================================
+   로그인 화면 (M000000004)
+   공통 토큰(tokens.css) 위에서 이 화면만의 배치만 정한다.
+   ========================================================= */
 
-* {
-  font-family: "Pretendard";
-  /* font-family: 'Noto Sans KR', sans-serif; */
-}
-
-body {
-  /* background-image: url('../img/login_bg_new.jpg'); */
-  /* width: 100vw; */
-  height: 100vh;
-  background-color: white;
-}
-
-span {
-  font-family: "Pretendard";
-}
-
-a {
-  font-family: "Pretendard";
-  text-decoration: none;
-  color: black;
-}
-
-/*-------------------------- top ---------------------------- */
-.container {
-  width: 100%;
-  height: 100%;
-}
-.header-logo {
-  width: 124px;
-  height: 30px;
-  margin: 50px auto 0;
-}
-img.logo {
-  width: 124px;
-  height: 30px;
-}
-
-/*-------------------------- artcle---------------------------- */
-.section {
-  width: 580px;
-  height: 500px;
-  margin: 40px auto 42px;
-  padding: 0 69px;
-  border: 1px solid rgba(0, 0, 0, 0.12);
-  font-size: 18px;
-  box-sizing: border-box;
-}
-
-.title {
-  font-size: 50px;
-  margin-top: 120px;
-  margin-bottom: 80px;
-}
-
-div.input {
-  padding: 55px 0 50px;
-}
-
-input.inputbox {
-  width: 100%;
-  height: 100%;
-  padding: 10px 0 8px;
-  border: 0;
-  font-size: 18px;
-  line-height: 25px;
-  color: rgba(0, 0, 0, 0.7);
-  border-bottom: 1px solid rgba(0, 0, 0, 0.2);
-  box-sizing: border-box;
-  margin-bottom: 10px;
-  font-family: -apple-system, Roboto, NotoSans, AppleSDGothicNeo, Malgun Gothic,
-    맑은 고딕, 돋움, dotum, sans-serif;
-}
-input.inputbox::placeholder {
-  color: rgba(0, 0, 0, 0.2);
-}
-input.inputbox:focus {
-  outline: none;
-  border-bottom: 1px solid rgba(0, 0, 0, 0.7);
-}
-button {
-  display: block;
-  width: 100%;
-  height: 50px;
-  border-radius: 4px;
-  font-weight: 400;
-  font-size: 16px;
-  line-height: 51px;
-  color: white;
-  border: 0;
-}
-button.login-id {
-  background-color: #303f9f;
-  margin: 50px 0 20px;
-}
-button.login-email {
-  background-color: #758ecd;
-}
-.line {
+.auth-page {
   display: flex;
-  flex-basis: 100%;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+/* 배경 이미지 + 어두운 그라데이션 오버레이, 가운데 정렬 슬롯 */
+.auth-shell {
+  position: relative;
+  flex: 1;
+  display: flex;
   align-items: center;
-  color: #828282;
-  font-size: 12px;
-  margin: 8px 0;
-}
-.line .line_txt {
-  display: flex;
-  flex-basis: 100%;
-  align-items: center;
-  color: #828282;
-  font-size: 12px;
-  margin: 8px 0;
-}
-.line .line_txt::before,
-.line .line_txt::after {
-  content: "";
-  flex-grow: 1;
-  background-color: #828282;
-  height: 1px;
-  font-size: 0;
-  line-height: 0;
-  box-sizing: border-box;
-}
-.line .line_txt::before {
-  margin-right: 15px;
-}
-.line .line_txt::after {
-  margin-left: 15px;
+  justify-content: center;
+  padding: var(--ez-space-48) var(--ez-space-16);
+  background-color: var(--ez-surface);
+  background-image: url("/img/auth-login-bg.jpg");
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
 }
 
-.else {
-  display: flex;
-  justify-content: space-between;
-  font-size: 11px;
-  margin-top: 30px;
+.auth-shell__overlay {
+  position: absolute;
+  inset: 0;
+  background-image: linear-gradient(
+    to bottom,
+    rgba(15, 17, 21, 0.55) 0%,
+    rgba(15, 17, 21, 0.15) 55%,
+    rgba(15, 17, 21, 0) 100%
+  );
+  pointer-events: none;
 }
-.else .forget {
+
+/* 로그인 폼 카드 */
+.auth-card {
+  position: relative;
+  width: 100%;
+  max-width: 420px;
+  padding: var(--ez-space-32);
+  background-color: var(--ez-bg);
+  border: 1px solid var(--ez-border);
+  border-radius: var(--ez-radius-card);
+  box-shadow: var(--ez-shadow-card);
+}
+
+.auth-card__title {
+  margin: 0 0 var(--ez-space-8);
+  font-size: var(--ez-fs-30);
+  font-weight: 800;
+  color: var(--ez-text);
+}
+
+.auth-card__subtitle {
+  margin: 0 0 var(--ez-space-24);
+  font-size: var(--ez-fs-14);
+  color: var(--ez-text-muted);
+}
+
+.auth-card__error {
+  margin: 0 0 var(--ez-space-16);
+}
+
+.auth-card__label {
+  /* 라벨은 화면에 보이게 두되, 시각적 무게는 낮춘다 */
+  font-size: var(--ez-fs-12);
+  letter-spacing: 0.04em;
+}
+
+.auth-card__submit {
+  width: 100%;
+  margin-top: var(--ez-space-8);
+}
+
+.auth-card__links {
   display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: var(--ez-space-8);
+  margin-top: var(--ez-space-24);
+  font-size: var(--ez-fs-14);
+  color: var(--ez-text-muted);
+}
+
+.auth-card__links a:hover {
+  color: var(--ez-primary);
+}
+
+.auth-card__divider {
+  color: var(--ez-border);
+}
+
+/* 좁은 화면 */
+@media (max-width: 768px) {
+  .auth-shell {
+    align-items: flex-start;
+    padding-top: var(--ez-space-32);
+    background-position: center 30%;
+  }
 }

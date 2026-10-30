@@ -1,132 +1,136 @@
-<!--
-  * 작성자 곽수경
-* 작성 일자: 11.01
-* 수정 일자
-* 기능: 회원가입 화면
--->
-
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR&display=swap" rel="stylesheet">
-    <link id="contextPathHolder" th:data-contextPath="${#httpServletRequest.getContextPath()}"/>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reset-css@5.0.1/reset.min.css">
-    <link rel="stylesheet" href="/css/login/signup.css?ver=2">
-    <script src="https://code.jquery.com/jquery-3.6.0.js"></script>
-    <title>Better Us Signup</title>
-    <script th:inline="javascript">
-    function sendAuthCode(){
-            var email = $('#email').val();
-            $.ajax({
-            url : "/mail/mailConfirm",
-            type : "get",
-            data: {email : email},
-            contentType:"application/json; charset=UTF-8",
-            success:function(){
-                $("#email").attr("check_result", "success");
-                alert("메일발송이 완료되었습니다. 해당코드를 입력해주세요.");
-            },
-            error:function(){
-                $("#email").attr("check_result", "success");
-                alert("메일발송이 완료되었습니다. 해당코드를 입력해주세요.");
-            }
-        });
-    };
-    function check_duplicateName(){
-          var nickName = $('#nickname').val();
-          $.ajax({
-            url : "/signUp/duplicateNickName",
-            type : "get",
-            data: {nickName : nickName},
-            contentType:"application/json; charset=UTF-8",
-            success:function(result){
-                if(result == 1){
-                    $("#nickname").attr("check_result2", "success");
-                    alert("사용 가능합니다.");
-                }
-                else{
-                    alert("중복된 회원이름 입니다.");
-                    return false;
-                }
-            },
-            error:function(){
-                 $("#nickname").attr("check_result2", "success");
-                 alert("사용 가능합니다.");
-            }
-        });
-    };
-    </script>
-</head>
-<body>
-<!--function sendAuthCode(){-->
+<html xmlns:th="http://www.thymeleaf.org" lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>회원가입 · Better Us</title>
+    <link rel="stylesheet" th:href="@{/css/common/tokens.css}" />
+    <link rel="stylesheet" th:href="@{/css/login/signup.css}" />
+  </head>
+  <body class="signup-page">
+    <div th:replace="~{fragments/layout :: header}"></div>
 
-
-<!--        var email = $('#email').val();-->
-<!--        $('#email-check').click(function(email){-->
-<!--          $.post("/signUp/duplicateNickName", String(email), function(data){-->
-<!--            if(data){-->
-
-<!--            } else {-->
-
-<!--            }-->
-<!--          });-->
-<!--        });-->
-
-<!--        $('#nickname-check').click(function(nickname){-->
-<!--          $.post("/signUp/duplicateNickName", String(nickname), function(data){-->
-<!--            if(data){-->
-<!--              alert("사용가능한 닉네임입니다.");-->
-<!--              $("#nickname").attr("check_result", "success");-->
-<!--            } else {-->
-<!--              alert("이미 존재하는 닉네임입니다.");-->
-<!--            }-->
-<!--          });-->
-<!--        });-->
-<div class="header">
-    <div class="home">
-        <a href="/"><img class="home" src="/img/home.png" alt=" "></a>
-    </div>
-    <div class="logo">
-        <img class="logo" src="/img/logo_B_new.png" alt=" ">
-    </div>
-    <div class="nothing"></div>
-</div>
-<div class="section">
-    <div class="left"></div>
-    <div class="center">
-        <div class="title">회원가입</div>
-        <div class="input">
-            <form role="form" id="form" action="/signUp" th:object="${joinForm}" method="post">
-                <div class="email-caption">이메일</div>
-                <input  id="email" class="inputbox" th:field="*{email}" type="text" check_result="fail"
-                       certification="fail">
-                <div class="autho-caption">인증번호 입력</div>
-                <input class="inputbox" type="text" th:field="*{authCode}">
-                <div class="nickname">닉네임</div>
-                <input id="nickname" class="inputbox" type="text" th:field="*{nickname}" check_result2="fail">
-                <div class="pw-caption">비밀번호</div>
-                <input id="password" class="inputbox" type="text" th:field="*{password}">
-                <div class="pwcheck-caption">비밀번호확인</div>
-                <input id="pwCheck" class="inputbox" type="text">
-                <div class="login-button">
-                    <button id="signUp" type="submit">가입하기</button>
-                </div>
-            </form>
+    <main class="signup-layout">
+      <!-- 좌: 브랜드 패널 -->
+      <section class="signup-brand">
+        <div class="signup-brand__overlay"></div>
+        <div class="signup-brand__inner">
+          <div class="signup-brand__logo">Better Us</div>
+          <p class="signup-brand__slogan">
+            글을 쓰며 더 나은 ‘나’로,<br />
+            글을 나누며 더 나은 ‘우리’로
+          </p>
+          <p class="signup-brand__hint">
+            가입 후 세 편의 글을 쓰면 작가로 성장할 수 있어요.
+          </p>
         </div>
+      </section>
 
-    </div>
-    <div class="right">
-        <div class="email-button">
-            <button id="email-check" type="button" th:onclick="sendAuthCode()">이메일&nbsp;인증</button>
-        </div>
-        <div class="nickname-button">
-            <button id="nickname-check" type="button" th:onclick="check_duplicateName()">중복&nbsp;확인</button>
-        </div>
-    </div>
-</div>
-<script src="/js/login/signUp.js"></script>
-</body>
+      <!-- 우: 가입 폼 -->
+      <section class="signup-panel">
+        <h1 class="signup-panel__title ez-serif">회원가입</h1>
+        <p class="signup-panel__sub">이메일 인증 후 계정을 만들 수 있어요.</p>
+
+        <p class="ez-error" th:if="${msg}" th:text="${msg}" role="alert"></p>
+
+        <form
+          id="signup"
+          th:action="@{/signUp}"
+          method="post"
+          novalidate
+        >
+          <!-- 이메일 + 인증코드 발송 -->
+          <div class="ez-field">
+            <label for="email">이메일</label>
+            <div class="field-row">
+              <input id="email" name="email" type="email" class="ez-input"
+                     th:value="${joinForm != null ? joinForm.email : ''}"
+                     placeholder="가입할 이메일 주소" autocomplete="email" />
+              <button id="sendCodeBtn" type="button" class="ez-btn ez-btn--primary">인증코드 발송</button>
+            </div>
+            <div id="emailMsg" class="field-msg"></div>
+          </div>
+
+          <!-- 인증코드 + 확인 -->
+          <div class="ez-field">
+            <label for="authCode">인증코드(6자리)</label>
+            <div class="field-row">
+              <input id="authCode" name="authCode" type="text" class="ez-input"
+                     inputmode="numeric" maxlength="6"
+                     th:value="${joinForm != null ? joinForm.authCode : ''}"
+                     placeholder="메일로 받은 6자리 숫자" />
+              <button id="verifyCodeBtn" type="button" class="ez-btn ez-btn--ghost">확인</button>
+            </div>
+            <div id="codeMsg" class="field-msg"></div>
+          </div>
+
+          <!-- 닉네임 + 중복확인 -->
+          <div class="ez-field">
+            <label for="nickname">닉네임</label>
+            <div class="field-row">
+              <input id="nickname" name="nickname" type="text" class="ez-input"
+                     th:value="${joinForm != null ? joinForm.nickname : ''}"
+                     placeholder="2~12자 (한글·영문·숫자)" />
+              <button id="checkNickBtn" type="button" class="ez-btn ez-btn--ghost">중복확인</button>
+            </div>
+            <div id="nickMsg" class="field-msg"></div>
+          </div>
+
+          <!-- 비밀번호 -->
+          <div class="ez-field">
+            <label for="password">비밀번호</label>
+            <input id="password" name="password" type="password" class="ez-input"
+                   placeholder="8자 이상 영문+숫자 조합" autocomplete="new-password" />
+            <div id="strength" class="strength" data-level="0">
+              <span></span><span></span><span></span>
+            </div>
+            <div id="pwMsg" class="field-msg"></div>
+          </div>
+
+          <!-- 비밀번호 확인 -->
+          <div class="ez-field">
+            <label for="passwordConfirm">비밀번호 확인</label>
+            <input id="passwordConfirm" name="passwordConfirm" type="password" class="ez-input"
+                   placeholder="비밀번호를 한 번 더 입력" autocomplete="new-password" />
+            <div id="pwConfirmMsg" class="field-msg"></div>
+          </div>
+
+          <!-- 전화번호 -->
+          <div class="ez-field">
+            <label for="phone">전화번호 (선택)</label>
+            <input id="phone" name="phone" type="tel" class="ez-input"
+                   th:value="${joinForm != null ? joinForm.phone : ''}"
+                   placeholder="010-0000-0000" />
+            <div id="phoneMsg" class="field-msg"></div>
+          </div>
+
+          <!-- 약관 -->
+          <div class="terms">
+            <div class="terms__all">
+              <label><input type="checkbox" id="agreeAll" /> 전체 동의</label>
+            </div>
+            <div class="terms__item">
+              <label><input type="checkbox" class="agree" id="agreeTerms" /> (필수) 서비스 이용약관 동의</label>
+            </div>
+            <div class="terms__item">
+              <label><input type="checkbox" class="agree" id="agreePrivacy" /> (필수) 개인정보 처리방침 동의</label>
+            </div>
+            <div class="terms__item">
+              <label><input type="checkbox" class="agree" id="agreeMarketing" /> (선택) 마케팅 정보 수신 동의</label>
+            </div>
+          </div>
+
+          <div class="signup-actions">
+            <button id="signupSubmit" type="submit" class="ez-btn ez-btn--primary signup-submit">가입하기</button>
+            <a class="ez-btn ez-btn--text" th:href="@{/login}">로그인으로 돌아가기</a>
+          </div>
+        </form>
+      </section>
+    </main>
+
+    <div th:replace="~{fragments/layout :: footer}"></div>
+
+    <script th:src="@{/js/login/signUp.js}"></script>
+  </body>
 </html>

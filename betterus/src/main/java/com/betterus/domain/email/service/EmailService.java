@@ -1,10 +1,9 @@
 /**
  * 작성자 : 정원영
  * 작성 일자 : 2022 - 11 - 03
- * 수정 일자 : 2022 - 11 - 10
- * 기능 : Email service logic
+ * 수정 일자 : 2026 - 10 - 30
+ * 기능 : 이메일 인증코드·임시 비밀번호 발송/검증 (회원가입·아이디/비밀번호 찾기 공용)
  */
-
 
 package com.betterus.domain.email.service;
 
@@ -13,139 +12,152 @@ import com.betterus.domain.email.repository.EmailRepository;
 import com.betterus.domain.member.domain.Member;
 import com.betterus.domain.member.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.core.env.Environment;
+import org.springframework.core.env.Profiles;
 import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.mail.javamail.MimeMessageHelper;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.thymeleaf.context.Context;
-import org.thymeleaf.spring5.SpringTemplateEngine;
 
-import javax.mail.MessagingException;
 import javax.mail.internet.MimeMessage;
-import javax.persistence.EntityManager;
-import java.io.UnsupportedEncodingException;
-import java.util.Random;
+import java.security.SecureRandom;
+import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
+@Slf4j
 @Service
 @RequiredArgsConstructor
 @Transactional(readOnly = true)
 public class EmailService {
 
+    /** 재발송 쿨다운(초) — 설계의 「재발송」 규칙 */
+    public static final int COOLDOWN_SECONDS = 60;
+
     private final JavaMailSender emailSender;
-    private final SpringTemplateEngine templateEngine;
-    private String authNum; // 랜덤 인증 코드
-
-    private final EntityManager em;
-
     private final EmailRepository emailRepository;
-
     private final MemberRepository memberRepository;
+    private final PasswordEncoder passwordEncoder;
+    private final Environment environment;
+
+    private static final SecureRandom RANDOM = new SecureRandom();
+    /** 이메일별 마지막 발송 시각(밀리초) — 서버 재시작 시 초기화된다(별도 컬럼 없음). */
+    private static final Map<String, Long> LAST_SENT_AT = new ConcurrentHashMap<>();
 
     /**
-     * 랜덤 코드 8자리 발송
+     * 인증코드 발송 — 6자리 숫자 코드를 만들어 Email 테이블에 저장하고 메일을 보낸다.
+     * 메일 발송이 실패해도(로컬 개발 등) 코드는 저장되며, 서버 로그에 개발용으로 남긴다.
      */
-    public void createCode(){
-        Random random = new Random();
-        StringBuffer key = new StringBuffer();
+    @Transactional
+    public String sendAuthCode(String email) {
+        String code = randomNumberCode(6);
+        Email findEmail = emailRepository.findByEmail(email);
+        if (findEmail != null) {
+            findEmail.changeAuthCode(code);
+        } else {
+            emailRepository.save(new Email(email, code));
+        }
+        sendMail(email, "[Better Us] 이메일 인증코드 안내", buildCodeBody(code));
+        LAST_SENT_AT.put(email, System.currentTimeMillis());
+        return code;
+    }
 
-        for(int i=0;i<8;i++){
-            int index = random.nextInt(3);
+    /** 남은 쿨다운(초). 0이면 바로 발송 가능. */
+    public int remainingCooldown(String email) {
+        Long last = LAST_SENT_AT.get(email);
+        if (last == null) return 0;
+        long passed = (System.currentTimeMillis() - last) / 1000L;
+        long remain = COOLDOWN_SECONDS - passed;
+        return remain > 0 ? (int) remain : 0;
+    }
 
-            switch (index) {
-                case 0 :
-                    key.append((char) ((int)random.nextInt(26) + 97));
-                    break;
-                case 1:
-                    key.append((char) ((int)random.nextInt(26) + 65));
-                    break;
-                case 2:
-                    key.append(random.nextInt(9));
-                    break;
+    /** 입력한 인증코드가 최신 저장값과 같은지 확인한다. */
+    public boolean verifyCode(String email, String code) {
+        if (email == null || code == null) return false;
+        Email findEmail = emailRepository.findByEmail(email);
+        return findEmail != null && code.equals(findEmail.getAuthCode());
+    }
+
+    /** 인증코드 무효화(검증 성공 후 재사용 방지). */
+    @Transactional
+    public void invalidate(String email) {
+        Email findEmail = emailRepository.findByEmail(email);
+        if (findEmail != null) emailRepository.delete(findEmail);
+    }
+
+    /**
+     * 임시 비밀번호 재발급 — 10자리 임시 비밀번호를 만들어 BCrypt 해시로 저장하고 메일로 보낸다.
+     * 값은 화면·응답에 노출하지 않는다(메일로만).
+     * @return 가입된 회원이 없으면 null
+     */
+    @Transactional
+    public String resetPasswordToTemp(String email) {
+        Member findMember = memberRepository.findByEmail(email);
+        if (findMember == null) return null;
+        String tempPassword = randomPassword(10);
+        findMember.changeMemberPassword(passwordEncoder.encode(tempPassword));
+        sendMail(email, "[Better Us] 임시 비밀번호 안내", buildTempPasswordBody(tempPassword));
+        invalidate(email);
+        return tempPassword;
+    }
+
+    /** 가입된 이메일인지 확인한다(아이디 찾기·비밀번호 찾기 판정용). */
+    public boolean isRegistered(String email) {
+        return memberRepository.findByEmail(email) != null;
+    }
+
+    /** 이메일로 가입한 계정의 아이디(닉네임)만 돌려준다. 없으면 null. */
+    public String findNickNameByEmail(String email) {
+        Member findMember = memberRepository.findByEmail(email);
+        return findMember == null ? null : findMember.getNickName();
+    }
+
+    // ---------------------------------------------------------------------
+
+    private void sendMail(String to, String subject, String html) {
+        try {
+            MimeMessage message = emailSender.createMimeMessage();
+            MimeMessageHelper helper = new MimeMessageHelper(message, false, "UTF-8");
+            helper.setTo(to);
+            helper.setSubject(subject);
+            helper.setText(html, true);
+            emailSender.send(message);
+        } catch (Exception e) {
+            // 로컬 개발 등 메일 서버를 쓸 수 없는 환경에서는 흐름이 끊기지 않도록 메일 내용을 로그에 남긴다.
+            log.warn("[개발용] 메일 발송 실패 — {} (사유: {})", to, e.getMessage());
+            if (environment.acceptsProfiles(Profiles.of("local"))) {
+                log.warn("[개발용] 메일 내용: {}", html.replaceAll("<[^>]*>", " ").replaceAll("\\s+", " ").trim());
             }
         }
-        authNum = key.toString();
     }
 
-    /**
-     * 메일 폼
-     */
-    @Transactional
-    public MimeMessage createEmailForm(String email,String action) throws MessagingException, UnsupportedEncodingException {
-
-        createCode(); //인증 코드 생성
-        String setFrom = "tester@example.com";
-        String toEmail = email; //받는 사람
-        String title = "BetterUs 회원가입 인증 번호";
-
-        MimeMessage message = emailSender.createMimeMessage();
-        message.addRecipients(MimeMessage.RecipientType.TO, toEmail); //보낼 이메일 설정
-        message.setSubject(title);
-        message.setFrom(setFrom);
-        message.setText(setContext(authNum,action), "utf-8", "html");
-
-        return message;
+    private String buildCodeBody(String code) {
+        return "<div style='font-family:sans-serif'>"
+                + "<h2>Better Us 이메일 인증코드</h2>"
+                + "<p>아래 6자리 코드를 화면에 입력해 주세요.</p>"
+                + "<p style='font-size:24px;font-weight:bold;letter-spacing:4px'>" + code + "</p>"
+                + "</div>";
     }
 
-    /**
-     * 메일 전송 (회원가입 인증번호, 임시비밀번호)
-     */
-    @Transactional
-    public String sendEmail(String toEmail,String action) throws MessagingException, UnsupportedEncodingException {
-        MimeMessage emailForm = createEmailForm(toEmail,action);
-        emailSender.send(emailForm);
-        return authNum;
+    private String buildTempPasswordBody(String tempPassword) {
+        return "<div style='font-family:sans-serif'>"
+                + "<h2>Better Us 임시 비밀번호</h2>"
+                + "<p>아래 임시 비밀번호로 로그인한 뒤, 마이페이지에서 비밀번호를 꼭 바꿔 주세요.</p>"
+                + "<p style='font-size:20px;font-weight:bold'>" + tempPassword + "</p>"
+                + "</div>";
     }
 
-    /**
-     * 타임리프를 이용한 context 설정
-     */
-    public String setContext(String code,String action) {
-        Context context = new Context();
-        context.setVariable("code", code);
-        if(action.equals("mailConfirm")) return templateEngine.process("mail",context);
-        else if(action.equals("sendTempPassword")) return templateEngine.process("tempPassword",context);
-        else return null;
+    private String randomNumberCode(int length) {
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < length; i++) sb.append(RANDOM.nextInt(10));
+        return sb.toString();
     }
 
-    /**
-     * 회원가입 인증번호 저장
-     */
-    @Transactional
-    public String saveAuthCode(String email,String authCode){
-        Email findEmail = emailRepository.findByEmail(email);
-        Email saveEmail;
-        if(findEmail !=null){
-            // 새로운 인증 요청이 있을경우
-            findEmail.changeAuthCode(authCode);
-        }
-        else{
-            saveEmail = new Email(email,authCode);
-            emailRepository.save(saveEmail);
-        }
-
-        return email;
-    }
-
-    /**
-     * 회원가입 인증번호 유효성 체크
-     */
-    @Transactional
-    public int effectAuthCodeCheck(String authCode){
-        Email findEmail = emailRepository.findByAuthCode(authCode);
-        if(findEmail !=null){
-            emailRepository.delete(findEmail);
-            return 1;
-        }
-        else return 0;
-    }
-
-    /**
-     * 임시 비밀번호 저장
-     */
-    @Transactional
-    public void saveTempPassword(String toEmail,String authCode) {
-        Member findMember = memberRepository.findByEmail(toEmail);
-        if(findMember != null){
-            findMember.changeMemberPassword(authCode);
-        }
+    private String randomPassword(int length) {
+        final String chars = "ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnpqrstuvwxyz23456789";
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < length; i++) sb.append(chars.charAt(RANDOM.nextInt(chars.length())));
+        return sb.toString();
     }
 }

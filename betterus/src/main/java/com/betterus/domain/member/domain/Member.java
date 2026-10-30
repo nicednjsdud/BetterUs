@@ -43,7 +43,7 @@ public class Member extends BaseTimeEntity {
     @NotNull
     private String nickName;
 
-    @Column(name = "password", length = 10)
+    @Column(name = "password", length = 100)
     @NotNull
     private String password;
 
@@ -112,6 +112,20 @@ public class Member extends BaseTimeEntity {
      */
     public void changeMemberInfo(String user_info){
         this.user_info = user_info;
+    }
+
+    /**
+     * 이메일 변경
+     */
+    public void changeMemberEmail(String email){
+        this.email = email;
+    }
+
+    /**
+     * 전화번호 변경
+     */
+    public void changeMemberPhone(String phone){
+        this.phone = phone;
     }
 
     /**

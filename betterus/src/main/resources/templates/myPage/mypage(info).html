@@ -1,169 +1,112 @@
-<!-- 
-  * 작성자 곽수경
-* 작성 일자: 11.01
-* 수정 일자
-* 기능: 마이페이지(회원정보) 화면 
--->
-
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reset-css@5.0.1/reset.min.css">
-    <link rel="stylesheet" href="/css/myPage/mypage(info).css?ver=2">
-    <script src='//cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js'></script>
-    <title>Better Us Mypage(회원정보)</title>
-    <script th:inline="javascript">
-       $(document).ready(function() {
-        let message = [[${msg}]];
-        if (message != null) {
-            alert(message);
-        }
-        });
+<html xmlns:th="http://www.thymeleaf.org" lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>회원정보 수정 · Better Us</title>
+    <link rel="stylesheet" th:href="@{/css/common/tokens.css}" />
+    <link rel="stylesheet" th:href="@{/css/member/member.css}" />
+  </head>
+  <body class="member-page">
+    <div th:replace="~{fragments/layout :: header}"></div>
 
+    <div class="member-layout">
+      <aside th:replace="~{fragments/layout :: memberNav('info')}"></aside>
 
+      <main class="member-main">
+        <h1 class="member-page-title ez-serif">회원정보 수정</h1>
+        <p class="member-page-desc" th:text="${memberList.nickName} + '님의 계정 정보입니다.'">계정 정보</p>
 
-    </script>
-</head>
-<body>
-<div class="header">
-    <div class="home">
-        <a href="/"><img class="home" src="/img/home.png" alt=" "></a>
-    </div>
-    <div class="logo">
-        <img class="logo" src="/img/logo_B_new.png" alt=" ">
-    </div>
-    <div class="nothing"></div>
-</div>
-<div class="section">
-    <div class="left"></div>
-    <div class="center">
-        <div class="title">
-            <a href="#" th:href="@{/editInfo/{memberId}/edit (memberId=${session.member})}">
-                <div id="first" class="choice">내&nbsp;정보</div>
-            </a>
-            <a href="/myPage/default">
-                <div id="second" class="choice">내&nbsp;노트</div>
-            </a>
-        </div>
-        <div class="input-total">
-            <div class="input-title">
-                <div id="state" class="input-subtitle">회원&nbsp;상태</div>
-                <div id="info" class="input-subtitle">회원정보&nbsp;수정</div>
-                <!--                <div id="out" class="input-subtitle">회원&nbsp;탈퇴</div>-->
+        <p class="ez-error" th:if="${msg}" th:text="${msg}" role="alert"></p>
+
+        <form id="editForm" class="form-card"
+              th:action="@{'/editInfo/' + ${memberList.id} + '/edit'}" method="post">
+
+          <div class="form-row">
+            <label for="nickName">닉네임</label>
+            <div class="form-row__body">
+              <input id="nickName" name="nickName" type="text" class="ez-input"
+                     th:value="${memberList.nickName}" />
+              <div id="nickMsg" class="field-msg"></div>
             </div>
-            <div class="input-box">
-                <div class="state" th:text="${memberList.grade}"></div>
-                <div class="input">
+          </div>
 
-                    <form role="form" id="edit" th:object="${form}"
-                          th:action="@{/editInfo/{memberId}/edit (memberId=${session.member})}" action="#"
-                          method="post">
-                        <div class="changing">닉네임&nbsp;변경</div>
-                        <input class="inputbox" th:field="*{nickName}" type="text" placeholder="변경할 닉네임">
-                        <!--                  <button type="submit" name="action" value="닉네임변경">수정하기</button>-->
-                        <div class="changing">소개글&nbsp;변경</div>
-                        <input class="inputbox" th:field="*{info}" type="text" placeholder="소개글 입력">
-                        <!--                  <button type="submit" name="action" value="회원소개변경">수정하기</button>-->
-                        <div class="changing">비밀번호&nbsp;변경</div>
-                        <input class="inputbox" type="password" th:field="*{prePassword}" placeholder="현재 비밀번호">
-                        <input class="inputbox" type="password" th:field="*{afterPassword}" placeholder="변경할 비밀번호">
-                        <input class="inputbox" type="password" placeholder="변경할 비밀번호 확인">
-                    </form>
-
-                    <!--                <form action="#" method="">-->
-                    <!--                  <div class="changing">닉네임&nbsp;변경</div>-->
-                    <!--                  <input id="nickname" class="inputbox" type="text" placeholder="변경할 닉네임" check_result="fail">-->
-                    <!--                  <div class="changing">소개글&nbsp;변경</div>-->
-                    <!--                  <input id="intro" class="inputbox" type="text" placeholder="소개글 입력">-->
-                    <!--                  <div class="changing">비밀번호&nbsp;변경</div>-->
-                    <!--                  <input id="currentPassword" class="inputbox" type="password" placeholder="현재 비밀번호" check_result="fail">-->
-                    <!--                  <input id="chagePassword" class="inputbox" type="password" placeholder="변경할 비밀번호">-->
-                    <!--                  <input id="checkChagePassword" class="inputbox" type="password" placeholder="변경할 비밀번호 확인">-->
-                    <!--                    </form>-->
-                </div>
-                <div class="out-button">
-                    <form method="POST" th:object="${memberList}"
-                          th:action="@{/editInfo/{memberId}/delete (memberId=${memberList.id})}">
-                        <button class="edit_delete_btn" type="submit" name="delete">회원&nbsp;탈퇴하기</button>
-                    </form>
-                </div>
+          <div class="form-row">
+            <label for="email">이메일</label>
+            <div class="form-row__body">
+              <input id="email" name="email" type="email" class="ez-input" th:value="${memberList.email}" />
             </div>
-        </div>
+          </div>
+
+          <div class="form-row">
+            <label for="phone">전화번호 (선택)</label>
+            <div class="form-row__body">
+              <input id="phone" name="phone" type="tel" class="ez-input" th:value="${phone}" />
+            </div>
+          </div>
+
+          <div class="form-row">
+            <label for="info">소개글</label>
+            <div class="form-row__body">
+              <textarea id="info" name="info" th:text="${memberList.user_info}"></textarea>
+            </div>
+          </div>
+
+          <div class="form-row">
+            <label for="newPassword">변경할 비밀번호</label>
+            <div class="form-row__body">
+              <input id="newPassword" name="newPassword" type="password" class="ez-input"
+                     placeholder="변경하지 않으면 비워 두세요" />
+            </div>
+          </div>
+
+          <div class="form-row">
+            <label for="currentPassword">현재 비밀번호</label>
+            <div class="form-row__body">
+              <input id="currentPassword" name="currentPassword" type="password" class="ez-input"
+                     placeholder="비밀번호를 바꾸거나 탈퇴할 때 입력" />
+              <div id="pwMsg" class="field-msg"></div>
+            </div>
+          </div>
+
+          <div class="form-row">
+            <label>등급</label>
+            <div class="form-row__body readonly-value">
+              <span class="ez-badge" th:switch="${memberList.grade != null ? memberList.grade.name() : ''}">
+                <th:block th:case="'AUTHOR'">작가</th:block>
+                <th:block th:case="'ADMIN'">관리자</th:block>
+                <th:block th:case="*">일반회원</th:block>
+              </span>
+            </div>
+          </div>
+
+          <div class="form-row">
+            <label>가입일 / 작가 승인일</label>
+            <div class="form-row__body readonly-value"
+                 th:text="${createDate} + '  ·  ' + ${authorConfirmDate}">-</div>
+          </div>
+
+          <div class="form-actions">
+            <button type="submit" class="ez-btn ez-btn--primary">저장</button>
+          </div>
+        </form>
+
+        <!-- 위험 구역: 회원 탈퇴 -->
+        <section class="danger-zone">
+          <h3 class="ez-serif">회원 탈퇴</h3>
+          <p>탈퇴하면 되돌릴 수 없습니다. 작성한 글과 활동 기록도 모두 삭제됩니다.</p>
+          <form id="deleteForm" th:action="@{'/editInfo/' + ${memberList.id} + '/delete'}" method="post"
+                class="danger-zone__form">
+            <input type="password" id="deletePassword" name="currentPassword" class="ez-input"
+                   placeholder="현재 비밀번호 입력" />
+            <button type="submit" class="ez-btn ez-btn--danger">회원 탈퇴</button>
+          </form>
+        </section>
+      </main>
     </div>
-    <div class="right">
-        <div class="button">
-            <div class="nickname-button">
-                <button id="nickname-check" type="submit">중복&nbsp;확인</button>
-                <script>
-            var nickname = $("#nickname").val();
-                          $("#nickname-check").click(function(nickname){
-                            $.post("/signUp/duplicateNickName", String(nickname), function(data){
-                              if(data){
-                                alert("사용가능한 닉네임입니다.");
-                                $("#nickname").attr("check_result", "success");
-                              } else {
-                                alert("이미 존재하는 닉네임 입니다.");
-                              }
-                            });
-                         });
 
+    <div th:replace="~{fragments/layout :: footer}"></div>
 
-                </script>
-                <button id="nicknameCorrect" type="submit" name="action" value="닉네임변경">수정하기</button>
-                <!--                <script>-->
-                <!--              var password = $("#currentPassword").val();-->
-                <!--              $("#nicknameCorrect").click(function(password){-->
-                <!--                $.post("/signUp/checkPassward", String(password), function(data){-->
-                <!--                  if(data){-->
-                <!--                    alert("수정되었습니다.");-->
-                <!--                  } else {-->
-                <!--                    alert("일시적 오류입니다. 다시 시도해주십시오.");-->
-                <!--                  }-->
-                <!--                });-->
-                <!--              });-->
-
-                <!--                </script>-->
-            </div>
-            <button id="introCorrect" form="edit" type="submit" name="action" value="회원소개변경">수정하기</button>
-            <div class="pw-button">
-                <!--                <script>-->
-                <!--              var password = $("#currentPassword").val();-->
-                <!--              $("#pw-check").click(function(password){-->
-                <!--                // 여긴 비밀번호 확인하는 로직 만들어야 함-->
-                <!--                $.post("/signUp/checkPassward", String(password), function(data){-->
-                <!--                  if(data){-->
-                <!--                    alert("확인되었습니다.");-->
-                <!--                    $("#currentPassword").attr("check_result", "succes");-->
-                <!--                  } else {-->
-                <!--                    alert("비밀번호를 확인해 주십시오");-->
-                <!--                  }-->
-                <!--                });-->
-                <!--              });-->
-
-                <!--                </script>-->
-                <button id="pwCorrect" form="edit" type="submit" name="action" value="비밀번호변경">수정하기</button>
-                <!--                <script>-->
-                <!--              var chagePassword = $("#chagePassword").val();-->
-                <!--              $("#pwCorrect").click(function(chagePassword){-->
-                <!--                $.post("/signUp/checkPassward", String(chagePassword), function(data){-->
-                <!--                  if(data){-->
-                <!--                    alert("수정되었습니다.");-->
-                <!--                  } else {-->
-                <!--                    alert("일시적 오류입니다. 다시 시도해주십시오.");-->
-                <!--                  }-->
-                <!--                });-->
-                <!--              });-->
-
-                <!--                </script>-->
-            </div>
-        </div>
-    </div>
-</div>
-</div>
-<script src="/js/myPage/myPage(info).js"></script>
-</body>
+    <script th:src="@{/js/myPage/myPage(info).js}"></script>
+  </body>
 </html>

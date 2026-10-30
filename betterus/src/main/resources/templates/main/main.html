@@ -1,912 +1,109 @@
 <!DOCTYPE html>
-<html lang="en">
+<html xmlns:th="http://www.thymeleaf.org" lang="ko">
   <head>
     <meta charset="UTF-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>mainPage</title>
-
-    <link rel="stylesheet" href="../../static/css/main/main.css" />
-    <link rel="stylesheet" href="../../static/css/main/reset.css" />
-    <link rel="stylesheet" href="../../static/css/main/editorPic.css" />
-    <link rel="stylesheet" href="../../static/css/main/writers.css" />
-    <link rel="stylesheet" href="../../static/css/main/options.css" />
-    <script defer src="../../static/js/main/slide.js"></script>
-    <script defer src="../../static/js/main/options.js"></script>
-    <script defer src="../../static/js/main/sidebar.js"></script>
-    <script defer src="../../static/js/main/keywords.js"></script>
-    <script defer src="../../static/js/main/writers.js"></script>
-    <link
-      rel="stylesheet"
-      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
-      integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw=="
-      crossorigin="anonymous"
-      referrerpolicy="no-referrer"
-    />
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Kalam&family=Merriweather:wght@700&family=Montserrat:wght@300;400&family=Nanum+Myeongjo&display=swap"
-      rel="stylesheet"
-    />
+    <title>Better Us · 글을 쓰며 더 나은 ‘나’로</title>
+    <link rel="stylesheet" th:href="@{/css/common/tokens.css}" />
+    <link rel="stylesheet" th:href="@{/css/public/public.css}" />
   </head>
-  <body>
-    <div class="container">
-      <main class="side-bar" style="left: -260px">
-        <div class="side-bar-top">
-          <span
-            ><img src="../../static/img/betterUsCircleLogo.png" alt="logo"
-          /></span>
-          <p>
-            The Story of
-            <br />
-            Being Better
-          </p>
-          <div>Start Better US</div>
-        </div>
-        <div class="side-bar-bottom">
-          <ul>
-            <li class="currentPage">better US Home</li>
-            <li>better US Now</li>
-            <li>better US Library</li>
-          </ul>
-          <div class="side-bar-user-guide">계정을 잊어버리셨습니까?</div>
-        </div>
-      </main>
-      <main class="start" style="display: none">
-        <div class="start-container">
-          <div class="start-content start-left">
-            <div class="start-logo">
-              <a class="home" href="/">
-                <img
-                  src="../../static/img/betterUsCircleLogo.png"
-                  alt="betterUs"
-                />
-              </a>
-            </div>
-          </div>
-          <div class="start-content start-right">
-            <div class="start-exit">
-              <i class="fa-solid fa-x fa-xl"></i>
-            </div>
-            <div class="start-login">
-              <strong class="start-txt">betterUs 시작하기</strong>
-              <div class="startBtn email-login">이메일로 로그인</div>
-            </div>
-            <div class="start-search">
-              <span class="search-txt">내 betterUs 계정 찾기</span>
-              <div class="startBtn id-seach">
-                내 betterUs 이메일 계정을 모르겠어요
-              </div>
-              <div class="startBtn ps-search">
-                내 betterUs 비밀번호를 모르겠어요
-              </div>
-              <span class="login-help">로그인 관련 상세 도움말</span>
-            </div>
-          </div>
-        </div>
-      </main>
-      <main class="search" style="display: none">
-        <div class="header__content-left">
-          <i class="fa-solid fa-bars fa-xl"></i>
-          <img src="../../static/img/betterUsLogo.png" alt="logo" />
-        </div>
-        <div class="search-exit">
-          <i class="fa-solid fa-x fa-xl"></i>
-        </div>
-        <div class="search-container">
-          <div class="search-form">
-            <input type="text" class="search-line" placeholder="검색어를 입력해 주세요."></input>
-          </div>
-          <div class="search-content">
-            <h3 class="subheading_title">나를 키우는 힘, 작가들의 <blue>자기계발</blue> 이야기</h3>
-            <div class="writers-categories">
-              <div class="writers-category">강사</div>
-              <div class="writers-category">출간작가</div>
-              <div class="writers-category">성공</div>
-            </div>
-             <div class="search-writers">
-              <div class="writer">
-                <img src="../../static/img/writer-profile.jpg" alt="" />
-                <div class="wrtier-name">방곰</div>
-                <div class="wrtier-txt">
-                  둘이 만나 지구 한바퀴. 영국에서 태어나...
-                </div>
-              </div>
-              <div class="writer">
-                <img src="../../static/img/writer-profile.jpg" alt="" />
-                <div class="wrtier-name">방곰</div>
-                <div class="wrtier-txt">
-                  둘이 만나 지구 한바퀴. 영국에서 태어나 도미니카공화국에서
-                  잘나...
-                </div>
-              </div>
-              <div class="writer">
-                <img src="../../static/img/writer-profile.jpg" alt="" />
-                <div class="wrtier-name">방곰</div>
-                <div class="wrtier-txt">
-                  둘이 만나 지구 한바퀴. 영국에서 태어나 도미니...
-                </div>
-              </div>
-              <div class="writer">
-                <img src="../../static/img/writer-profile.jpg" alt="" />
-                <div class="wrtier-name">방곰</div>
-                <div class="wrtier-txt">
-                  둘이 만나 지구 한바퀴. 영국에서 태어나 도미니카공화국...
-                </div>
-              </div>
-              <div class="writer">
-                <img src="../../static/img/writer-profile.jpg" alt="" />
-                <div class="wrtier-name">방곰</div>
+  <body class="public-page">
+    <div th:replace="~{fragments/layout :: header}"></div>
 
-                <div class="wrtier-txt">
-                  둘이 만나 지구 한바퀴. 영국에서 태어나 도미니카공화국에서
-                  ...
-                </div>
-              </div> 
-            </div>
-            
-          </div>
-        </div>
-      </main>
-      <header class="header">
-        <div class="header__top">
-          <div class="header__content">
-            <div class="header__content-left">
-              <i class="fa-solid fa-bars fa-xl"></i>
-              <img src="../../static/img/betterUsLogo.png" alt="logo" />
-            </div>
-            <div class="header__content-right">
-              <p>시작하기</p>
-              <i class="fa-solid fa-magnifying-glass fa-xl"></i>
-            </div>
-          </div>
-        </div>
-      </header>
-      <main class="main">
-        <article class="article__intro">
-          <h3>
-            성장하는 우리, better Us<span
-              ><img src="../../static/img/betterUsCircleLogo.png"
-            /></span>
-          </h3>
+    <p class="ez-note" th:if="${msg}" th:text="${msg}" role="status"
+       style="max-width:1200px;margin:16px auto 0"></p>
 
-          <p>
-            <span>하루하루 나아지는 우리, better Us에서 함께 성장하세요.</span>
-            <span>기록하세요.</span>
-            <span>매 순간을 의미있는 시간으로 만들기 위해</span>
-          </p>
-        </article>
-        <article class="editor__pic">
-          <div class="wrap_slide">
-            <ul class="slides">
-              <li class="type1">
-                <div class="article type1-article1">
-                  <img src="../../static/img/food.jpg" alt="" />
-                  <div class="article-info">
-                    <div class="article-title">
-                      명품백을 포기하고<br />압력밥솥을 샀다
-                    </div>
-                    <div class="article-content">
-                      살려고 먹는 사람이 제일 신기한,<br />먹으려고 사는
-                      사람입니다. 20대까지만...
-                    </div>
-                    <div class="article-author"><icon>by</icon>파랑</div>
-                  </div>
-                </div>
-                <div class="type1-article2">
-                  <div class="article-info">
-                    <div class="article-title short">
-                      명품백을 포기하고<br />압력밥솥을 샀다
-                    </div>
-                    <div class="article-author"><icon>by</icon>파랑</div>
-                  </div>
-                </div>
-                <div class="type1-article3">
-                  <div class="article-info">
-                    <div class="article-title short">
-                      명품백을 포기하고<br />압력밥솥을 샀다
-                    </div>
-                    <div class="article-author"><icon>by</icon>파랑</div>
-                  </div>
-                </div>
-              </li>
-              <li class="type2">
-                <div class="type2-article1">
-                  <div class="article-info">
-                    <div class="article-title">
-                      명품백을 포기하고<br />압력밥솥을 샀다
-                    </div>
-                    <div class="article-content">
-                      살려고 먹는 사람이 제일 신기한,<br />먹으려고 사는
-                      사람입니다. 20대까지만...
-                    </div>
-                    <div class="article-author"><icon>by</icon>파랑</div>
-                  </div>
-                </div>
-                <div class="type2-article2">
-                  <div class="article-info">
-                    <div class="article-title">
-                      명품백을 포기하고<br />압력밥솥을 샀다
-                    </div>
-                    <div class="article-content">
-                      살려고 먹는 사람이 제일 신기한,<br />먹으려고 사는
-                      사람입니다. 20대까지만...
-                    </div>
-                    <div class="article-author"><icon>by</icon>파랑</div>
-                  </div>
-                </div>
-                <div class="type2-article3">
-                  <div class="article-info">
-                    <div class="article-title">
-                      명품백을 포기하고<br />압력밥솥을 샀다
-                    </div>
-                    <div class="article-content">
-                      살려고 먹는 사람이 제일 신기한,<br />먹으려고 사는
-                      사람입니다. 20대까지만...
-                    </div>
-                    <div class="article-author"><icon>by</icon>파랑</div>
-                  </div>
-                </div>
-              </li>
-              <li class="type3">
-                <div class="type3-article1">
-                  <div class="article-info">
-                    <div class="article-title">
-                      명품백을 포기하고<br />압력밥솥을 샀다
-                    </div>
-                    <div class="article-author"><icon>by</icon>파랑</div>
-                  </div>
-                </div>
-                <div class="type3-article2">
-                  <div class="article-info">
-                    <div class="article-title">
-                      명품백을 포기하고<br />압력밥솥을 샀다
-                    </div>
-                    <div class="article-author"><icon>by</icon>파랑</div>
-                  </div>
-                </div>
-                <div class="type3-article3">
-                  <div class="article-info">
-                    <div class="article-title">
-                      명품백을 포기하고<br />압력밥솥을 샀다
-                    </div>
-                    <div class="article-author"><icon>by</icon>파랑</div>
-                  </div>
-                </div>
-                <div class="type3-article4">
-                  <div class="article-info">
-                    <div class="article-title">
-                      명품백을 포기하고<br />압력밥솥을 샀다
-                    </div>
-                    <div class="article-author"><icon>by</icon>파랑</div>
-                  </div>
-                </div>
-              </li>
-              <li class="type4">
-                <div class="type4-article1">
-                  <div class="article-info">
-                    <div class="article-title">
-                      명품백을 포기하고<br />압력밥솥을 샀다
-                    </div>
-                    <div class="article-content">
-                      살려고 먹는 사람이 제일 신기한,<br />먹으려고 사는
-                      사람입니다. 20대까지만...
-                    </div>
-                    <div class="article-author"><icon>by</icon>파랑</div>
-                  </div>
-                </div>
-                <div class="type4-article2">
-                  <div class="article-info">
-                    <div class="article-title">
-                      명품백을 포기하고<br />압력밥솥을 샀다
-                    </div>
-                    <div class="article-author"><icon>by</icon>파랑</div>
-                  </div>
-                </div>
-                <div class="type4-article3">
-                  <div class="article-info">
-                    <div class="article-title">
-                      명품백을 포기하고<br />압력밥솥을 샀다
-                    </div>
-                    <div class="article-author"><icon>by</icon>파랑</div>
-                  </div>
-                </div>
-              </li>
-              <li class="type5">
-                <div class="type5-article1">
-                  <div class="article-info">
-                    <div class="article-title">
-                      명품백을 포기하고 압력밥솥을 샀다
-                    </div>
-                    <div class="article-content-type1">
-                      살려고 먹는 사람이 제일 신기한, 먹으려고 사는 사람입니다.
-                      20대까지만...
-                    </div>
-                    <div class="article-author"><icon>by</icon>파랑</div>
-                  </div>
-                </div>
-                <div class="type5-article2">
-                  <div class="article-info">
-                    <div class="article-title">
-                      명품백을 포기하고<br />압력밥솥을 샀다
-                    </div>
-                    <div class="article-author"><icon>by</icon>파랑</div>
-                  </div>
-                </div>
-                <div class="type5-article3">
-                  <div class="article-info">
-                    <div class="article-title">
-                      명품백을 포기하고<br />압력밥솥을 샀다
-                    </div>
-                    <div class="article-author"><icon>by</icon>파랑</div>
-                  </div>
-                </div>
-                <div class="type5-article4">
-                  <div class="article-info">
-                    <div class="article-title">
-                      명품백을 포기하고<br />압력밥솥을 샀다
-                    </div>
-                    <div class="article-content">
-                      살려고 먹는 사람이 제일 신기한,<br />먹으려고 사는
-                      사람입니다. 20대까지만...
-                    </div>
-                  </div>
-                </div>
-              </li>
-            </ul>
-          </div>
-          <div class="wrap_slide__index">
-            <div value="0" class="emphasis">01</div>
-            <div value="1">02</div>
-            <div value="2">03</div>
-            <div value="3">04</div>
-            <div value="4">05</div>
-          </div>
-          <div class="slide__btns">
-            <div
-              class="slide__btn slide__btn-left editor__pic-btn slide__btn-disappear"
-            >
-              <i class="fa-solid fa-arrow-left"></i>
-            </div>
-            <div class="slide__btn slide__btn-right editor__pic-btn">
-              <i class="fa-solid fa-arrow-right"></i>
-            </div>
-          </div>
-        </article>
-        <article class="keywords">
-          <h3 class="subheading_title">BETTERUS KEYWORDS</h3>
-          <p class="subheading_intro">키워드로 분류된 다양한 글 모음</p>
-          <div class="keyword_space">
-            <div class="keyword_big-box"></div>
-          </div>
-        </article>
-        <article class="writers">
-          <h3 class="subheading_title">BETTERUS WRITERS</h3>
-          <p class="subheading_intro">브런치 추천 작가</p>
-          <div class="writers-categories">
-            <div class="writers-category current-category">경제적 자유</div>
-            <div class="writers-category">자기계발</div>
-            <div class="writers-category">행복</div>
-          </div>
-          <div class="writer-profile-boxes">
-            <div class="writer-profile-box current-box">
-              <li>
-                <div class="writer">
-                  <img src="../../static/img/writer-profile.jpg" alt="" />
-                  <div class="wrtier-name">방곰</div>
-                  <div class="wrtier-job">프리랜서</div>
-                  <div class="wrtier-txt">
-                    둘이 만나 지구 한바퀴. 영국에서 태어나 도미니카공화국에서
-                    잘나 짝꿍과 함께 살고있는 방랑곰
-                  </div>
-                  <div class="writer-categories">
-                    <div class="writer-category">여행</div>
-                    <div class="writer-category">에세이</div>
-                    <div class="writer-category">...</div>
-                  </div>
-                </div>
-              </li>
-              <li><div class="writer"></div></li>
-              <li>
-                <div class="writer">
-                  <img src="../../static/img/writer-profile.jpg" alt="" />
-                  <div class="wrtier-name">방랑곰</div>
-                  <div class="wrtier-job">프리랜서</div>
-                  <div class="wrtier-txt">
-                    둘이 만나 지구. 영국에서 태어나 도미니카공화국에서 잘나
-                    짝꿍과 함께 살고있는 방랑곰
-                  </div>
-                  <div class="writer-categories">
-                    <div class="writer-category">여행</div>
-                    <div class="writer-category">에세이</div>
-                    <div class="writer-category">...</div>
-                  </div>
-                </div>
-              </li>
-              <li><div class="writer"></div></li>
-              <li>
-                <div class="writer">
-                  <img src="../../static/img/writer-profile.jpg" alt="" />
-                  <div class="wrtier-name">방랑곰</div>
-                  <div class="wrtier-job">프리랜서</div>
-                  <div class="wrtier-txt">
-                    둘이 만나 지구 한바퀴. 영국에서 태어나 도미니카공화국에서
-                    잘나 짝꿍과 함께 살고있는 방랑곰
-                  </div>
-                  <div class="writer-categories">
-                    <div class="writer-category">여행</div>
-                    <div class="writer-category">에세이</div>
-                    <div class="writer-category">...</div>
-                  </div>
-                </div>
-              </li>
-              <li><div class="writer"></div></li>
-            </div>
-            <div class="writer-profile-box">
-              <li><div class="writer"></div></li>
-              <li>
-                <div class="writer">
-                  <img src="../../static/img/writer-profile.jpg" alt="" />
-                  <div class="wrtier-name">방랑곰</div>
-                  <div class="wrtier-job">프리랜서</div>
-                  <div class="wrtier-txt">
-                    둘이 만나 지구 한바퀴. 영국에서 태어나 도미니카공화국에서
-                    잘나 짝꿍과 함께 살고있는 방랑곰
-                  </div>
-                  <div class="writer-categories">
-                    <div class="writer-category">여행</div>
-                    <div class="writer-category">에세이</div>
-                    <div class="writer-category">...</div>
-                  </div>
-                </div>
-              </li>
-              <li><div class="writer"></div></li>
-              <li>
-                <div class="writer">
-                  <img src="../../static/img/writer-profile.jpg" alt="" />
-                  <div class="wrtier-name">방랑곰</div>
-                  <div class="wrtier-job">프리랜서</div>
-                  <div class="wrtier-txt">
-                    둘이 만나 지구 한바퀴. 영국에서 태어나 도미니카공화국에서
-                    잘나 짝꿍과 함께 살고있는 방랑곰
-                  </div>
-                  <div class="writer-categories">
-                    <div class="writer-category">여행</div>
-                    <div class="writer-category">에세이</div>
-                    <div class="writer-category">...</div>
-                  </div>
-                </div>
-              </li>
-              <li><div class="writer"></div></li>
-              <li>
-                <div class="writer">
-                  <img src="../../static/img/writer-profile.jpg" alt="" />
-                  <div class="wrtier-name">방랑곰</div>
-                  <div class="wrtier-job">프리랜서</div>
-                  <div class="wrtier-txt">
-                    둘이 만나 지구 한바퀴. 영국에서 태어나 도미니카공화국에서
-                    잘나 짝꿍과 함께 살고있는 방랑곰
-                  </div>
-                  <div class="writer-categories">
-                    <div class="writer-category">여행</div>
-                    <div class="writer-category">에세이</div>
-                    <div class="writer-category">...</div>
-                  </div>
-                </div>
-              </li>
-            </div>
-            <div class="writer-profile-box">
-              <li>
-                <div class="writer">
-                  <img src="../../static/img/writer-profile.jpg" alt="" />
-                  <div class="wrtier-name">방랑곰</div>
-                  <div class="wrtier-job">프리랜서</div>
-                  <div class="wrtier-txt">
-                    둘이 만나 지구 한바퀴. 영국에서 태어나 도미니카공화국에서
-                    잘나 짝꿍과 함께 살고있는 방랑곰
-                  </div>
-                  <div class="writer-categories">
-                    <div class="writer-category">여행</div>
-                    <div class="writer-category">에세이</div>
-                    <div class="writer-category">...</div>
-                  </div>
-                </div>
-              </li>
-              <li><div class="writer"></div></li>
-              <li><div class="writer"></div></li>
-              <li>
-                <div class="writer">
-                  <img src="../../static/img/writer-profile.jpg" alt="" />
-                  <div class="wrtier-name">방랑곰</div>
-                  <div class="wrtier-job">프리랜서</div>
-                  <div class="wrtier-txt">
-                    둘이 만나 지구 한바퀴. 영국에서 태어나 도미니카공화국에서
-                    잘나 짝꿍과 함께 살고있는 방랑곰
-                  </div>
-                  <div class="writer-categories">
-                    <div class="writer-category">여행</div>
-                    <div class="writer-category">에세이</div>
-                    <div class="writer-category">...</div>
-                  </div>
-                </div>
-              </li>
-              <li><div class="writer"></div></li>
-              <li><div class="writer"></div></li>
-            </div>
-          </div>
-          <div class="writer_space">
-            <div class="writer_big-box"></div>
-          </div>
-        </article>
-        <div class="banner">
-          <img src="../../static/img/banner.jpg" alt="" />
+    <!-- 히어로 -->
+    <section class="hero">
+      <div class="hero__overlay"></div>
+      <div class="hero__inner">
+        <h1 class="hero__slogan">글을 쓰며 더 나은 ‘나’로,<br />글을 나누며 더 나은 ‘우리’로</h1>
+        <p class="hero__sub">쓰고 싶은 사람의 글쓰기, 읽고 싶은 사람의 서재</p>
+        <div class="hero__actions">
+          <a class="ez-btn ez-btn--primary" th:href="@{/list/article}">에세이 읽어보기</a>
+          <a class="ez-btn ez-btn--on-image" th:href="@{/write}">글쓰기 시작하기</a>
         </div>
-        <article class="recmmnded-articles">
-          <h3 class="subheading_title">RECOMMENDED ARTICLES</h3>
-          <p class="subheading_intro">BETTER US의 다양한 글을 만나보세요.</p>
-          <div class="recmmnded-articles-box">
-            <div class="recmmnded-articles-slides">
-              <li>
-                <img src="../../static/img/food.jpg" alt="" />
-                <div class="recmmnded-article-title">파주 맛집 털이</div>
-                <div class="recmmnded-article-txt">
-                  2주간의 짧은 다이어트를 끝내고, 먹고 싶었던 것들을 왕창 먹으며
-                  보내고 있는 요즘입니다. 24kg에서 19kg로 5kg 감량 후 바뀐
-                  앞자리를 약 1주간 유지하고 있는데요. (당연히 10의 자리에는
-                  다른 숫자가 들어갑니다. 이해를 돕기 위한... 몸무게는
-                  비밀이에요!ㅋㅋ) 슬슬 치팅은 끝내고 이대로 유지를 해볼까
-                  합니다... 후후. 1인가구 매거진에 식
-                </div>
-                <div class="recmmnded-article-author">
-                  <icon>by</icon>북이슬
-                </div>
-              </li>
-              <li>
-                <img src="../../static/img/food.jpg" alt="" />
-                <div class="recmmnded-article-title">파주 맛집 털이</div>
-                <div class="recmmnded-article-txt">
-                  2주간의 짧은 다이어트를 끝내고, 먹고 싶었던 것들을 왕창 먹으며
-                  보내고 있는 요즘입니다. 24kg에서 19kg로 5kg 감량 후 바뀐
-                  앞자리를 약 1주간 유지하고 있는데요. (당연히 10의 자리에는
-                  다른 숫자가 들어갑니다. 이해를 돕기 위한... 몸무게는
-                  비밀이에요!ㅋㅋ) 슬슬 치팅은 끝내고 이대로 유지를 해볼까
-                  합니다... 후후. 1인가구 매거진에 식
-                </div>
-                <div class="recmmnded-article-author">
-                  <icon>by</icon>북이슬
-                </div>
-              </li>
-              <li>
-                <img src="../../static/img/food.jpg" alt="" />
-                <div class="recmmnded-article-title">파주 맛집 털이</div>
-                <div class="recmmnded-article-txt">
-                  2주간의 짧은 다이어트를 끝내고, 먹고 싶었던 것들을 왕창 먹으며
-                  보내고 있는 요즘입니다. 24kg에서 19kg로 5kg 감량 후 바뀐
-                  앞자리를 약 1주간 유지하고 있는데요. (당연히 10의 자리에는
-                  다른 숫자가 들어갑니다. 이해를 돕기 위한... 몸무게는
-                  비밀이에요!ㅋㅋ) 슬슬 치팅은 끝내고 이대로 유지를 해볼까
-                  합니다... 후후. 1인가구 매거진에 식
-                </div>
-                <div class="recmmnded-article-author">
-                  <icon>by</icon>북이슬
-                </div>
-              </li>
-              <li>
-                <img src="../../static/img/food.jpg" alt="" />
-                <div class="recmmnded-article-title">파주 맛집 털이</div>
-                <div class="recmmnded-article-txt">
-                  2주간의 짧은 다이어트를 끝내고, 먹고 싶었던 것들을 왕창 먹으며
-                  보내고 있는 요즘입니다. 24kg에서 19kg로 5kg 감량 후 바뀐
-                  앞자리를 약 1주간 유지하고 있는데요. (당연히 10의 자리에는
-                  다른 숫자가 들어갑니다. 이해를 돕기 위한... 몸무게는
-                  비밀이에요!ㅋㅋ) 슬슬 치팅은 끝내고 이대로 유지를 해볼까
-                  합니다... 후후. 1인가구 매거진에 식
-                </div>
-                <div class="recmmnded-article-author">
-                  <icon>by</icon>북이슬
-                </div>
-              </li>
-              <li>
-                <img src="../../static/img/food.jpg" alt="" />
-                <div class="recmmnded-article-title">파주 맛집 털이</div>
-                <div class="recmmnded-article-txt">
-                  2주간의 짧은 다이어트를 끝내고, 먹고 싶었던 것들을 왕창 먹으며
-                  보내고 있는 요즘입니다. 24kg에서 19kg로 5kg 감량 후 바뀐
-                  앞자리를 약 1주간 유지하고 있는데요. (당연히 10의 자리에는
-                  다른 숫자가 들어갑니다. 이해를 돕기 위한... 몸무게는
-                  비밀이에요!ㅋㅋ) 슬슬 치팅은 끝내고 이대로 유지를 해볼까
-                  합니다... 후후. 1인가구 매거진에 식
-                </div>
-                <div class="recmmnded-article-author">
-                  <icon>by</icon>북이슬
-                </div>
-              </li>
-              <li>
-                <img src="../../static/img/food.jpg" alt="" />
-                <div class="recmmnded-article-title">파주 맛집 털이</div>
-                <div class="recmmnded-article-txt">
-                  2주간의 짧은 다이어트를 끝내고, 먹고 싶었던 것들을 왕창 먹으며
-                  보내고 있는 요즘입니다. 24kg에서 19kg로 5kg 감량 후 바뀐
-                  앞자리를 약 1주간 유지하고 있는데요. (당연히 10의 자리에는
-                  다른 숫자가 들어갑니다. 이해를 돕기 위한... 몸무게는
-                  비밀이에요!ㅋㅋ) 슬슬 치팅은 끝내고 이대로 유지를 해볼까
-                  합니다... 후후. 1인가구 매거진에 식
-                </div>
-                <div class="recmmnded-article-author">
-                  <icon>by</icon>북이슬
-                </div>
-              </li>
-              <li>
-                <img src="../../static/img/food.jpg" alt="" />
-                <div class="recmmnded-article-title">파주 맛집 털이</div>
-                <div class="recmmnded-article-txt">
-                  2주간의 짧은 다이어트를 끝내고, 먹고 싶었던 것들을 왕창 먹으며
-                  보내고 있는 요즘입니다. 24kg에서 19kg로 5kg 감량 후 바뀐
-                  앞자리를 약 1주간 유지하고 있는데요. (당연히 10의 자리에는
-                  다른 숫자가 들어갑니다. 이해를 돕기 위한... 몸무게는
-                  비밀이에요!ㅋㅋ) 슬슬 치팅은 끝내고 이대로 유지를 해볼까
-                  합니다... 후후. 1인가구 매거진에 식
-                </div>
-                <div class="recmmnded-article-author">
-                  <icon>by</icon>북이슬
-                </div>
-              </li>
-              <li>
-                <img src="../../static/img/food.jpg" alt="" />
-                <div class="recmmnded-article-title">파주 맛집 털이</div>
-                <div class="recmmnded-article-txt">
-                  2주간의 짧은 다이어트를 끝내고, 먹고 싶었던 것들을 왕창 먹으며
-                  보내고 있는 요즘입니다. 24kg에서 19kg로 5kg 감량 후 바뀐
-                  앞자리를 약 1주간 유지하고 있는데요. (당연히 10의 자리에는
-                  다른 숫자가 들어갑니다. 이해를 돕기 위한... 몸무게는
-                  비밀이에요!ㅋㅋ) 슬슬 치팅은 끝내고 이대로 유지를 해볼까
-                  합니다... 후후. 1인가구 매거진에 식
-                </div>
-                <div class="recmmnded-article-author">
-                  <icon>by</icon>북이슬
-                </div>
-              </li>
-              <li>
-                <img src="../../static/img/food.jpg" alt="" />
-                <div class="recmmnded-article-title">파주 맛집 털이</div>
-                <div class="recmmnded-article-txt">
-                  2주간의 짧은 다이어트를 끝내고, 먹고 싶었던 것들을 왕창 먹으며
-                  보내고 있는 요즘입니다. 24kg에서 19kg로 5kg 감량 후 바뀐
-                  앞자리를 약 1주간 유지하고 있는데요. (당연히 10의 자리에는
-                  다른 숫자가 들어갑니다. 이해를 돕기 위한... 몸무게는
-                  비밀이에요!ㅋㅋ) 슬슬 치팅은 끝내고 이대로 유지를 해볼까
-                  합니다... 후후. 1인가구 매거진에 식
-                </div>
-                <div class="recmmnded-article-author">
-                  <icon>by</icon>북이슬
-                </div>
-              </li>
-              <li>
-                <img src="../../static/img/food.jpg" alt="" />
-                <div class="recmmnded-article-title">파주 맛집 털이</div>
-                <div class="recmmnded-article-txt">
-                  2주간의 짧은 다이어트를 끝내고, 먹고 싶었던 것들을 왕창 먹으며
-                  보내고 있는 요즘입니다. 24kg에서 19kg로 5kg 감량 후 바뀐
-                  앞자리를 약 1주간 유지하고 있는데요. (당연히 10의 자리에는
-                  다른 숫자가 들어갑니다. 이해를 돕기 위한... 몸무게는
-                  비밀이에요!ㅋㅋ) 슬슬 치팅은 끝내고 이대로 유지를 해볼까
-                  합니다... 후후. 1인가구 매거진에 식
-                </div>
-                <div class="recmmnded-article-author">
-                  <icon>by</icon>북이슬
-                </div>
-              </li>
-              <li>
-                <img src="../../static/img/food.jpg" alt="" />
-                <div class="recmmnded-article-title">파주 맛집 털이</div>
-                <div class="recmmnded-article-txt">
-                  2주간의 짧은 다이어트를 끝내고, 먹고 싶었던 것들을 왕창 먹으며
-                  보내고 있는 요즘입니다. 24kg에서 19kg로 5kg 감량 후 바뀐
-                  앞자리를 약 1주간 유지하고 있는데요. (당연히 10의 자리에는
-                  다른 숫자가 들어갑니다. 이해를 돕기 위한... 몸무게는
-                  비밀이에요!ㅋㅋ) 슬슬 치팅은 끝내고 이대로 유지를 해볼까
-                  합니다... 후후. 1인가구 매거진에 식
-                </div>
-                <div class="recmmnded-article-author">
-                  <icon>by</icon>북이슬
-                </div>
-              </li>
-              <li>
-                <img src="../../static/img/food.jpg" alt="" />
-                <div class="recmmnded-article-title">파주 맛집 털이</div>
-                <div class="recmmnded-article-txt">
-                  2주간의 짧은 다이어트를 끝내고, 먹고 싶었던 것들을 왕창 먹으며
-                  보내고 있는 요즘입니다. 24kg에서 19kg로 5kg 감량 후 바뀐
-                  앞자리를 약 1주간 유지하고 있는데요. (당연히 10의 자리에는
-                  다른 숫자가 들어갑니다. 이해를 돕기 위한... 몸무게는
-                  비밀이에요!ㅋㅋ) 슬슬 치팅은 끝내고 이대로 유지를 해볼까
-                  합니다... 후후. 1인가구 매거진에 식
-                </div>
-                <div class="recmmnded-article-author">
-                  <icon>by</icon>북이슬
-                </div>
-              </li>
-              <li>
-                <img src="../../static/img/food.jpg" alt="" />
-                <div class="recmmnded-article-title">파주 맛집 털이</div>
-                <div class="recmmnded-article-txt">
-                  2주간의 짧은 다이어트를 끝내고, 먹고 싶었던 것들을 왕창 먹으며
-                  보내고 있는 요즘입니다. 24kg에서 19kg로 5kg 감량 후 바뀐
-                  앞자리를 약 1주간 유지하고 있는데요. (당연히 10의 자리에는
-                  다른 숫자가 들어갑니다. 이해를 돕기 위한... 몸무게는
-                  비밀이에요!ㅋㅋ) 슬슬 치팅은 끝내고 이대로 유지를 해볼까
-                  합니다... 후후. 1인가구 매거진에 식
-                </div>
-                <div class="recmmnded-article-author">
-                  <icon>by</icon>북이슬
-                </div>
-              </li>
-              <li>
-                <img src="../../static/img/food.jpg" alt="" />
-                <div class="recmmnded-article-title">파주 맛집 털이</div>
-                <div class="recmmnded-article-txt">
-                  2주간의 짧은 다이어트를 끝내고, 먹고 싶었던 것들을 왕창 먹으며
-                  보내고 있는 요즘입니다. 24kg에서 19kg로 5kg 감량 후 바뀐
-                  앞자리를 약 1주간 유지하고 있는데요. (당연히 10의 자리에는
-                  다른 숫자가 들어갑니다. 이해를 돕기 위한... 몸무게는
-                  비밀이에요!ㅋㅋ) 슬슬 치팅은 끝내고 이대로 유지를 해볼까
-                  합니다... 후후. 1인가구 매거진에 식
-                </div>
-                <div class="recmmnded-article-author">
-                  <icon>by</icon>북이슬
-                </div>
-              </li>
-              <li>
-                <img src="../../static/img/food.jpg" alt="" />
-                <div class="recmmnded-article-title">파주 맛집 털이</div>
-                <div class="recmmnded-article-txt">
-                  2주간의 짧은 다이어트를 끝내고, 먹고 싶었던 것들을 왕창 먹으며
-                  보내고 있는 요즘입니다. 24kg에서 19kg로 5kg 감량 후 바뀐
-                  앞자리를 약 1주간 유지하고 있는데요. (당연히 10의 자리에는
-                  다른 숫자가 들어갑니다. 이해를 돕기 위한... 몸무게는
-                  비밀이에요!ㅋㅋ) 슬슬 치팅은 끝내고 이대로 유지를 해볼까
-                  합니다... 후후. 1인가구 매거진에 식
-                </div>
-                <div class="recmmnded-article-author">
-                  <icon>by</icon>북이슬
-                </div>
-              </li>
-              <li>
-                <img src="../../static/img/food.jpg" alt="" />
-                <div class="recmmnded-article-title">파주 맛집 털이</div>
-                <div class="recmmnded-article-txt">
-                  2주간의 짧은 다이어트를 끝내고, 먹고 싶었던 것들을 왕창 먹으며
-                  보내고 있는 요즘입니다. 24kg에서 19kg로 5kg 감량 후 바뀐
-                  앞자리를 약 1주간 유지하고 있는데요. (당연히 10의 자리에는
-                  다른 숫자가 들어갑니다. 이해를 돕기 위한... 몸무게는
-                  비밀이에요!ㅋㅋ) 슬슬 치팅은 끝내고 이대로 유지를 해볼까
-                  합니다... 후후. 1인가구 매거진에 식
-                </div>
-                <div class="recmmnded-article-author">
-                  <icon>by</icon>북이슬
-                </div>
-              </li>
-              <li>
-                <img src="../../static/img/food.jpg" alt="" />
-                <div class="recmmnded-article-title">파주 맛집 털이</div>
-                <div class="recmmnded-article-txt">
-                  2주간의 짧은 다이어트를 끝내고, 먹고 싶었던 것들을 왕창 먹으며
-                  보내고 있는 요즘입니다. 24kg에서 19kg로 5kg 감량 후 바뀐
-                  앞자리를 약 1주간 유지하고 있는데요. (당연히 10의 자리에는
-                  다른 숫자가 들어갑니다. 이해를 돕기 위한... 몸무게는
-                  비밀이에요!ㅋㅋ) 슬슬 치팅은 끝내고 이대로 유지를 해볼까
-                  합니다... 후후. 1인가구 매거진에 식
-                </div>
-                <div class="recmmnded-article-author">
-                  <icon>by</icon>북이슬
-                </div>
-              </li>
-              <li>
-                <img src="../../static/img/food.jpg" alt="" />
-                <div class="recmmnded-article-title">파주 맛집 털이</div>
-                <div class="recmmnded-article-txt">
-                  2주간의 짧은 다이어트를 끝내고, 먹고 싶었던 것들을 왕창 먹으며
-                  보내고 있는 요즘입니다. 24kg에서 19kg로 5kg 감량 후 바뀐
-                  앞자리를 약 1주간 유지하고 있는데요. (당연히 10의 자리에는
-                  다른 숫자가 들어갑니다. 이해를 돕기 위한... 몸무게는
-                  비밀이에요!ㅋㅋ) 슬슬 치팅은 끝내고 이대로 유지를 해볼까
-                  합니다... 후후. 1인가구 매거진에 식
-                </div>
-                <div class="recmmnded-article-author">
-                  <icon>by</icon>북이슬
-                </div>
-              </li>
-              <li>
-                <img src="../../static/img/food.jpg" alt="" />
-                <div class="recmmnded-article-title">파주 맛집 털이</div>
-                <div class="recmmnded-article-txt">
-                  2주간의 짧은 다이어트를 끝내고, 먹고 싶었던 것들을 왕창 먹으며
-                  보내고 있는 요즘입니다. 24kg에서 19kg로 5kg 감량 후 바뀐
-                  앞자리를 약 1주간 유지하고 있는데요. (당연히 10의 자리에는
-                  다른 숫자가 들어갑니다. 이해를 돕기 위한... 몸무게는
-                  비밀이에요!ㅋㅋ) 슬슬 치팅은 끝내고 이대로 유지를 해볼까
-                  합니다... 후후. 1인가구 매거진에 식
-                </div>
-                <div class="recmmnded-article-author">
-                  <icon>by</icon>북이슬
-                </div>
-              </li>
-              <li>
-                <img src="../../static/img/food.jpg" alt="" />
-                <div class="recmmnded-article-title">파주 맛집 털이</div>
-                <div class="recmmnded-article-txt">
-                  2주간의 짧은 다이어트를 끝내고, 먹고 싶었던 것들을 왕창 먹으며
-                  보내고 있는 요즘입니다. 24kg에서 19kg로 5kg 감량 후 바뀐
-                  앞자리를 약 1주간 유지하고 있는데요. (당연히 10의 자리에는
-                  다른 숫자가 들어갑니다. 이해를 돕기 위한... 몸무게는
-                  비밀이에요!ㅋㅋ) 슬슬 치팅은 끝내고 이대로 유지를 해볼까
-                  합니다... 후후. 1인가구 매거진에 식
-                </div>
-                <div class="recmmnded-article-author">
-                  <icon>by</icon>북이슬
-                </div>
-              </li>
-              <li>
-                <img src="../../static/img/food.jpg" alt="" />
-                <div class="recmmnded-article-title">파주 맛집 털이</div>
-                <div class="recmmnded-article-txt">
-                  2주간의 짧은 다이어트를 끝내고, 먹고 싶었던 것들을 왕창 먹으며
-                  보내고 있는 요즘입니다. 24kg에서 19kg로 5kg 감량 후 바뀐
-                  앞자리를 약 1주간 유지하고 있는데요. (당연히 10의 자리에는
-                  다른 숫자가 들어갑니다. 이해를 돕기 위한... 몸무게는
-                  비밀이에요!ㅋㅋ) 슬슬 치팅은 끝내고 이대로 유지를 해볼까
-                  합니다... 후후. 1인가구 매거진에 식
-                </div>
-                <div class="recmmnded-article-author">
-                  <icon>by</icon>북이슬
-                </div>
-              </li>
-              <li>
-                <img src="../../static/img/food.jpg" alt="" />
-                <div class="recmmnded-article-title">파주 맛집 털이</div>
-                <div class="recmmnded-article-txt">
-                  2주간의 짧은 다이어트를 끝내고, 먹고 싶었던 것들을 왕창 먹으며
-                  보내고 있는 요즘입니다. 24kg에서 19kg로 5kg 감량 후 바뀐
-                  앞자리를 약 1주간 유지하고 있는데요. (당연히 10의 자리에는
-                  다른 숫자가 들어갑니다. 이해를 돕기 위한... 몸무게는
-                  비밀이에요!ㅋㅋ) 슬슬 치팅은 끝내고 이대로 유지를 해볼까
-                  합니다... 후후. 1인가구 매거진에 식
-                </div>
-                <div class="recmmnded-article-author">
-                  <icon>by</icon>북이슬
-                </div>
-              </li>
-            </div>
-          </div>
-          <div class="slide__btns">
-            <div
-              class="slide__btn slide__btn-left recmmnded-articles-btn slide__btn-disappear"
-            >
-              <i class="fa-solid fa-arrow-left"></i>
-            </div>
-            <div class="slide__btn slide__btn-right recmmnded-articles-btn">
-              <i class="fa-solid fa-arrow-right"></i>
-            </div>
-          </div>
-        </article>
-      </main>
-      <footer class="footer">
-        <div class="inner_footer">
-          <div class="footer-info">
-            <div class="writing">
-              <img src="../../static/img/betterUsCircleLogo.png" alt="logo" />
-              <p>The Story of<br />Being Better</p>
-            </div>
-            <div class="policy"></div>
-          </div>
-          <div class="footer-corp"></div>
+      </div>
+    </section>
+
+    <div class="public-container">
+      <!-- 편집자가 고른 글 -->
+      <section class="public-section" th:if="${mainPageList != null and mainPageList.articleList != null and !#lists.isEmpty(mainPageList.articleList)}">
+        <div class="section-title-row">
+          <h2>편집자가 고른 글</h2>
+          <a class="more" th:href="@{/list/article}">전체 보기 ›</a>
         </div>
-      </footer>
+        <div class="card-grid">
+          <a class="article-card" th:each="article : ${mainPageList.articleList}"
+             th:href="@{'/list/article/' + ${article.id}}">
+            <div class="article-card__thumb" th:classappend="${article.imageFullPath == null} ? 'article-card__thumb--empty' : ''">
+              <img th:if="${article.imageFullPath != null}" th:src="@{${article.imageFullPath}}" alt="" loading="lazy" />
+              <span th:if="${article.imageFullPath == null}">글</span>
+            </div>
+            <div class="article-card__body">
+              <h3 class="article-card__title" th:text="${article.title}">제목</h3>
+              <p class="article-card__sub" th:text="${article.subTitle}">부제</p>
+              <div class="article-card__meta">
+                <span th:text="${article.nickName}">작가</span>
+                <span th:text="'리뷰 ' + ${article.reviewCount}">리뷰 0</span>
+              </div>
+            </div>
+          </a>
+        </div>
+      </section>
+
+      <!-- 지금 읽기 좋은 글 -->
+      <section class="public-section" th:if="${mainPageList != null and mainPageList.gudokList != null and !#lists.isEmpty(mainPageList.gudokList)}">
+        <div class="section-title-row">
+          <h2>지금 읽기 좋은 글</h2>
+          <a class="more" th:href="@{/list/article}">더 보기 ›</a>
+        </div>
+        <div class="card-grid">
+          <a class="article-card" th:each="article : ${mainPageList.gudokList}"
+             th:href="@{'/list/article/' + ${article.id}}">
+            <div class="article-card__thumb" th:classappend="${article.imageFullPath == null} ? 'article-card__thumb--empty' : ''">
+              <img th:if="${article.imageFullPath != null}" th:src="@{${article.imageFullPath}}" alt="" loading="lazy" />
+              <span th:if="${article.imageFullPath == null}">글</span>
+            </div>
+            <div class="article-card__body">
+              <h3 class="article-card__title" th:text="${article.title}">제목</h3>
+              <p class="article-card__sub" th:text="${article.subTitle}">부제</p>
+              <div class="article-card__meta">
+                <span th:text="${article.nickName}">작가</span>
+                <span th:text="'찜 ' + ${article.jjimCount}">찜 0</span>
+              </div>
+            </div>
+          </a>
+        </div>
+      </section>
+
+      <!-- 이런 작가는 어때요 -->
+      <section class="public-section" th:if="${mainPageList != null and mainPageList.authorList != null and !#lists.isEmpty(mainPageList.authorList)}">
+        <div class="section-title-row">
+          <h2>이런 작가는 어때요</h2>
+          <a class="more" th:href="@{/list/author}">작가 둘러보기 ›</a>
+        </div>
+        <div class="author-grid">
+          <a class="author-card" th:each="author : ${mainPageList.authorList}"
+             th:href="@{'/list/authorPage/' + ${author.id} + '/default'}">
+            <div class="author-card__avatar" th:text="${#strings.substring(author.nickName,0,1)}">B</div>
+            <h3 class="author-card__name" th:text="${author.nickName}">작가</h3>
+            <p class="author-card__info" th:text="${author.user_info}">소개</p>
+            <span class="author-card__count" th:text="'구독자 ' + ${author.gudok_count}">구독자 0</span>
+          </a>
+        </div>
+      </section>
+
+      <!-- 배너 -->
+      <section class="public-banner">
+        <div>
+          <h3>당신의 첫 글을 기다립니다</h3>
+          <p>글 3편을 쓰면 작가로 성장할 수 있어요.</p>
+        </div>
+        <a class="ez-btn ez-btn--primary" th:href="@{/write}">글쓰기 시작하기</a>
+      </section>
     </div>
+
+    <div th:replace="~{fragments/layout :: footer}"></div>
   </body>
 </html>

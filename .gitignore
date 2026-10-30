@@ -1,0 +1,20 @@
+
+# ez2AI — 대화 기록은 형상관리 대상이 아닙니다
+.ez2ai/
+.ez2ai-project.json
+.git-credentials
+ez2ai_document/
+design_index.json
+.ez2ai-docs.json
+*.ez2ai-tmp
+
+# 로컬 전용 설정 — 계정 정보가 들어가므로 올리지 않습니다
+application-local.yml
+application-local.properties
+
+# 로컬 개발용 데이터베이스
+database/
+*.sqlite3
+
+# 설계 변경 기록 — 앱이 다시 만듭니다
+_design_history/

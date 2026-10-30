@@ -1,58 +1,63 @@
-<!-- 
-  * 작성자 곽수경
-* 작성 일자: 10.29
-* 수정 일자: 11.18
-* 기능: 글쓰기 화면
--->
-
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org" lang="ko">
   <head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reset-css@5.0.1/reset.min.css">
-    <link rel="stylesheet" href="/css/writing/writing.css">
-    <script src="https://code.jquery.com/jquery-3.6.0.js"></script>
-    <title>Better Us Writing</title>
-    <script th:inline="javascript">
-       $(document).ready(function() {
-        let message = [[${msg}]];
-        if (message != null) {
-            alert(message);
-        }
-        });
-    </script>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>글쓰기 · Better Us</title>
+    <link rel="stylesheet" th:href="@{/css/common/tokens.css}" />
+    <link rel="stylesheet" th:href="@{/css/member/member.css}" />
   </head>
-  <body>
-    <div class="header">
-      <div class="home">
-        <a href="/"><img class="home" src="/img/home.png" alt=" "></a>
-      </div>
-      <div class="logo">
-        <img class="logo" src="/img/logo_W_new.png" alt=" ">
-      </div>
-      <ul class="nav">
-        <li><button id="save_btn" type="submit" form ="write">저장</button></li>
-      </ul>
-    </div>
-    <div class="section">
-      <div class="background-space">
-        <div class="writing-space">
-          <form id="write" role="form" th:object="${articleForm}" action="/write" method="post" enctype="multipart/form-data">
-            <input class="title" th:field="*{title}" type="text" placeholder="제목을 입력해주세요">
-            <input class="subtitle" th:field="*{subTitle}" type="text" placeholder="소제목을 입력해주세요.">
-          <hr/>
-          <textarea class="content" th:field="*{contents}"  type="text" cols="30" rows="20" placeholder="내용을 입력해주세요"></textarea>
-            <div>
-              파일을 업로드 해주세요
-              <input class="file"  th:field="*{files}" type="file" />
-            </div>
+  <body class="member-page">
+    <div th:replace="~{fragments/layout :: header}"></div>
 
-          </form>
-        </div>
-      </div>
+    <div class="member-layout">
+      <aside th:replace="~{fragments/layout :: memberNav('write')}"></aside>
+
+      <main class="member-main">
+        <h1 class="member-page-title ez-serif">글쓰기</h1>
+        <p class="member-page-desc">쓰고 싶은 이야기를 편하게 적어 보세요. 등록한 글은 내 서재에 쌓입니다.</p>
+
+        <p class="ez-error" th:if="${msg}" th:text="${msg}" role="alert"></p>
+
+        <form class="form-card" th:action="@{/write}" method="post" enctype="multipart/form-data">
+          <div class="form-row">
+            <label for="title">제목</label>
+            <div class="form-row__body">
+              <input id="title" name="title" type="text" class="ez-input" placeholder="글 제목" required />
+            </div>
+          </div>
+
+          <div class="form-row">
+            <label for="subTitle">부제</label>
+            <div class="form-row__body">
+              <input id="subTitle" name="subTitle" type="text" class="ez-input" placeholder="한 줄 부제" />
+            </div>
+          </div>
+
+          <div class="form-row">
+            <label for="contents">본문</label>
+            <div class="form-row__body">
+              <textarea id="contents" name="contents" style="min-height:320px" placeholder="본문을 적어 주세요"></textarea>
+            </div>
+          </div>
+
+          <div class="form-row">
+            <label for="files">이미지</label>
+            <div class="form-row__body">
+              <input id="files" name="files" type="file" accept="image/*" multiple
+                     style="font-size:14px;color:var(--ez-text-muted)" />
+              <div class="field-msg">대표 이미지로 첫 장이 쓰입니다. (선택)</div>
+            </div>
+          </div>
+
+          <div class="form-actions">
+            <a class="ez-btn ez-btn--text" th:href="@{/myPage/default}">취소</a>
+            <button type="submit" class="ez-btn ez-btn--primary">등록하기</button>
+          </div>
+        </form>
+      </main>
     </div>
+
+    <div th:replace="~{fragments/layout :: footer}"></div>
   </body>
 </html>

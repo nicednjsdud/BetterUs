@@ -59,6 +59,10 @@ public class MyPageServiceImpl implements MyPageService {
                 ArticleDto articleDto =
                         new ArticleDto(article.getId(), article.getTitle(), article.getSubTitle(), article.getContents(),
                                 article.getStatus(), article.getReviewCount(), article.getJjimCount(), path);
+                // 목록에 작성 시각을 함께 보여주기 위해 채운다.
+                if (article.getCreateDate() != null) {
+                    articleDto.setCreateDate(article.getCreateDate().toLocalDate().toString());
+                }
                 articleDtoList.add(articleDto);
             }
             /** 회원정보 가져오기 */

@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+  <!--
+    Better Us — 공통 레이아웃 조각
+    화면마다 중복 하드코딩되어 있던 머리글(로고 + 상단 내비)과 바닥글을 한 벌로 모은다.
+    사용법: <div th:replace="~{fragments/layout :: header}"></div>
+            <aside th:replace="~{fragments/layout :: memberNav('library')}"></aside>
+  -->
+
+  <!-- ===================== 머리글 ===================== -->
+  <header th:fragment="header" class="ez-header">
+    <a class="ez-header__logo" th:href="@{/}">Better Us</a>
+
+    <nav class="ez-header__nav">
+      <a th:href="@{/}">홈</a>
+      <a th:href="@{/list/article}">에세이</a>
+      <a th:href="@{/list/author}">작가</a>
+      <a th:if="${session.isLogOn == true}" th:href="@{/myPage/default}">내 서재</a>
+      <a th:if="${session.admin == true}" th:href="@{/myPage/admin/memberInfo}">회원 관리</a>
+    </nav>
+
+    <div class="ez-header__auth">
+      <th:block th:if="${session.isLogOn == true}">
+        <a class="ez-btn ez-btn--text" th:href="@{/logout}">로그아웃</a>
+      </th:block>
+      <th:block th:unless="${session.isLogOn == true}">
+        <a class="ez-btn ez-btn--ghost" th:href="@{/signUp}">회원가입</a>
+        <a class="ez-btn ez-btn--primary" th:href="@{/login}">로그인</a>
+      </th:block>
+    </div>
+  </header>
+
+  <!-- ===================== 회원 영역 좌측 내비 ===================== -->
+  <aside th:fragment="memberNav(active)" class="member-nav">
+    <div class="member-nav__title ez-serif">내 서재</div>
+    <ul class="member-nav__list">
+      <li>
+        <a th:href="@{/myPage/default}"
+           th:classappend="${active == 'library'} ? 'is-active' : ''">서재</a>
+      </li>
+      <li>
+        <a th:href="@{/write}"
+           th:classappend="${active == 'write'} ? 'is-active' : ''">글 쓰기</a>
+      </li>
+      <li>
+        <a th:href="@{'/editInfo/' + ${session.member} + '/edit'}"
+           th:classappend="${active == 'info'} ? 'is-active' : ''">회원정보 수정</a>
+      </li>
+    </ul>
+  </aside>
+
+  <!-- ===================== 관리자 좌측 내비 ===================== -->
+  <aside th:fragment="adminNav(active)" class="member-nav">
+    <div class="member-nav__title ez-serif">관리자</div>
+    <ul class="member-nav__list">
+      <li>
+        <a th:href="@{/myPage/admin/memberInfo}"
+           th:classappend="${active == 'members'} ? 'is-active' : ''">회원목록</a>
+      </li>
+      <li>
+        <a th:href="@{/myPage/admin/articleConfirmCheck}"
+           th:classappend="${active == 'reviews'} ? 'is-active' : ''">작가신청 심사</a>
+      </li>
+    </ul>
+  </aside>
+
+  <!-- ===================== 바닥글 ===================== -->
+  <footer th:fragment="footer" class="ez-footer">
+    <div class="ez-footer__inner">
+      <span class="ez-serif">Better Us</span>
+      <span>글을 쓰며 더 나은 ‘나’로, 글을 나누며 더 나은 ‘우리’로</span>
+      <span>&copy; 2026 Better Us. All rights reserved.</span>
+    </div>
+  </footer>
+</html>

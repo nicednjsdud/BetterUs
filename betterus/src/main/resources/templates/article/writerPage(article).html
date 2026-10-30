@@ -1,76 +1,74 @@
-<!-- 
-* 작성자 곽수경
-* 작성 일자: 11.10
-* 수정 일자
-* 기능: 작가 페이지
--->
-
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org" lang="ko">
   <head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reset-css@5.0.1/reset.min.css">
-    <link rel="stylesheet" href="/css/article/writerPage(article).css">
-    <title>Better Us WriterPage</title>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title th:text="${memberDto != null ? memberDto.nickName : '작가'} + ' · Better Us'">작가 페이지 · Better Us</title>
+    <link rel="stylesheet" th:href="@{/css/common/tokens.css}" />
+    <link rel="stylesheet" th:href="@{/css/public/public.css}" />
+    <link rel="stylesheet" th:href="@{/css/member/member.css}" />
   </head>
-  <body>
-    <div class="header">
-      <div class="home">
-        <a href="/"><img class="home" src="/img/home.png" alt=" "></a>
-      </div>
-      <div class="logo">
-        <img class="logo" src="/img/logo_B_new.png" alt=" ">
-      </div>
-      <div class="nothing">
-        <li><a th:if="${gudokCheck == false}" th:href="@{/gudok/{authorId}/addGudok (authorId = ${memberDto.id})}">구독 추가</a></li>
-        <li><a th:if="${gudokCheck == true}" th:href="@{/gudok/{authorId}/deleteGudok (authorId = ${memberDto.id})}">구독 취소</a></li>
-      </div>
-    </div>
-      <div class="section">
-        <div class="section-box">
-          <div class="writer-intro">
-            <div class="intro-left">
-              <div class="name" th:text="${memberDto.nickName}"></div>
-              <div class="intro" th:if="${memberDto.user_info != null}" th:text="${memberDto.user_info}"></div>
-              <div class="intro" th:if="${memberDto.user_info == null}">아직 자기소개 작성을 하지않았습니다.</div>
-              <span class="people">구독자</span><span class="people-num" th:text="${memberDto.gudok_count}"></span>
-              <span class="people">관심작가</span><span class="people-num" th:text="${memberDto.gudokForCount}"></span>
-            </div>
-            <div class="intro-right">
-              <img src="/img/profile.png" />
-            </div>
-          </div>
+  <body class="public-page">
+    <div th:replace="~{fragments/layout :: header}"></div>
 
-          <div class="twoTitle">
-            <a href="#"><div id="first" class="choice">글</div></a>
-<!--            <a href="/list/infoPage/series"><div id="second" class="choice">시리즈</div></a>-->
+    <main class="public-container" style="padding-top:48px">
+      <!-- 작가 프로필 -->
+      <section class="summary-card" style="margin-bottom:40px">
+        <div class="summary-profile">
+          <div class="summary-avatar" th:text="${memberDto != null and memberDto.nickName != null ? #strings.substring(memberDto.nickName,0,1) : 'B'}">B</div>
+          <div>
+            <h1 class="summary-nickname" th:text="${memberDto != null ? memberDto.nickName : '알 수 없는 작가'}">작가</h1>
+            <span class="ez-badge">작가</span>
+            <p class="summary-info" th:text="${memberDto != null ? memberDto.user_info : ''}">소개</p>
           </div>
-          <div class="article" th:each="article : ${articleDtoList}">
-            <div class="notimage">
-              <div class="letter">
-                <a th:href="@{/list/article/{articleId} (articleId=${article.id})}">
-                  <div class="title" th:text="${article.title}"></div>
-                </a>
-                <div class="content" th:text="${article.contents}"></div>
-              </div>
-              <div class="else">
-                <div class="review"><img class="icon" src="/img/review.png"></div>
-                <div class="numOf" th:text="${article.reviewCount}"></div>
-                <div class="like"><img class="icon" src="/img/like.png"></div>
-                <div class="numOf" th:text="${article.jjimCount}"></div>
-              </div>
-            </div>
-            <div class="image">
-                <img th:if="${article.imageFullPath == null}" src="/img/just.png">
-                <img th:if="${article.imageFullPath != null}" th:src="@{${article.imageFullPath}}">
-            </div>
+        </div>
+        <div class="summary-metrics">
+          <div class="metric">
+            <span class="metric__value" th:text="${memberDto != null ? memberDto.gudok_count : 0}">0</span>
+            <span class="metric__label">구독자</span>
           </div>
+          <div class="metric">
+            <span class="metric__value" th:text="${memberDto != null ? memberDto.gudokForCount : 0}">0</span>
+            <span class="metric__label">구독한 작가</span>
+          </div>
+          <div style="margin-left:16px" th:if="${memberDto != null}">
+            <a class="ez-btn ez-btn--primary" th:if="${gudokCheck != true}"
+               th:href="@{'/gudok/' + ${memberDto.id} + '/addGudok'}">구독하기</a>
+            <a class="ez-btn ez-btn--ghost" th:if="${gudokCheck == true}"
+               th:href="@{'/gudok/' + ${memberDto.id} + '/deleteGudok'}">구독 취소</a>
+          </div>
+        </div>
+      </section>
 
+      <div class="section-title-row">
+        <h2>작가의 글</h2>
+        <span class="more" th:text="${#lists.size(articleDtoList)} + '편'">0편</span>
       </div>
 
-    </div>
+      <div class="empty-state" th:if="${articleDtoList == null or #lists.isEmpty(articleDtoList)}">
+        <img th:src="@{/img/empty-library.jpg}" alt="" style="width:200px" />
+        <p>아직 공개된 글이 없어요.</p>
+      </div>
+
+      <div class="card-grid" th:unless="${articleDtoList == null or #lists.isEmpty(articleDtoList)}">
+        <a class="article-card" th:each="article : ${articleDtoList}"
+           th:href="@{'/list/article/' + ${article.id}}">
+          <div class="article-card__thumb" th:classappend="${article.imageFullPath == null} ? 'article-card__thumb--empty' : ''">
+            <img th:if="${article.imageFullPath != null}" th:src="@{${article.imageFullPath}}" alt="" loading="lazy" />
+            <span th:if="${article.imageFullPath == null}">글</span>
+          </div>
+          <div class="article-card__body">
+            <h3 class="article-card__title" th:text="${article.title}">제목</h3>
+            <p class="article-card__sub" th:text="${article.subTitle}">부제</p>
+            <div class="article-card__meta">
+              <span th:text="'리뷰 ' + ${article.reviewCount}">리뷰 0</span>
+              <span th:text="'찜 ' + ${article.jjimCount}">찜 0</span>
+            </div>
+          </div>
+        </a>
+      </div>
+    </main>
+
+    <div th:replace="~{fragments/layout :: footer}"></div>
   </body>
 </html>
