@@ -1,94 +1,73 @@
-<!-- 
-  * 작성자 곽수경
-* 작성 일자: 11.10
-* 수정 일자
-* 기능: 관리자페이지(작가 신청 글 확인) 화면 
--->
-
 <!DOCTYPE html>
-<html lang="kor" xmlns:th="http://www.thymeleaf.org">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reset-css@5.0.1/reset.min.css">
-    <link rel="stylesheet" href="/css/manager/manager(article-check).css">
-    <title>Better Us ManagerPage(작가 신청 글 확인)</title>
-</head>
-<body>
-<div class="header">
-    <div class="home">
-        <a href="/"><img class="home" src="/img/home.png" alt=" "></a>
-    </div>
-    <div class="logo">
-        <a href="/"><img class="logo" src="/img/logo_B_new.png" alt=" "></a>
-    </div>
-    <div class="nothing"></div>
-</div>
-<div class="section">
-    <div class="left"></div>
-    <div class="center">
-        <div class="title">
-            <a href="/myPage/admin/memberInfo">
-                <div id="first" class="choice">회원정보</div>
-            </a>
-            <a href="/myPage/admin/articleConfirmCheck">
-                <div id="second" class="choice">작가&nbsp;신청&nbsp;글&nbsp;확인</div>
-            </a>
-        </div>
-        <div class="search">
-            <div class="searching">
-                <button id="member_search_btn" type="submit" form="search"><img
-                        src="https://s3.ap-northeast-2.amazonaws.com/cdn.wecode.co.kr/icon/search.png"></button>
-                <form id="search" method="GET" action="/myPage/admin/article/search">
-                    <input type="text" name="searchKeyword">
-                </form>
-            </div>
-<!--            <div class="condition">-->
-<!--                <select name="search-condition" id="search-condition-select">-->
-<!--                    <option value="" disabled selected>검색조건</option>-->
-<!--                    <option value="nickname">닉네임</option>-->
-<!--                    <option value="email">이메일</option>-->
-<!--                    <option value="signupday">회원가입일</option>-->
-<!--                    <option value="writerday">작가신청일</option>-->
-<!--                </select>-->
-<!--            </div>-->
-<!--            <div class="sort">-->
-<!--                <select name="sort-condition" id="sort-condition-select">-->
-<!--                    <option value="" disabled selected>정렬</option>-->
-<!--                    <option value="asc">오름차순</option>-->
-<!--                    <option value="decs">내림차순</option>-->
-<!--                </select>-->
-<!--            </div>-->
-        </div>
-        <div class="relation">
-            <div class="schema">
-                <div class="article-title">제목</div>
-                <div class="nickname">닉네임</div>
-                <div class="email">이메일</div>
-                <div class="state">회원상태</div>
-                <div class="application-day">작가신청일</div>
-            </div>
-            <div class="instance" th:each="article : ${articleList}">
-                <div class="article-title" th:text="${article.title}" th:onclick="|location.href='@{/myPage/admin/articleConfirmCheck/article/{articleId} (articleId=${article.id})}'|"></div>
-                <div class="nickname" th:text="${article.nickName}"></div>
-                <div class="email" th:text="${article.email}"></div>
-                <div class="state" th:text="${article.status}"></div>
-                <div class="application-day" th:text="${article.authorConfirmDate}"></div>
-            </div>
-        </div>
-        <div class="paging">
-            <th:block th:each="page : ${#numbers.sequence(startPage, endPage)}">
-                <a th:if="${page != nowPage}" th:href="@{/myPage/admin/articleConfirmCheck (page= ${page-1})}"
-                   th:text="${page}"></a>
-                <strong th:if="${page == nowPage}" th:text="${page}" style="color : red"></strong>
-            </th:block>
-        </div>
-    </div>
-    <div class="right">
+<html xmlns:th="http://www.thymeleaf.org" lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>작가신청 글 목록 · Better Us</title>
+    <link rel="stylesheet" th:href="@{/css/common/tokens.css}" />
+    <link rel="stylesheet" th:href="@{/css/member/member.css}" />
+  </head>
+  <body class="member-page">
+    <div th:replace="~{fragments/layout :: header}"></div>
 
+    <div class="member-layout">
+      <aside th:replace="~{fragments/layout :: adminNav('reviews')}"></aside>
+
+      <main class="member-main">
+        <h1 class="member-page-title ez-serif">작가신청 글 목록</h1>
+        <p class="member-page-desc">작가를 신청한 회원의 글을 확인하고 승인 여부를 정합니다.</p>
+
+        <p class="ez-note" th:if="${msg}" th:text="${msg}" role="status"></p>
+
+        <form class="search-bar" method="GET" th:action="@{/myPage/admin/article/search}" style="margin-top:0">
+          <input type="text" name="searchKeyword" class="ez-input" th:value="${param.searchKeyword}" placeholder="제목으로 검색" />
+          <button type="submit" class="ez-btn ez-btn--primary">검색</button>
+          <a class="ez-btn ez-btn--ghost" th:if="${param.searchKeyword != null and !#strings.isEmpty(param.searchKeyword)}"
+             th:href="@{/myPage/admin/articleConfirmCheck}">초기화</a>
+        </form>
+
+        <div class="empty-state" th:if="${articleList == null or articleList.totalElements == 0}">
+          <img th:src="@{/img/empty-review.jpg}" alt="" style="width:200px" />
+          <p>심사할 신청 글이 없어요.</p>
+        </div>
+
+        <table class="data-table" th:unless="${articleList == null or articleList.totalElements == 0}">
+          <thead>
+            <tr>
+              <th>제목</th>
+              <th>신청자</th>
+              <th>이메일</th>
+              <th>신청일</th>
+              <th>심사</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr th:each="article : ${articleList.content}">
+              <td th:text="${article.title}">제목</td>
+              <td th:text="${article.nickName}">신청자</td>
+              <td th:text="${article.email}">메일</td>
+              <td th:text="${article.authorConfirmDate}">-</td>
+              <td>
+                <a class="ez-btn ez-btn--ghost" style="height:32px"
+                   th:href="@{'/myPage/admin/articleConfirmCheck/article/' + ${article.id}}">보기</a>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+
+        <nav class="pagination" th:if="${articleList != null and articleList.totalPages > 1}">
+          <th:block th:each="page : ${#numbers.sequence(startPage, endPage)}">
+            <a th:if="${page != nowPage}"
+               th:href="${param.searchKeyword != null and !#strings.isEmpty(param.searchKeyword)}
+                        ? @{/myPage/admin/article/search(searchKeyword=${param.searchKeyword}, page=${page-1})}
+                        : @{/myPage/admin/articleConfirmCheck(page=${page-1})}"
+               th:text="${page}">1</a>
+            <span class="is-current" th:if="${page == nowPage}" th:text="${page}">1</span>
+          </th:block>
+        </nav>
+      </main>
     </div>
-</div>
-</body>
+
+    <div th:replace="~{fragments/layout :: footer}"></div>
+  </body>
 </html>

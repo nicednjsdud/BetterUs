@@ -1,64 +1,53 @@
-<!-- 
-  * 작성자 곽수경
-* 작성 일자: 11.03
-* 수정 일자: 
-* 기능: 글 1개 화면
--->
-
 <!DOCTYPE html>
-<html lang="kor" xmlns:th="http://www.thymeleaf.org">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reset-css@5.0.1/reset.min.css">
-    <link rel="stylesheet" href="/css/manager/passOrFail.css">
-    <title>Better Us Pass or Fail</title>
-</head>
-<body>
-<div class="header">
-    <div class="home">
-        <a href="/"><img class="home" src="/img/home.png" alt=" "></a>
+<html xmlns:th="http://www.thymeleaf.org" lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>작가신청 글 상세 · Better Us</title>
+    <link rel="stylesheet" th:href="@{/css/common/tokens.css}" />
+    <link rel="stylesheet" th:href="@{/css/member/member.css}" />
+    <link rel="stylesheet" th:href="@{/css/public/public.css}" />
+  </head>
+  <body class="member-page">
+    <div th:replace="~{fragments/layout :: header}"></div>
+
+    <div class="member-layout">
+      <aside th:replace="~{fragments/layout :: adminNav('reviews')}"></aside>
+
+      <main class="member-main">
+        <h1 class="member-page-title ez-serif">작가신청 글 상세</h1>
+        <p class="member-page-desc">신청 글을 읽고 작가 승급을 결정합니다.</p>
+
+        <p class="ez-note" th:if="${msg}" th:text="${msg}" role="status"></p>
+
+        <article class="form-card" style="margin-bottom:24px">
+          <h2 class="ez-serif" style="font-size:24px;margin:0 0 8px" th:text="${article.title}">제목</h2>
+          <p style="font-size:16px;color:var(--ez-text-muted);margin:0 0 16px" th:text="${article.subTitle}">부제</p>
+          <div class="reading__byline" style="border-top:1px solid var(--ez-border);border-bottom:1px solid var(--ez-border);padding:12px 0">
+            <span th:text="${article.nickName}">신청자</span>
+            <span aria-hidden="true">·</span>
+            <span th:text="${article.createDate}">신청일</span>
+          </div>
+          <div class="reading__body" th:text="${article.contents}">본문</div>
+        </article>
+
+        <section class="status-strip">
+          <div>
+            <div class="status-strip__text" th:text="'신청자 소개: ' + (${article.user_info} ?: '없음')">신청자 소개</div>
+          </div>
+          <div style="display:flex;gap:12px">
+            <a class="ez-btn ez-btn--primary"
+               th:href="@{'/myPage/admin/pass/' + ${article.memberId}}"
+               onclick="return confirm('이 회원을 작가로 승인할까요?');">승인</a>
+            <a class="ez-btn ez-btn--ghost"
+               th:href="@{'/myPage/admin/fail/' + ${article.memberId}}"
+               onclick="return confirm('이 신청을 불승인할까요?');">불승인</a>
+            <a class="ez-btn ez-btn--text" th:href="@{/myPage/admin/articleConfirmCheck}">목록으로</a>
+          </div>
+        </section>
+      </main>
     </div>
-    <div class="logo">
-        <img class="logo" src="/img/logo_B_new.png" alt=" ">
-    </div>
-    <ul class="nav">
-        <li><a th:href="@{/myPage/admin/pass/{memberId} (memberId=${article.memberId})}">합격</a></li>
-        <li><a th:href="@{/myPage/admin/fail/{memberId} (memberId=${article.memberId})}">불합격</a></li>
-    </ul>
-</div>
-<div class="section">
-    <div class="banner">
-        <div class="nothing"></div>
-        <div class="something">
-            <div class="title" th:text="${article.title}"></div>
-            <div class="day" th:text="${article.createDate}"></div>
-        </div>
-        <div class="nothing"></div>
-    </div>
-    <div class="content">
-        <div class="nothing"></div>
-        <span class="article">
-           <h1><span th:text="${article.subTitle}"></span></h1> <!-- 글씨 크기 수정-->
-          <div th:text="${article.contents}"></div>
-        </span>
-        <div class="nothing"></div>
-    </div>
-    <div class="footer">
-        <div class="nothing"></div>
-        <div class="writer">
-            <div class="img">
-                <img src="/img/note_s.jpg">
-            </div>
-            <div class="intro">
-                <div class="id" th:text="${article.nickName}"></div>
-                <div class="who" th:text="${article.user_info}"></div>
-            </div>
-        </div>
-        <div class="nothing"></div>
-    </div>
-</div>
-</body>
+
+    <div th:replace="~{fragments/layout :: footer}"></div>
+  </body>
 </html>

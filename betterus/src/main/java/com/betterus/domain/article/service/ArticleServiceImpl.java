@@ -148,9 +148,12 @@ public class ArticleServiceImpl implements ArticleService {
     @Override
     public Page<ArticleDto> findArticleList(Pageable pageable) {
         Page<Article> findArticles = articleRepository.findByStatus(ArticleStatus.APPROVAL, pageable);
-        Page<ArticleDto> articleDtos = findArticles.map(article ->
-                new ArticleDto(article.getId(), article.getTitle(), article.getSubTitle(),
-                        article.getContents(), article.getStatus(), article.getReviewCount(), article.getJjimCount(),article.getImage().get(0).getFullPath()));
+        Page<ArticleDto> articleDtos = findArticles.map(article -> {
+            // 이미지가 없는 글도 목록에 나와야 하므로 첫 이미지가 있을 때만 경로를 담는다.
+            String path = article.getImage().isEmpty() ? null : article.getImage().get(0).getFullPath();
+            return new ArticleDto(article.getId(), article.getTitle(), article.getSubTitle(),
+                    article.getContents(), article.getStatus(), article.getReviewCount(), article.getJjimCount(), path);
+        });
         return articleDtos;
     }
 

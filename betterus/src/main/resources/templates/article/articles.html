@@ -1,70 +1,74 @@
-<!-- 
-* 작성자 곽수경
-* 작성 일자: 10.22
-* 수정 일자: 11.10
-* 기능: 전체 글 화면 
--->
-
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reset-css@5.0.1/reset.min.css">
-    <link rel="stylesheet" href="/css/article/articles.css">
-    <title>Better Us Articles</title>
-</head>
-<body>
-<div class="header">
-    <div class="home">
-        <a href="/"><img class="home" src="/img/home.png" alt=" "></a>
-    </div>
-    <div class="logo">
-        <img class="logo" src="/img/logo_B_new.png" alt=" ">
-    </div>
-    <div class="nothing"></div>
-</div>
-<div class="section">
-    <div class="articles">
-        <div class="searching">
-            <button id="article_search_btn" type="submit" form="search" ><img src="https://s3.ap-northeast-2.amazonaws.com/cdn.wecode.co.kr/icon/search.png"></button>
-            <form id="search" method="GET" action="/list/search">
-                <input type="text" name="searchKeyword">
-            </form>
-        </div>
-        <div class="article" th:each="article : ${articleList}">
-            <div class="notimage">
-                <div class="letter">
-                    <input type="hidden" th:value="${article.id}"/>
-                    <a style="cursor:pointer;" th:href="@{/list/article/{articleId} (articleId=${article.id})}">
-                        <div class="title" th:text="${article.title}"></div>
-                    </a>
-                    <div class="content" th:text="${article.contents}"></div>
-                </div>
-                <div class="else">
-                    <div class="review"><img class="icon" src="/img/review.png"></div>
-                    <div class="numOf" th:text="${article.reviewCount}"></div>
-                    <div class="like"><img class="icon" src="/img/like.png"></div>
-                    <div class="numOf" th:text="${article.jjimCount}"></div>
-                </div>
-            </div>
-            <a style="cursor:pointer;" th:href="@{/list/article/{articleId} (articleId=${article.id})}">
-            <div class="image">
-<!--                <img th:if="${article.imageFullPath != null}" th:src="@{${article.imageFullPath}}">-->
-                <img src="/img/just.png">
-            </div>
-            </a>
-        </div>
-        <div class="paging">
-            <th:block  th:each="page : ${#numbers.sequence(startPage, endPage)}">
-                <a th:if="${page != nowPage}" th:href="@{/list/article(page= ${page-1})}" th:text="${page}"></a>
-                <strong th:if="${page == nowPage}" th:text="${page}" style="color : red"></strong>
-            </th:block>
-        </div>
-    </div>
+<html xmlns:th="http://www.thymeleaf.org" lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>에세이 둘러보기 · Better Us</title>
+    <link rel="stylesheet" th:href="@{/css/common/tokens.css}" />
+    <link rel="stylesheet" th:href="@{/css/public/public.css}" />
+  </head>
+  <body class="public-page">
+    <div th:replace="~{fragments/layout :: header}"></div>
 
-</div>
-</body>
+    <main class="public-container" style="padding-top:48px">
+      <p class="ez-note" th:if="${msg}" th:text="${msg}" role="status"></p>
+
+      <h1 class="ez-serif" style="font-size:30px;margin:0 0 8px">에세이 둘러보기</h1>
+      <p style="font-size:14px;color:var(--ez-text-muted);margin:0"
+         th:text="${param.searchKeyword != null and !#strings.isEmpty(param.searchKeyword)}
+                  ? '‘' + ${param.searchKeyword} + '’ 검색 결과 ' + ${articleList.totalElements} + '편'
+                  : '전체 ' + ${articleList.totalElements} + '편'">전체 0편</p>
+
+      <!-- 검색 -->
+      <form class="search-bar" method="GET" th:action="@{/list/search}">
+        <input type="text" name="searchKeyword" class="ez-input"
+               th:value="${param.searchKeyword}" placeholder="제목·내용으로 검색" />
+        <button type="submit" class="ez-btn ez-btn--primary">검색</button>
+        <a class="ez-btn ez-btn--ghost" th:if="${param.searchKeyword != null and !#strings.isEmpty(param.searchKeyword)}"
+           th:href="@{/list/article}">초기화</a>
+      </form>
+
+      <!-- 빈 상태 -->
+      <div class="empty-state" th:if="${articleList == null or articleList.totalElements == 0}">
+        <img th:src="@{/img/empty-library.jpg}" alt="" style="width:200px" />
+        <p th:text="${param.searchKeyword != null and !#strings.isEmpty(param.searchKeyword)}
+                    ? '‘' + ${param.searchKeyword} + '’에 해당하는 글이 없어요.'
+                    : '아직 공개된 글이 없어요.'">아직 공개된 글이 없어요.</p>
+        <a class="ez-btn ez-btn--primary" th:href="@{/list/article}">전체 보기</a>
+      </div>
+
+      <!-- 카드 격자 -->
+      <div class="card-grid" th:unless="${articleList == null or articleList.totalElements == 0}">
+        <a class="article-card" th:each="article : ${articleList.content}"
+           th:href="@{'/list/article/' + ${article.id}}">
+          <div class="article-card__thumb" th:classappend="${article.imageFullPath == null} ? 'article-card__thumb--empty' : ''">
+            <img th:if="${article.imageFullPath != null}" th:src="@{${article.imageFullPath}}" alt="" loading="lazy" />
+            <span th:if="${article.imageFullPath == null}">글</span>
+          </div>
+          <div class="article-card__body">
+            <h3 class="article-card__title" th:text="${article.title}">제목</h3>
+            <p class="article-card__sub" th:text="${article.subTitle}">부제</p>
+            <div class="article-card__meta">
+              <span th:text="'리뷰 ' + ${article.reviewCount}">리뷰 0</span>
+              <span th:text="'찜 ' + ${article.jjimCount}">찜 0</span>
+            </div>
+          </div>
+        </a>
+      </div>
+
+      <!-- 페이지 번호 -->
+      <nav class="pagination" th:if="${articleList != null and articleList.totalPages > 1}">
+        <th:block th:each="page : ${#numbers.sequence(startPage, endPage)}">
+          <a th:if="${page != nowPage}"
+             th:href="${param.searchKeyword != null and !#strings.isEmpty(param.searchKeyword)}
+                      ? @{/list/search(searchKeyword=${param.searchKeyword}, page=${page-1})}
+                      : @{/list/article(page=${page-1})}"
+             th:text="${page}">1</a>
+          <span class="is-current" th:if="${page == nowPage}" th:text="${page}">1</span>
+        </th:block>
+      </nav>
+    </main>
+
+    <div th:replace="~{fragments/layout :: footer}"></div>
+  </body>
 </html>
