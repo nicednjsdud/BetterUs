@@ -5,7 +5,7 @@
   top: 0;
   width: 260px;
   height: 100%;
-  border-right: 1px solid #ccc;
+  border-right: 1px solid var(--ez-border);
   z-index: 100;
   background-color: white;
   transition: all 0.5s;
@@ -17,8 +17,8 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  background-color: #f8f8f8;
-  border-bottom: 1px solid #ccc;
+  background-color: var(--ez-surface);
+  border-bottom: 1px solid var(--ez-border);
 }
 .side-bar-top img {
   margin: 40px 0 12px;
@@ -32,8 +32,8 @@
 .side-bar-top div {
   margin-top: 20px;
   padding: 5px 15px;
-  border: 1px solid #758ecd;
-  color: #758ecd;
+  border: 1px solid var(--ez-primary);
+  color: var(--ez-primary);
   border-radius: 20px;
   cursor: pointer;
 }
@@ -55,17 +55,17 @@
   cursor: pointer;
 }
 .side-bar-bottom li:hover {
-  color: #758ecd;
+  color: var(--ez-primary);
 }
 .currentPage {
-  color: #758ecd;
+  color: var(--ez-primary);
   text-decoration: underline;
   text-underline-offset: 8px;
 }
 .side-bar-user-guide {
   height: 50px;
   width: 100%;
-  color: #888;
+  color: var(--ez-text-muted);
   text-decoration: underline;
   text-underline-offset: 3px;
   font-size: 11px;
@@ -80,7 +80,7 @@
   position: fixed;
   width: 100%;
   height: 100%;
-  background-color: rgba(0, 0, 0, 0.3);
+  background-color: var(--ez-text-muted);
   display: flex;
   justify-content: center;
   align-items: center;
@@ -105,12 +105,12 @@
 }
 .start-right {
   border-radius: 0 17px 17px 0;
-  background-color: #f8f8f8;
+  background-color: var(--ez-surface);
   position: relative;
   padding: 94px 47px 72px;
 }
 .start-login {
-  border-bottom: 1px solid #e7e7e7;
+  border-bottom: 1px solid var(--ez-border);
   padding-bottom: 49px;
 }
 .start-txt {
@@ -125,7 +125,7 @@
   background-color: #fff;
   border-radius: 5px;
   box-sizing: border-box;
-  color: #333;
+  color: var(--ez-text);
   display: block;
   font-family: auto;
   font-size: 16px;
@@ -138,7 +138,7 @@
   cursor: pointer;
 }
 .email-login {
-  background-color: #8aaae5;
+  background-color: var(--ez-accent);
   color: white;
 }
 .start-search {
@@ -151,7 +151,7 @@
   font-weight: normal;
 }
 .login-help {
-  color: #6c6c6c;
+  color: var(--ez-text-muted);
   display: block;
   font-family: auto;
   font-size: 14px;
@@ -207,17 +207,17 @@
   width: 100%;
 }
 .search-line {
-  color: #333;
+  color: var(--ez-text);
   font-size: 30px;
   letter-spacing: -1px;
   outline: none;
   width: 940px;
   border: none;
-  border-bottom: 1.5px solid #333;
+  border-bottom: 1.5px solid var(--ez-text);
   line-height: 1.5;
 }
 .search-line::placeholder {
-  color: rgba(0, 0, 0, 0.3);
+  color: var(--ez-text-muted);
   font-weight: 300;
 }
 .search-content {
@@ -229,9 +229,9 @@
   margin: 20px auto 45px;
 }
 .search-content .writers-category {
-  color: #758ecd;
+  color: var(--ez-primary);
 
-  border: 1px solid #758ecd;
+  border: 1px solid var(--ez-primary);
 }
 .search .subheading_title {
   margin: 75px auto 20px;
@@ -264,5 +264,5 @@
   margin-top: 5px;
 }
 blue {
-  color: #758ecd;
+  color: var(--ez-primary);
 }

@@ -51,8 +51,8 @@ body {
 }
 .header__content-right p {
   font-size: 10px;
-  color: #333;
-  border: 1px solid #333;
+  color: var(--ez-text);
+  border: 1px solid var(--ez-text);
   padding: 0.8em 1.2em;
   border-radius: 15px;
   cursor: pointer;
@@ -82,7 +82,7 @@ body {
   display: block;
   font-size: 32px;
   margin-top: 0.5em;
-  color: #cacaca;
+  color: var(--ez-text-muted);
 }
 .article__intro p span:nth-child(3) {
   opacity: 0.7;
@@ -90,10 +90,10 @@ body {
 }
 
 .emphasis {
-  /* border-bottom: 2px solid rgba(0, 0, 0, 0.5); */
+  /* border-bottom: 2px solid var(--ez-text-muted); */
   font-size: 13px;
   font-weight: 700;
-  color: rgba(0, 0, 0, 0.5);
+  color: var(--ez-text-muted);
 }
 
 .keywords {
@@ -112,7 +112,7 @@ body {
   font-family: "Nanum Gothic", sans-serif;
   font-size: 13px;
   margin: 20px auto 0;
-  color: rgba(0, 0, 0, 0.5);
+  color: var(--ez-text-muted);
 }
 .keyword_space {
   display: flex;
@@ -130,7 +130,7 @@ body {
   display: flex;
   justify-content: center;
   align-items: center;
-  border: 1px solid #eee;
+  border: 1px solid var(--ez-border);
   font-size: 14px;
   height: 119px;
   line-height: 18px;
@@ -145,8 +145,8 @@ body {
   font-family: "Nanum Gothic", sans-serif;
 }
 .keyword:hover {
-  border: 1px solid #758ecd;
-  color: #758ecd;
+  border: 1px solid var(--ez-primary);
+  color: var(--ez-primary);
 }
 
 .banner {
@@ -194,12 +194,12 @@ body {
   margin-bottom: 22px;
 }
 .recmmnded-article-title {
-  color: #333;
+  color: var(--ez-text);
   font-size: 16px;
   font-family: "Noto Sans Light", sans-serif;
 }
 .recmmnded-article-txt {
-  color: #959595;
+  color: var(--ez-text-muted);
   font-size: 12px;
   font-family: "Noto Sans Light", sans-serif;
   letter-spacing: -0.025em;
@@ -211,7 +211,7 @@ body {
   padding-top: 22px;
   font-size: 11px;
   font-family: "Noto Sans Light", sans-serif;
-  color: #959595;
+  color: var(--ez-text-muted);
 }
 .slide__btn-left.recmmnded-articles-btn {
   z-index: 2;
@@ -226,7 +226,7 @@ body {
 .footer {
   width: 100%;
   height: 353px;
-  background-color: #101010;
+  background-color: var(--ez-text);
   position: absolute;
   bottom: 0;
 }
