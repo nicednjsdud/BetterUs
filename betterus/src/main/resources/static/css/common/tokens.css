@@ -131,6 +131,11 @@ img {
   text-transform: uppercase;
 }
 
+/* 감춤 지정은 어떤 배치 규칙보다 우선한다 — 버튼처럼 display 를 따로 준 요소도 감춘다 */
+[hidden] {
+  display: none !important;
+}
+
 /* ---------------- 폼 ---------------- */
 .ez-field {
   margin-bottom: var(--ez-space-16);
