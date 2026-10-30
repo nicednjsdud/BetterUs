@@ -1,0 +1,8 @@
+{
+  "project_name": "Better Us",
+  "ui_target": "desktop",
+  "is_prototype": false,
+  "design_template_code": "",
+  "backend_stack": "none",
+  "tech_stack": "Java 11 · Spring Boot 2.7.4 (Spring MVC, Thymeleaf, Spring Data JPA + QueryDSL, Spring Mail) · MySQL(운영)/H2(로컬) · Gradle"
+}
