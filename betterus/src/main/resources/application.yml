@@ -1,13 +1,11 @@
 spring:
+  # 운영 DB(MySQL) 접속 정보는 소스에 두지 않는다 — 서버에서 환경 변수로 주입한다.
+  # (DB_URL / DB_USERNAME / DB_PASSWORD / DB_DRIVER)
   datasource:
-#    url: jdbc:mysql://__REMOVED__:3306/betterus
-#    username: root
-#    password: __REMOVED__
-#    driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:h2:tcp://localhost/~/test2
-    username: sas
-    password: 12
-    driver-class-name: org.h2.Driver
+    url: ${DB_URL:jdbc:h2:tcp://localhost/~/test2}
+    username: ${DB_USERNAME:sas}
+    password: ${DB_PASSWORD:12}
+    driver-class-name: ${DB_DRIVER:org.h2.Driver}
 
   profiles:
     active: local
@@ -29,8 +27,9 @@ spring:
   mail:
     host: smtp.naver.com #smtp 서버 주소
     port: 465 # 메일 인증서버 포트
-    username: __REMOVED__ #네이버 아이디
-    password: __REMOVED__ #네이버 비밀번호
+    # 메일 계정은 소스에 두지 않는다 — 로컬은 application-local.yml, 서버는 환경 변수.
+    username: ${MAIL_USERNAME:}
+    password: ${MAIL_PASSWORD:}
     properties:
       mail:
         smtp:
