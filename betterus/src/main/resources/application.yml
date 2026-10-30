@@ -62,3 +62,14 @@ thymeleaf:
     static-path-pattern: /static/**
 server:
   port : 8080
+  servlet:
+    # 요청·응답을 항상 UTF-8 로 처리한다 — 한글 글쓰기(파일 업로드 폼)에서
+    # 한글이 깨져 저장되던 문제를 막는다.
+    encoding:
+      charset: UTF-8
+      enabled: true
+      force: true
+    session:
+      # 세션을 쿠키로만 유지한다 — 주소 뒤에 세션 표시(;jsessionid=…)가 붙어
+      # 로그인 후 이동한 화면이 404 가 되는 것을 막는다.
+      tracking-modes: cookie
